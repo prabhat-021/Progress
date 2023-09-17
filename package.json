@@ -1,0 +1,19 @@
+{
+  "name": "projectmajor",
+  "version": "1.0.0",
+  "description": "CollegeSearch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prabhat-021/project.git"
+  },
+  "author": "Prabhat Sehrawat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prabhat-021/project/issues"
+  },
+  "homepage": "https://github.com/prabhat-021/project#readme"
+}
