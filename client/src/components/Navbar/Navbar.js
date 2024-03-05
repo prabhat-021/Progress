@@ -17,6 +17,7 @@ import {
   ChevronDownIcon,
   Bars3Icon,
   XMarkIcon,
+  PencilIcon,
 } from "@heroicons/react/24/outline";
 import {
   Bars4Icon,
@@ -28,6 +29,9 @@ import {
   SunIcon,
   TagIcon,
   UserGroupIcon,
+  UserCircleIcon,
+  PencilSquareIcon,
+  PowerIcon,
 } from "@heroicons/react/24/solid";
 
  
@@ -157,6 +161,118 @@ function NavListMenu() {
     </React.Fragment>
   );
 }
+
+
+const navProfileMenuItems = [
+  {
+    title: "My Profile",
+    description1: "Edit Profile",
+    description2: "Sign Out",
+    icon1: UserCircleIcon,
+    icon2: PencilSquareIcon,
+    icon3:PowerIcon,
+  }
+];
+ 
+function NavProfileMenu() {
+  const [isProfileOpen, setIsProfileOpen] = React.useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = React.useState(false);
+  const renderItems = navProfileMenuItems.map(
+    ({ icon1,icon2,icon3, title, description1 ,description2 }, key) => (
+      <a href="#" key={key}>
+        <MenuItem className="flex items-center gap-3 ">
+         
+          <div>
+            <Typography
+              variant="h6"
+              color="blue-gray"
+              className="flex items-center text-sm font-bold"
+            >
+              <div className="flex items-center gap-1 justify-center  !bg-blue-gray-50 p-0 ">
+            {" "}
+            {React.createElement(icon1, {
+              strokeWidth: 2,
+              className: "h-6 text-gray-900 w-6",
+            })}
+          </div>
+              {title}
+            </Typography>
+            <Typography
+              variant="paragraph"
+              className="text-sm flex items-center justify-center  text-blue-gray-500 font-bold"
+            >
+               <div className="flex items-center P-2 gap-0 justify-center !bg-blue-gray-50 p-0 ">
+            {" "}
+            {React.createElement(icon2, {
+              strokeWidth: 2,
+              className: "h-6 text-gray-900 w-6",
+            })}
+          </div>
+              {description1}
+            </Typography>
+            <Typography
+              variant="paragraph"
+              className="text-sm flex items-center gap-1 justify-center font-bold text-blue-gray-500"
+            >
+               <div className="flex items-center justify-center !bg-blue-gray-50 p-0 ">
+            {" "}
+            {React.createElement(icon3, {
+              strokeWidth: 2,
+              className: "h-6 text-gray-900 w-6",
+            })}
+          </div>
+              {description2}
+            </Typography>
+          </div>
+        </MenuItem>
+      </a>
+    ),
+  );
+ 
+  return (
+    <React.Fragment>
+      <Menu
+        open={isProfileOpen}
+        handler={setIsProfileOpen}
+        offset={{ mainAxis: 20 }}
+        placement="bottom"
+        allowHover={true}
+      >
+        <MenuHandler>
+          <Typography as="div" variant="small" className="font-medium">
+            <ListItem
+              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
+              selected={isProfileOpen || isProfileMenuOpen}
+              onClick={() => setIsProfileMenuOpen((cur) => !cur)}
+            >
+              Profile
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`hidden h-3 w-3 transition-transform lg:block ${
+                  isProfileOpen ? "rotate-180" : ""
+                }`}
+              />
+              <ChevronDownIcon
+                strokeWidth={2.5}
+                className={`block h-3 w-3 transition-transform lg:hidden ${
+                  isProfileMenuOpen ? "rotate-180" : ""
+                }`}
+              />
+            </ListItem>
+          </Typography>
+        </MenuHandler>
+        <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
+          <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
+            {renderItems}
+          </ul>
+        </MenuList>
+      </Menu>
+      <div className="block lg:hidden">
+        <Collapse open={isProfileMenuOpen}>{renderItems}</Collapse>
+      </div>
+    </React.Fragment>
+  );
+}
  
 function NavList() {
   return (
@@ -203,10 +319,10 @@ export function NavbarWithMegaMenu() {
           as="a"
           href="#"
           variant="h6"
-          className="mr-4 cursor-pointer py-1.5 lg:ml-2"
+          className="mr-4 cursor-pointer font-bold py-1.5 lg:ml-2"
         >
           {/* <img className="h-16 w-28" src={logo} alt="logo" /> */}
-         College Dekhiye 
+         COLLEGE DEKHIYE 
         </Typography>
         <div className="hidden lg:block">
           <NavList />
@@ -219,7 +335,7 @@ export function NavbarWithMegaMenu() {
             Sign In
           </Button>
           
-       <NavListMenu/>
+       <NavProfileMenu/>
        
         </div>
         <IconButton
@@ -246,7 +362,7 @@ export function NavbarWithMegaMenu() {
           </Button>                           
         </div>
        <div className={openNav ? "md:block" : "hidden"} >
-       <NavListMenu/>
+       <NavProfileMenu/>
        </div>
       </Collapse>
     </Navbar>
