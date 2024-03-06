@@ -34,7 +34,6 @@ import {
   PowerIcon,
 } from "@heroicons/react/24/solid";
 
- 
 const navListMenuItems = [
   {
     title: "Products",
@@ -82,7 +81,7 @@ const navListMenuItems = [
     icon: TagIcon,
   },
 ];
- 
+
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
@@ -116,7 +115,7 @@ function NavListMenu() {
       </a>
     ),
   );
- 
+
   return (
     <React.Fragment>
       <Menu
@@ -129,7 +128,7 @@ function NavListMenu() {
         <MenuHandler>
           <Typography as="div" variant="small" className="font-medium">
             <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
+              className="flex items-center gap-2 py-2 pr-4 font-medium text-white"
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
@@ -137,7 +136,7 @@ function NavListMenu() {
               <ChevronDownIcon
                 strokeWidth={2.5}
                 className={`hidden h-3 w-3 transition-transform lg:block ${
-                  isMenuOpen ? "rotate-180" : ""
+                  isMenuOpen ? "rotate-180" : " "
                 }`}
               />
               <ChevronDownIcon
@@ -173,7 +172,7 @@ const navProfileMenuItems = [
     icon3:PowerIcon,
   }
 ];
- 
+
 function NavProfileMenu() {
   const [isProfileOpen, setIsProfileOpen] = React.useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = React.useState(false);
@@ -181,7 +180,6 @@ function NavProfileMenu() {
     ({ icon1,icon2,icon3, title, description1 ,description2 }, key) => (
       <a href="#" key={key}>
         <MenuItem className="flex items-center gap-3 ">
-         
           <div>
             <Typography
               variant="h6"
@@ -189,12 +187,12 @@ function NavProfileMenu() {
               className="flex items-center text-sm font-bold"
             >
               <div className="flex items-center gap-1 justify-center  !bg-blue-gray-50 p-0 ">
-            {" "}
-            {React.createElement(icon1, {
-              strokeWidth: 2,
-              className: "h-6 text-gray-900 w-6",
-            })}
-          </div>
+                {" "}
+                {React.createElement(icon1, {
+                  strokeWidth: 2,
+                  className: "h-6 text-gray-900 w-6",
+                })}
+              </div>
               {title}
             </Typography>
             <Typography
@@ -202,12 +200,12 @@ function NavProfileMenu() {
               className="text-sm flex items-center justify-center  text-blue-gray-500 font-bold"
             >
                <div className="flex items-center P-2 gap-0 justify-center !bg-blue-gray-50 p-0 ">
-            {" "}
-            {React.createElement(icon2, {
-              strokeWidth: 2,
-              className: "h-6 text-gray-900 w-6",
-            })}
-          </div>
+                {" "}
+                {React.createElement(icon2, {
+                  strokeWidth: 2,
+                  className: "h-6 text-gray-900 w-6",
+                })}
+              </div>
               {description1}
             </Typography>
             <Typography
@@ -215,12 +213,12 @@ function NavProfileMenu() {
               className="text-sm flex items-center gap-1 justify-center font-bold text-blue-gray-500"
             >
                <div className="flex items-center justify-center !bg-blue-gray-50 p-0 ">
-            {" "}
-            {React.createElement(icon3, {
-              strokeWidth: 2,
-              className: "h-6 text-gray-900 w-6",
-            })}
-          </div>
+                {" "}
+                {React.createElement(icon3, {
+                  strokeWidth: 2,
+                  className: "h-6 text-gray-900 w-6",
+                })}
+              </div>
               {description2}
             </Typography>
           </div>
@@ -228,7 +226,7 @@ function NavProfileMenu() {
       </a>
     ),
   );
- 
+
   return (
     <React.Fragment>
       <Menu
@@ -241,7 +239,7 @@ function NavProfileMenu() {
         <MenuHandler>
           <Typography as="div" variant="small" className="font-medium">
             <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-medium text-gray-900"
+              className="flex items-center gap-2 py-2 pr-4 font-medium text-white"
               selected={isProfileOpen || isProfileMenuOpen}
               onClick={() => setIsProfileMenuOpen((cur) => !cur)}
             >
@@ -273,7 +271,7 @@ function NavProfileMenu() {
     </React.Fragment>
   );
 }
- 
+
 function NavList() {
   return (
     <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1">
@@ -301,19 +299,19 @@ function NavList() {
     </List>
   );
 }
- 
+
 export function NavbarWithMegaMenu() {
   const [openNav, setOpenNav] = React.useState(false);
- 
+
   React.useEffect(() => {
     window.addEventListener(
       "resize",
       () => window.innerWidth >= 960 && setOpenNav(false),
     );
   }, []);
- 
+
   return (
-    <Navbar className="mx-auto max-w-screen-2xl px-10 py-2 bg-slate-400 rounded-none">
+    <Navbar className="mx-auto max-w-screen-2xl px-10 py-2 bg-slate-950 rounded-none">
       <div className="flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
@@ -334,9 +332,7 @@ export function NavbarWithMegaMenu() {
           <Button variant="gradient" size="sm">
             Sign In
           </Button>
-          
-       <NavProfileMenu/>
-       
+          <NavProfileMenu/>
         </div>
         <IconButton
           variant="text"
@@ -351,9 +347,13 @@ export function NavbarWithMegaMenu() {
           )}
         </IconButton>
       </div>
-      <Collapse open={openNav}>
+      <Collapse className={openNav ? "md:block" : "hidden"}>
         <NavList />
-        <div className="flex w-full flex-nowrap items-center gap-2 ">
+
+        <div className={openNav ? "md:block" : "hidden"} >
+          <NavProfileMenu/>
+        </div>
+        <div className="  w-full flex-wrap items-center gap-2 ">
           <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
             Log In
           </Button>
@@ -361,11 +361,8 @@ export function NavbarWithMegaMenu() {
             Sign In
           </Button>                           
         </div>
-       <div className={openNav ? "md:block" : "hidden"} >
-       <NavProfileMenu/>
-       </div>
       </Collapse>
     </Navbar>
   );
 }
-export default NavbarWithMegaMenu
+export default NavbarWithMegaMenu;
