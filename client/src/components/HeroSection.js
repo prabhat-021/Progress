@@ -1,5 +1,5 @@
 import React from 'react';
-
+import main from '../assets/university.avif'
 
 function HeroSection() {
   return (
@@ -11,7 +11,7 @@ function HeroSection() {
           className="relative overflow-hidden bg-cover bg-no-repeat"
           style={{
             backgroundPosition: '50%',
-            backgroundImage: `url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')`,
+            backgroundImage: `url(${main})`,
             height: '600px',
           }}
         >
