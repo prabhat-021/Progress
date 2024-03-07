@@ -1,22 +1,18 @@
 import React from 'react';
 
+
 function HeroSection() {
   return (
     <div>
-      <section className="mb-26">
-        <nav
-          className="relative flex w-full items-center justify-between bg-white py-2 shadow-sm shadow-neutral-700/10 dark:bg-neutral-800 dark:shadow-black/30 lg:flex-wrap lg:justify-start"
-          data-te-navbar-ref
-        >
-          {/* Navigation items */}
-        </nav>
+      <section className="">
+        
 
         <div
           className="relative overflow-hidden bg-cover bg-no-repeat"
           style={{
             backgroundPosition: '50%',
             backgroundImage: `url('https://mdbcdn.b-cdn.net/img/new/slides/146.webp')`,
-            height: '500px',
+            height: '600px',
           }}
         >
           <div className="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsla(0,0%,0%,0.75)] bg-fixed">
@@ -32,7 +28,7 @@ function HeroSection() {
                   data-te-ripple-init
                   data-te-ripple-color="light"
                 >
-                  Get started
+                  Get Started
                 </button>
               </div>
             </div>
