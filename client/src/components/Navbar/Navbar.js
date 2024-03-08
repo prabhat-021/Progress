@@ -12,6 +12,7 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import NavProfileMenu from "./NavProfileMenu";
 
  function NavbarWithMegaMenu() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -24,7 +25,7 @@ import {
   }, []);
  
   return (
-    <Navbar className="mx-auto max-w-screen-2xl px-4  rounded-none py-2 bg-stone-900">
+    <Navbar className="mx-auto max-w-screen-2xl px-4 border-none  rounded-none py-2 bg-stone-900">
       <div className="flex items-center justify-between  text-blue-gray-900">
         <Typography
           as="a"
@@ -43,6 +44,7 @@ import {
           <Button variant="gradient" size="sm">
             Sign In
           </Button>
+          <NavProfileMenu/>
         </div>
         <IconButton
           variant="text"
@@ -51,20 +53,21 @@ import {
           onClick={() => setOpenNav(!openNav)}
         >
           {openNav ? (
-            <XMarkIcon className="h-6 w-10 " strokeWidth={2} />
+            <XMarkIcon className="h-6 w-6 " strokeWidth={2} />
           ) : (
-            <Bars3Icon className="h-6  w-8 " strokeWidth={2} />
+            <Bars3Icon className="h-6  w-6 " strokeWidth={2} />
           )}
         </IconButton>
       </div>
       <Collapse open={openNav}>
         <NavList />
+        <NavProfileMenu/>
         <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
           <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
             Log In
           </Button>
           <Button variant="gradient" size="sm" fullWidth>
-            Sign In
+            Sign Up
           </Button>
         </div>
       </Collapse>
