@@ -5,7 +5,7 @@ function HeroSection() {
   return (
     <div>
       <section className="">
-        
+
 
         <div
           className="relative overflow-hidden bg-cover bg-no-repeat"

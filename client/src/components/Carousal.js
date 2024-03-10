@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import Glide from "@glidejs/glide"
 
- export default function CarouselIndicatorsInside() {
+export default function CarouselIndicatorsInside() {
   useEffect(() => {
     const slider = new Glide(".glide-02", {
       type: "carousel",
@@ -107,4 +107,4 @@ import Glide from "@glidejs/glide"
       {/*<!-- End Carousel with indicators inside --> */}
     </>
   )
-  }
+}

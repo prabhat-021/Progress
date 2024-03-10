@@ -2,12 +2,15 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const connectDb = require("./config/db.js");
+const userRoutes=require("./routes/userRoutes.js");
 // const path = require("path");
 
 dotenv.config();
 connectDb();
 const PORT = process.env.PORT;
 app.use(express.json());
+
+app.use("/api/users", userRoutes);
 
 // __dirname = path.resolve();
 // if (process.env.NODE_ENV === "production") {

@@ -6,7 +6,7 @@ function Footer() {
             <footer class="relative w-full">
                 <div class="w-full px-8 mx-auto max-w-7xl" >
                     <div class="grid w-full grid-cols-1  gap-8 py-12 mx-auto md:grid-cols-2 lg:grid-cols-4 text-white ">
-                    
+
                         <div class="w-full ">
                             <p
                                 class="block mb-4 font-sans text-sm antialiased font-bold leading-normal uppercase opacity-50 text-blue-gray-900">
@@ -98,9 +98,9 @@ function Footer() {
                             </p>
                             <p>lorem Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas, eaque. Lorem ipsum Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quas, eaque. Lorem ipsum Lorem ipsum dolor, Lorem ipsum
                             </p>
-                            
+
                         </div>
-                       
+
                     </div>
                     <div
                         class="flex flex-col items-center justify-center text-white w-full py-4 border-t border-blue-gray-50 md:flex-row md:justify-between">
