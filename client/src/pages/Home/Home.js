@@ -4,7 +4,7 @@ import Card_1 from "../../components/Card_1";
 import img2 from "../../assets/cardimg.jpeg";
 import { RiGraduationCapLine } from "react-icons/ri";
 import Footer from "../../components/Footer";
-import CarouselTestimonial from "../../components/Carousal";
+
 
 const food_data = [
   {
@@ -115,7 +115,7 @@ function Home() {
      <div className=" flex justify-center text-xl md:text-5xl font-bold m-5 text-white">
           LATEST NOTIFICATION
         </div>
-      <CarouselTestimonial/>
+      {/* <CarouselTestimonial/> */}
      {/* FOOTER */}
       <Footer />
     </div>

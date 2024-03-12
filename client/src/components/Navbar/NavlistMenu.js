@@ -26,79 +26,58 @@ import {
 } from "@heroicons/react/24/solid";
 const navListMenuItems = [
   {
-    title: "Products",
-    description: "Find the perfect solution for your needs.",
-    icon: SquaresPlusIcon,
+    title: "Graduation",
+    course1: "B.Tech",
+    course2: "B.A.",
+    course3: "B.Sc.",
+    course4: "M.B.B.S",
+    
   },
   {
-    title: "About Us",
-    description: "Meet and learn about our dedication",
-    icon: UserGroupIcon,
+    title: "Post Graduation",
+    course1: "M.Tech",
+    course2: "M.A.",
+    course3: "M.Sc.",
+    course4: "M.D.",
+    
   },
   {
-    title: "Blog",
-    description: "Find the perfect solution for your needs.",
-    icon: Bars4Icon,
+    title: "Management",
+    course1: "B.B.A",
+    course2: "B.C.A",
+    course3: "M.C.A",
+    course4: "M.B.A",
+    
   },
-  {
-    title: "Services",
-    description: "Learn how we can help you achieve your goals.",
-    icon: SunIcon,
-  },
-  {
-    title: "Support",
-    description: "Reach out to us for assistance or inquiries",
-    icon: GlobeAmericasIcon,
-  },
-  {
-    title: "Contact",
-    description: "Find the perfect solution for your needs.",
-    icon: PhoneIcon,
-  },
-  {
-    title: "News",
-    description: "Read insightful articles, tips, and expert opinions.",
-    icon: NewspaperIcon,
-  },
-  {
-    title: "Products",
-    description: "Find the perfect solution for your needs.",
-    icon: RectangleGroupIcon,
-  },
-  {
-    title: "Special Offers",
-    description: "Explore limited-time deals and bundles",
-    icon: TagIcon,
-  },
+
+ 
 ];
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
   const renderItems = navListMenuItems.map(
-    ({ icon, title, description }, key) => (
+    ({  title, course1,course2,course3,course4  }, key) => (
       <a href="#" key={key}>
-        <MenuItem className="flex items-center gap-3 rounded-lg">
-          <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
-            {" "}
-            {React.createElement(icon, {
-              strokeWidth: 2,
-              className: "h-6 text-gray-900 w-6",
-            })}
-          </div>
-          <div>
+        <MenuItem className=" h-full gap-5   items-center lg:flex lg:justify-center  rounded-lg">
+         
+          <div className="">
             <Typography
               variant="h6"
-              color="blue-gray"
-              className="flex items-center text-sm font-bold"
+              
+              className="flex font-semibold items-center text-sm "
             >
               {title}
             </Typography>
             <Typography
               variant="paragraph"
-              className="text-xs !font-medium text-blue-gray-500"
+              className="text-sm lg:flex lg:justify-center sm:justify-items-start flex-col p-2    text-blue-gray-500"
             >
-              {description}
+              <div className="hover:text-green-700 p-1 ">{course1}</div>
+              <div className="hover:text-green-700 p-1">{course2}</div>
+              <div className="hover:text-green-700 p-1">{course3}</div>
+              <div className="hover:text-green-700 p-1">{course4}</div>
+      
             </Typography>
           </div>
         </MenuItem>
@@ -118,11 +97,11 @@ function NavListMenu() {
         <MenuHandler>
           <Typography as="div" variant="small" className="font-medium">
             <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-medium text-white"
+              className="flex items-center gap-2 py-2 pr-4 font-normal hover:text-green-600 text-white"
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
-              Resources
+              Courses
               <ChevronDownIcon
                 strokeWidth={2.5}
                 className={`hidden h-3 w-3 transition-transform lg:block ${isMenuOpen ? "rotate-180" : ""
@@ -136,8 +115,8 @@ function NavListMenu() {
             </ListItem>
           </Typography>
         </MenuHandler>
-        <MenuList className="hidden max-w-screen-xl rounded-xl lg:block">
-          <ul className="grid grid-cols-3 gap-y-2 outline-none outline-0">
+        <MenuList className="hidden max-w-screen-lg  lg:block">
+          <ul className="grid grid-cols-3 gap-y-3 outline-none outline-0">
             {renderItems}
           </ul>
         </MenuList>

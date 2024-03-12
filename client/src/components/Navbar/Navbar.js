@@ -12,7 +12,8 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
-import NavProfileMenu from "./NavProfileMenu";
+import ProfileMenu from "./ProfileMenu";
+// import NavProfileMenu from "./NavProfileMenu";
 
 function NavbarWithMegaMenu() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -25,51 +26,47 @@ function NavbarWithMegaMenu() {
   }, []);
 
   return (
-    <Navbar className="mx-auto max-w-screen-2xl px-4 border-none  rounded-none py-2 bg-stone-900">
+    <Navbar className="mx-auto max-w-screen-2xl px-4 border-none  text-white rounded-none py-2 bg-black">
       <div className="flex items-center justify-between  text-blue-gray-900">
         <Typography
           as="a"
           href="#"
           variant="h6"
-          className="mr-4 cursor-pointer py-1.5 lg:ml-2"
-        >COLLEGE DEKHIYE
+          className="mr-4 cursor-pointer font-semibold  py-1.5 lg:ml-2"
+        >College Dekhiye
         </Typography>
         <div className="hidden lg:block">
           <NavList />
         </div>
         <div className="hidden gap-2 lg:flex">
-          <Button variant="text" size="sm" color="blue-gray">
-            Log In
+          <Button variant="text" size="sm" color="blue-gray" className="font-thin">
+            <ProfileMenu/>
           </Button>
-          <Button variant="gradient" size="sm">
-            Sign In
-          </Button>
-          <NavProfileMenu />
+         
+          
         </div>
         <IconButton
           variant="text"
           color="blue-gray"
-          className="lg:hidden"
+          className="lg:hidden pb-5 pr-5"
           onClick={() => setOpenNav(!openNav)}
         >
           {openNav ? (
-            <XMarkIcon className="h-6 w-6 " strokeWidth={2} />
+            <XMarkIcon className="h-6 w-5 " strokeWidth={2} />
           ) : (
-            <Bars3Icon className="h-6  w-6 " strokeWidth={2} />
+            <Bars3Icon className="h-6   w-5 " strokeWidth={2} />
           )}
         </IconButton>
       </div>
       <Collapse open={openNav}>
         <NavList />
-        <NavProfileMenu />
+       
         <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
           <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
-            Log In
-          </Button>
-          <Button variant="gradient" size="sm" fullWidth>
-            Sign Up
+          <ProfileMenu/>
           </Button>
         </div>
+
       </Collapse>
     </Navbar>
   );
