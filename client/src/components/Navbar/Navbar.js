@@ -26,7 +26,7 @@ function NavbarWithMegaMenu() {
   }, []);
 
   return (
-    <Navbar className="mx-auto max-w-screen-2xl px-4 border-none  text-black rounded-none py-2 bg-white">
+    <Navbar className="mx-auto max-w-screen-2xl px-4 border-none  text-white rounded-none py-2 bg-black">
       <div className="flex items-center justify-between  text-blue-gray-900">
         <Typography
           as="a"
