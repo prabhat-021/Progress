@@ -5,7 +5,7 @@ const Card_1 = ({ name, imglink, price }) => {
         <div>
 
 
-            <div class="max-w-xs   rounded-lg shadow bg-stone-700 ">
+            <div class="max-w-xs   rounded-lg shadow bg-stone-500 ">
                 <a href="#">
                     <img class="rounded-t-lg w-full" src={img2} alt="" />
                 </a>

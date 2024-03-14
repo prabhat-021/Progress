@@ -73,7 +73,7 @@ function Home() {
         
 
         <div className="flex justify-evenly shadow-lg flex-wrap mt-8 gap-7 ">
-          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10  bg-stone-600">
+          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10 rounded-tl-3xl rounded-br-3xl   bg-stone-400">
             <RiGraduationCapLine size={"80px"} />
             <div className="text-2xl text-my-blue font-bold mt-5">B.tech</div>
             <div className="text-my-grey mt-3">
@@ -85,7 +85,7 @@ function Home() {
               Read More
             </div>
           </div>
-          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10  bg-stone-600">
+          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10 rounded-tl-3xl rounded-br-3xl  bg-stone-400">
             <RiGraduationCapLine size={"80px"} />
             <div className="text-2xl text-my-blue font-bold mt-5">M.tech</div>
             <div className="text-my-grey mt-3">
@@ -96,7 +96,7 @@ function Home() {
               Read More
             </div>
           </div>
-          <div className="min-w-[200px] max-w-[300px]  shadow-2xl p-10  bg-stone-600">
+          <div className="min-w-[200px] max-w-[300px]  shadow-2xl p-10 rounded-tl-3xl rounded-br-3xl   bg-stone-400">
             <RiGraduationCapLine size={"80px"} />
             <div className="text-2xl text-my-blue font-bold mt-5">MBA</div>
             <div className="text-my-grey mt-3">
@@ -114,7 +114,7 @@ function Home() {
       {/* <Card/> */}
       <div>
       <div className="flex flex-wrap justify-center m-6 ">
-        <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
+        <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5xl">
                   <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
                   TOP  {" "}
                   </LinearGradient>{" "}

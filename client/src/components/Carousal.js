@@ -45,7 +45,7 @@ function CarouselCard() {
         <div className="overflow-hidden" data-glide-el="track">
           <ul className="whitespace-no-wrap  flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
             <li className="">
-              <Card className="mt-6 w-96 bg-stone-600">
+              <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     UI/UX Review Check
@@ -62,7 +62,7 @@ function CarouselCard() {
               </Card>
             </li>
             <li>
-            <Card className="mt-6 w-96 bg-stone-600">
+            <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     UI/UX Review Check
@@ -79,7 +79,7 @@ function CarouselCard() {
               </Card>
             </li>
             <li>
-            <Card className="mt-6 w-96 bg-stone-600">
+            <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     UI/UX Review Check
@@ -96,7 +96,7 @@ function CarouselCard() {
               </Card>
             </li>
             <li>
-            <Card className="mt-6 w-96 bg-stone-600">
+            <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     UI/UX Review Check
@@ -113,7 +113,7 @@ function CarouselCard() {
               </Card>
             </li>
             <li>
-            <Card className="mt-6 w-96 bg-stone-600">
+            <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
                   <Typography variant="h5" color="blue-gray" className="mb-2">
                     UI/UX Review Check

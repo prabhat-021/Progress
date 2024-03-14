@@ -16,7 +16,7 @@ function HeroSection() {
           <div className="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsla(0,0%,0%,0.75)] bg-fixed">
             <div className="flex h-full items-center justify-center">
               <div className="px-6 text-center text-white md:px-12">
-                <h1 className="mt-2 mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-7xl">
+                <h1 className="mt-2  mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-7xl">
                   <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
                     Find Over 25000+ College{" "}
                   </LinearGradient>{" "}
@@ -30,7 +30,7 @@ function HeroSection() {
                 
                 <button
                   type="button"
-                  className=" hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500  rounded border-2 mt-9 hover:border-0 px-[46px] pt-[14px] pb-[12px] text-sm font-medium uppercase leading-normal text-neutral-50 transition duration-150 ease-in-out hover:border-neutral-100 hover:bg-neutral-100 hover:bg-opacity-10 hover:text-neutral-100 focus:border-neutral-100 focus:text-neutral-100 focus:outline-none focus:ring-0 active:border-neutral-200 active:text-neutral-200"
+                  className=" hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500  rounded border-2 mt-9 hover:border-0 px-[46px] pt-[14px] pb-[12px] text-sm font-medium uppercase leading-normal text-neutral-50 transition duration-150 ease-in-out hover:border-neutral-100 hover:bg-neutral-100 hover:bg-opacity-10 hover:text-neutral-100 focus:border-neutral-100 focus:text-neutral-100 focus:outline-none focus:ring-0 active:border-neutral-200 mb-6 active:text-neutral-200"
                   data-te-ripple-init
                   data-te-ripple-color="light"
                 >
