@@ -1,5 +1,5 @@
 import React from 'react'
-import img2 from '../assets/cardimg.jpeg'
+import img2 from '../assets/cardimg.avif'
 const Card_1 = ({ name, imglink, price }) => {
     return (
         <div>

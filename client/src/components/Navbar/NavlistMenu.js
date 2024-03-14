@@ -65,18 +65,18 @@ function NavListMenu() {
             <Typography
               variant="h6"
               
-              className="flex font-semibold items-center text-sm "
+              className="flex font-semibold  items-center text-sm "
             >
               {title}
             </Typography>
             <Typography
               variant="paragraph"
-              className="text-sm lg:flex lg:justify-center sm:justify-items-start flex-col p-2    text-blue-gray-500"
+              className="text-sm lg:flex lg:justify-center sm:justify-items-start flex-col p-2  text-blue-gray-500"
             >
-              <div className="hover:text-green-700 p-1 ">{course1}</div>
-              <div className="hover:text-green-700 p-1">{course2}</div>
-              <div className="hover:text-green-700 p-1">{course3}</div>
-              <div className="hover:text-green-700 p-1">{course4}</div>
+              <div className="hover:bg-stone-600 p-1 hover:rounded-lg hover:text-white">{course1}</div>
+              <div className="hover:bg-stone-600 p-1 hover:rounded-lg hover:text-white">{course2}</div>
+              <div className="hover:bg-stone-600 p-1 hover:rounded-lg hover:text-white">{course3}</div>
+              <div className="hover:bg-stone-600 p-1 hover:rounded-lg hover:text-white">{course4}</div>
       
             </Typography>
           </div>
@@ -97,7 +97,7 @@ function NavListMenu() {
         <MenuHandler>
           <Typography as="div" variant="small" className="font-medium">
             <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-normal hover:text-green-600 text-white"
+              className="flex items-center gap-2 py-2 pr-4 font-normal hover:bg-stone-600 text-white"
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >

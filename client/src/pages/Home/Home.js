@@ -1,9 +1,12 @@
 import HeroSection from "../../components/HeroSection";
 import StickyNavbar from "../../components/Navbar/Navbar";
 import Card_1 from "../../components/Card_1";
-import img2 from "../../assets/cardimg.jpeg";
+import img2 from "../../assets/cardimg.avif";
 import { RiGraduationCapLine } from "react-icons/ri";
 import Footer from "../../components/Footer";
+import { LinearGradient } from "react-text-gradients";
+
+import CarouselCard from "../../components/Carousal";
 
 
 const food_data = [
@@ -47,17 +50,30 @@ function Home() {
 
       {/* seclect you goal  */}
 
-      <div className="mb-16 mt-14 ">
-        <div className=" mt-20 md:m-3 text-2xl flex justify-center md:text-4xl text-white text-my-blue font-bold">
-          SELECT YOUR STUDY GOAL
-        </div>
-
-        <div className="md:text-xl text-center font-semibold text-white text-my-grey justify-center flex mt-4">
+      <div className="  ">
+        <div className="flex flex-wrap justify-center m-6 ">
+        <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
+                  <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
+                  FEATURED  {" "}
+                  </LinearGradient>{" "}
+                  <span className="text-white">COURSES</span>
+                  <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </div>
+                </h1>
+        
+       </div>
 
-        <div className="flex justify-evenly shadow-lg flex-wrap mt-16 gap-7 ">
-          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10 rounded-2xl bg-stone-600">
+        
+        {/* <div className="text-lg text-my-orange font-thin text-white p-0  items-center justify-center flex">
+              Read More
+            </div> */}
+        
+      
+        
+
+        <div className="flex justify-evenly shadow-lg flex-wrap mt-8 gap-7 ">
+          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10  bg-stone-600">
             <RiGraduationCapLine size={"80px"} />
             <div className="text-2xl text-my-blue font-bold mt-5">B.tech</div>
             <div className="text-my-grey mt-3">
@@ -69,7 +85,7 @@ function Home() {
               Read More
             </div>
           </div>
-          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10 rounded-2xl bg-stone-600">
+          <div className="min-w-[200px] max-w-[300px] shadow-2xl p-10  bg-stone-600">
             <RiGraduationCapLine size={"80px"} />
             <div className="text-2xl text-my-blue font-bold mt-5">M.tech</div>
             <div className="text-my-grey mt-3">
@@ -80,7 +96,7 @@ function Home() {
               Read More
             </div>
           </div>
-          <div className="min-w-[200px] max-w-[300px]  shadow-2xl p-10 rounded-2xl bg-stone-600">
+          <div className="min-w-[200px] max-w-[300px]  shadow-2xl p-10  bg-stone-600">
             <RiGraduationCapLine size={"80px"} />
             <div className="text-2xl text-my-blue font-bold mt-5">MBA</div>
             <div className="text-my-grey mt-3">
@@ -97,13 +113,18 @@ function Home() {
 
       {/* <Card/> */}
       <div>
-        <div className="text-my-blue flex justify-center text-3xl md:text-5xl font-bold m-5 text-white">
-          TOP COLLEGES
+      <div className="flex flex-wrap justify-center m-6 ">
+        <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
+                  <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
+                  TOP  {" "}
+                  </LinearGradient>{" "}
+                  <span className="text-white">COLLEGES</span>
+                  <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </div>
-        <div className=" flex justify-center text-my-grey text-white text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque,
-          ipsum!
-        </div>
+                </h1>
+        
+       </div>
 
         <div className="flex gap-5 m-10 flex-wrap justify-center">
           {food_data.map((e) => (
@@ -112,10 +133,17 @@ function Home() {
         </div>
       </div>
      {/* LATEST INFORMATION */}
-     <div className=" flex justify-center text-xl md:text-5xl font-bold m-5 text-white">
-          LATEST NOTIFICATION
-        </div>
-      {/* <CarouselTestimonial/> */}
+     <div className="flex flex-wrap justify-center m-6 ">
+        <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
+                  <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
+                  LATEST {" "}
+                  </LinearGradient>{" "}
+                  <span className="text-white">NOTIFICATION</span>
+                 
+                </h1>
+        
+       </div>
+   <CarouselCard/>
      {/* FOOTER */}
       <Footer />
     </div>

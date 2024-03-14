@@ -16,7 +16,7 @@ function NavList() {
         color="blue-gray"
         className="font-medium"
       >
-        <ListItem className="flex items-center gap-2 py-2 pr-4 font-normal text-green-600">Home</ListItem>
+        <ListItem className="flex items-center gap-2 py-2 pr-4 font-normal bg-stone-600">Home</ListItem>
       </Typography>
       <NavListMenu />
       <Typography
@@ -25,7 +25,7 @@ function NavList() {
         variant="small"
        
       >
-        <ListItem className="flex items-center gap-2  hover:text-green-600 font-normal py-2 pr-4">
+        <ListItem className="flex items-center gap-2  hover:bg-stone-600 font-normal py-2 pr-4">
          About 
         </ListItem>
       </Typography>
@@ -35,7 +35,7 @@ function NavList() {
         variant="small"
        
       >
-        <ListItem className="flex items-center gap-2 hover:text-green-600 font-normal py-2 pr-4">
+        <ListItem className="flex items-center gap-2 hover:bg-stone-600 font-normal py-2 pr-4">
           Contact Us
         </ListItem>
       </Typography>
