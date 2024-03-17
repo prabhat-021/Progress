@@ -1,4 +1,5 @@
 import React from "react";
+import { LinearGradient } from 'react-text-gradients'
 import NavListMenu from "./NavlistMenu";
 import NavList from "./Navlist";
 import {
