@@ -19,7 +19,7 @@ const verificationTokenSchema = mongoose.Schema(
         }
     },
     {
-        timestampToken
+        timestampToken:true
     }
 );
 

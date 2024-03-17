@@ -27,6 +27,11 @@ const userSchema = mongoose.Schema(
             default:
                 "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
         },
+        verified: {
+            type: Boolean,
+            required: true,
+            default: false,
+        }
     },
     {
         timestamps: true,
@@ -47,7 +52,7 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.matchPassword = async function (enteredPassword) {
 
     return await bcrypt.compare(enteredPassword, this.password);
-    
+
 }
 
 const User = mongoose.model("User", userSchema);
