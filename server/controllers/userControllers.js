@@ -1,10 +1,16 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userData.js");
+const VerificationToken = require("../models/verificationTokenschema.js");
 const generateToken = require("../utils/generateToken.js");
+const { generateOTP } = require("../utils/mail.js");
 
 const registerUser = asyncHandler(async (req, res) => {
     try {
         const { name, email, password, pic } = req.body;
+
+        if (!name || !email || !password || !pic) {
+            return res.status(400).json({ message: "Provide All Details" });
+        };
 
         const userExist = await User.findOne({ email });
 
@@ -12,15 +18,20 @@ const registerUser = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         };
 
-        if (!name || !email || !password || !pic) {
-            return res.status(400).json({ message: "Provide All Details" });
-        };
-
-        const user = await User.create({
+        const newUser = new User({
             name, email, password, pic
-        });
+        })
 
-        if (user) {
+        const OTP = generateOTP();
+        const verificationToken = new VerificationToken({
+            owner: newUser._id,
+            token: OTP,
+        })
+
+        await verificationToken.save();
+        await newUser.save();
+
+        if (newUser) {
             res.status(201).json({
                 _id: user._id,
                 name: user.name,
@@ -49,7 +60,13 @@ const authUser = asyncHandler(async (req, res) => {
             return res.status(404).json({ message: "User Not Found" });
         }
 
-        if (user && await user.matchPassword(password)) {
+        const isMatched = await user.matchPassword(password);
+
+        if (!isMatched) {
+            return res.status(404).json({ message: "Password Is Wrong" });
+        }
+
+        if (user && isMatched) {
             res.status(201).json({
                 _id: user._id,
                 name: user.name,
@@ -60,7 +77,7 @@ const authUser = asyncHandler(async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json("Something went wrong" );
+        res.status(500).json("Something went wrong");
     }
 
 
