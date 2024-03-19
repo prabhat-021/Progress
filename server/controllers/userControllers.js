@@ -1,9 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userData.js");
 const VerificationToken = require("../models/verificationTokenschema.js");
+const ResetToken = require("../models/resetToken.js");
 const generateToken = require("../utils/generateToken.js");
-const { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate } = require("../utils/mail.js");
+const { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate } = require("../utils/mail.js");
 const { isValidObjectId } = require("mongoose");
+const crypto = require("crypto");
+// const { error } = require("console");
+// const { promisify } = require('util');
 
 const registerUser = asyncHandler(async (req, res) => {
     try {
@@ -138,4 +142,83 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
 });
 
-module.exports = { registerUser, authUser, verifyEmail };
+const forgetPassword = asyncHandler(async (req, res) => {
+
+    const { email } = req.body;
+    if (!email) {
+        return res.status(404).json({ message: "Please Provide a valid email!" });
+    };
+
+    const user = await User.findOne({ email });
+    if (!user) {
+        return res.status(404).json({ message: "User not found, Invalid request" });
+    };
+
+    const token = await ResetToken.findOne({ owner: user._id });
+    if (token) {
+        return res.status(400).json({ message: "Only after one hour you can request for another token!" });
+    };
+
+    const generateToken = () => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(30, (err, buff) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                const newToken = buff.toString('hex');
+                resolve(newToken);
+            });
+        });
+    };
+
+    const newToken = await generateToken();
+    const resetToken = new ResetToken({ owner: user._id, token: newToken });
+
+    await resetToken.save();
+
+    transporter().sendMail({
+        from: 'prabhatsahrawat010203@gmail.com',
+        to: user.email,
+        subject: "Password Reset",
+        html: generatePasswordResetTemplate(`http://localhost:3000/resetPassword?token=${newToken}&id=${user._id}`),
+    });
+
+    res.status(200).json({ success: true, message: "Password reset link is sent to your email" });
+
+});
+
+const resetPassword = asyncHandler(async (req, res) => {
+    const { password } = req.body;
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+        return res.status(404).json({ message: "User not found, Invalid request" });
+    };
+
+    const isSamePassword = await user.matchPassword(password);
+    if (isSamePassword) {
+        return res.status(400).json({ message: "New password must be different" });
+    };
+
+    if (password.trim() < 8 || password.trim() > 20) {
+        return res.status(400).json({ message: "Password must be 8 to 20 characters long!" });
+    }
+
+    user.password = password.trim();
+    await user.save();
+
+    await ResetToken.findOneAndDelete({ owner: user._id });
+
+    transporter().sendMail({
+        from: 'prabhatsahrawat010203@gmail.com',
+        to: user.email,
+        subject: "Password Reset Successfully",
+        html: plainEmailTemplate("Password Reset Successfully", "Now you can login with new password"),
+    });
+
+    res.json({ success: true, message: "Password Reset Successfully" });
+});
+
+module.exports = { registerUser, authUser, verifyEmail, forgetPassword, resetPassword };

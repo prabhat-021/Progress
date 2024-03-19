@@ -50,8 +50,8 @@ const plainEmailTemplate = (heading, message) => {
       <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">College Search</a>
     </div>
     <p style="font-size:1.1em">Hi,</p>
-    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${heading}</h2>
-    <p>${message}</p>
+    <p style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${heading}</p>
+    <h2>${message}</h2>
     <p style="font-size:0.9em;">Regards,<br />College Search</p>
     <hr style="border:none;border-top:1px solid #eee" />
     <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
@@ -62,8 +62,30 @@ const plainEmailTemplate = (heading, message) => {
   </div>
 </div>
 `
-}
+};
 
-module.exports = { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate };
+const generatePasswordResetTemplate = (url) => {
+  return `
+    <div style="font-family: Helvetica,Arial,sans-serif;min-width:1000px;overflow:auto;line-height:2">
+  <div style="margin:50px auto;width:70%;padding:20px 0">
+    <div style="border-bottom:1px solid #eee">
+      <a href="" style="font-size:1.4em;color: #00466a;text-decoration:none;font-weight:600">College Search</a>
+    </div>
+    <p style="font-size:1.1em">Hi,</p>
+    <p>Thank you for choosing College Search. Use the following LINK to Reset your Password. Link is valid for 1 hour</p>
+    <h2 style="background: #00466a;margin: 0 auto;width: max-content;padding: 0 10px;color: #fff;border-radius: 4px;">${url}</h2>
+    <p style="font-size:0.9em;">Regards,<br />College Search</p>
+    <hr style="border:none;border-top:1px solid #eee" />
+    <div style="float:right;padding:8px 0;color:#aaa;font-size:0.8em;line-height:1;font-weight:300">
+      <p>College Search Inc</p>
+      <p>KIET Group Of Instituition</p>
+      <p>Ghaziabad</p>
+    </div>
+  </div>
+</div>
+`
+};
+
+module.exports = { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate };
 
 
