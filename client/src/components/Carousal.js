@@ -40,11 +40,11 @@ function CarouselCard() {
   return (
     <>
       {/*<!-- Component: Card Carousel --> */}
-      <div className="glide-06 relative w-full overflow-hidden rounded bg-black  ">
+      <div className="glide-06 relative w-full overflow-hidden  rounded bg-black  ">
         {/*    <!-- Slides --> */}
         <div className="overflow-hidden" data-glide-el="track">
           <ul className="whitespace-no-wrap  flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
-            <li className="">
+            <li className=" ">
               <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
                   <Typography variant="h5" color="blue-gray" className="mb-2">
@@ -96,9 +96,9 @@ function CarouselCard() {
               </Card>
             </li>
             <li>
-            <Card className="mt-6 w-96 bg-stone-500">
+            <Card className="mt-6 w-96  bg-stone-500">
                 <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                  <Typography variant="h5" color="blue-gray" className="mb-2 ">
                     UI/UX Review Check
                   </Typography>
                   <Typography>

@@ -1,6 +1,6 @@
 import React from "react";
-import { LinearGradient } from 'react-text-gradients'
-import NavListMenu from "./NavlistMenu";
+// import { LinearGradient } from 'react-text-gradients'
+// import NavListMenu from "./NavlistMenu";
 import NavList from "./Navlist";
 import {
   Navbar,
@@ -27,14 +27,16 @@ function NavbarWithMegaMenu() {
   }, []);
 
   return (
-    <Navbar className="mx-auto max-w-screen-2xl px-4 border-none  text-white rounded-none py-2 bg-black">
-      <div className="flex items-center justify-between  text-blue-gray-900">
+    <Navbar className="sticky top-0 z-10 mx-auto max-w-screen-2xl px-4 border-none bg-fixed text-white rounded-none py-2 bg-black">
+    <div className="">
+      <div className="flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
           href="#"
           variant="h6"
-          className="mr-4 cursor-pointer font-semibold  py-1.5 lg:ml-2"
-        >College Dekhiye
+          className="mr-4 cursor-pointer font-semibold py-1.5 lg:ml-2"
+        >
+          College Dekhiye
         </Typography>
         <div className="hidden lg:block">
           <NavList />
@@ -43,8 +45,6 @@ function NavbarWithMegaMenu() {
           <Button variant="text" size="sm" color="blue-gray" className="font-thin">
             <ProfileMenu/>
           </Button>
-         
-          
         </div>
         <IconButton
           variant="text"
@@ -59,17 +59,20 @@ function NavbarWithMegaMenu() {
           )}
         </IconButton>
       </div>
-      <Collapse open={openNav}>
-        <NavList />
-       
-        <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
-          <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
+    </div>
+    
+    <Collapse open={openNav}>
+      <NavList />
+     
+      <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
+        <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
           <ProfileMenu/>
-          </Button>
-        </div>
-
-      </Collapse>
-    </Navbar>
+        </Button>
+      </div>
+  
+    </Collapse>
+  </Navbar>
+  
   );
 }
 export default NavbarWithMegaMenu

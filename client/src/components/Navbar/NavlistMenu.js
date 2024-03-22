@@ -71,7 +71,7 @@ function NavListMenu() {
             </Typography>
             <Typography
               variant="paragraph"
-              className="text-sm lg:flex lg:justify-center sm:justify-items-start flex-col p-2  text-blue-gray-500"
+              className="text-sm lg:flex lg:justify-center sm:justify-items-start flex-col p-2 bg-white text-blue-gray-500"
             >
               <div className="hover:bg-stone-600 p-1 hover:rounded-lg hover:text-white">{course1}</div>
               <div className="hover:bg-stone-600 p-1 hover:rounded-lg hover:text-white">{course2}</div>
@@ -97,7 +97,7 @@ function NavListMenu() {
         <MenuHandler>
           <Typography as="div" variant="small" className="font-medium">
             <ListItem
-              className="flex items-center gap-2 py-2 pr-4 font-normal hover:bg-stone-600 text-white"
+              className="flex items-center gap-2 py-2 p-2 font-normal hover:bg-stone-600 text-white"
               selected={isMenuOpen || isMobileMenuOpen}
               onClick={() => setIsMobileMenuOpen((cur) => !cur)}
             >
