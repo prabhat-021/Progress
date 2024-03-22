@@ -24,7 +24,7 @@ const isResetTokenValid = async (req, res, next) => {
     }
 
     const isValid = await resetToken.matchToken(token);
-    if (!user) {
+    if (!isValid) {
         return res.status(404).json({ message: "Reset Token is invalid" });
     }
 

@@ -11,6 +11,9 @@ router.route("/login").post(authUser);
 router.route("/verifyEmail").post(verifyEmail);
 router.route("/forgetPassword").post(forgetPassword);
 router.route("/resetPassword").post(isResetTokenValid, resetPassword);
+router.route("/verifyToken").get(isResetTokenValid, (req, res) => {
+    res.json({ success: true });
+});
 // router.route("/profile").post(auth, updateUserProfile);
 
 module.exports = router;
