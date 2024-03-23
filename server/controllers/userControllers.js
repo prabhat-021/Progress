@@ -202,7 +202,7 @@ const resetPassword = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "New password must be different" });
     };
 
-    if (password.trim() < 8 || password.trim() > 20) {
+    if (password.trim().length < 8 || password.trim().length > 20) {
         return res.status(400).json({ message: "Password must be 8 to 20 characters long!" });
     }
 
