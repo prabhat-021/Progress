@@ -67,3 +67,6 @@ export const register = (name, email, password, pic) => async (dispatch) => {
   }
 };
 
+export const forgotPassword = (email) => async (dispatch) => {
+
+}
