@@ -4,7 +4,7 @@ import Card_1 from "../../components/Card_1";
 import img2 from "../../assets/cardimg.avif";
 import { RiGraduationCapLine } from "react-icons/ri";
 import Footer from "../../components/Footer";
-import { LinearGradient } from "react-text-gradients";
+// import { LinearGradient } from "react-text-gradients";
 
 import CarouselCard from "../../components/Carousal";
 
@@ -53,9 +53,9 @@ function Home() {
       <div className="  ">
         <div className="flex flex-wrap justify-center m-6 ">
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
-                  <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
+                  {/* <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
                   FEATURED  {" "}
-                  </LinearGradient>{" "}
+                  </LinearGradient>{" "} */}
                   <span className="text-white">COURSES</span>
                   <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -115,9 +115,9 @@ function Home() {
       <div>
       <div className="flex flex-wrap justify-center m-6 ">
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5xl">
-                  <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
+                  {/* <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
                   TOP  {" "}
-                  </LinearGradient>{" "}
+                  </LinearGradient>{" "} */}
                   <span className="text-white">COLLEGES</span>
                   <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -135,9 +135,9 @@ function Home() {
      {/* LATEST INFORMATION */}
      <div className="flex flex-wrap justify-center m-6 ">
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
-                  <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
+                  {/* <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
                   LATEST {" "}
-                  </LinearGradient>{" "}
+                  </LinearGradient>{" "} */}
                   <span className="text-white">NOTIFICATION</span>
                  
                 </h1>
