@@ -7,6 +7,7 @@ import Footer from "../../components/Footer";
 // import { LinearGradient } from "react-text-gradients";
 
 import CarouselCard from "../../components/Carousal";
+import Navbar from "../../components/Navbar/NavbarNew";
 
 
 const food_data = [
@@ -45,7 +46,7 @@ const food_data = [
 function Home() {
   return (
     <div className="bg-stone-950 bg-opacity-100">
-      <StickyNavbar />
+      <Navbar />
       <HeroSection />
 
       {/* seclect you goal  */}
