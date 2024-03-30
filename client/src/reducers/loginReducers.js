@@ -3,7 +3,10 @@ import {
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
     USER_LOGOUT,
+    USER_OTP_REQUEST,
     USER_REGISTER_FAIL,
+    USER_REGISTER_OTP_FAIL,
+    USER_REGISTER_OTP_SUCCESS,
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
 } from "../constants/userConstants";
@@ -47,6 +50,26 @@ export const userRegisterReducer = (state = {}, action) => {
 
         // When user registration fails, set loading to false and update error message
         case USER_REGISTER_FAIL:
+            return { loading: false, error: action.payload };
+
+        // Return current state by default
+        default:
+            return state;
+    }
+}
+
+export const userOtpReducer = (state = {}, action) => {
+    switch (action.type) {
+        // When user login request is initiated, set loading to true
+        case USER_OTP_REQUEST:
+            return { loading: true };
+
+        // When user login is successful, set loading to false and update user information
+        case USER_REGISTER_OTP_SUCCESS:
+            return { loading: false, userInfo: action.payload };
+
+        // When user login fails, set loading to false and update error message
+        case USER_REGISTER_OTP_FAIL:
             return { loading: false, error: action.payload };
 
         // Return current state by default

@@ -75,6 +75,10 @@ const authUser = asyncHandler(async (req, res) => {
             return res.status(404).json({ message: "User Not Found" });
         }
 
+        if (!user.verified) {
+            return res.status(400).json({ message: "User Not Verified" });
+        }
+
         const isMatched = await user.matchPassword(password);
 
         if (!isMatched) {
@@ -126,7 +130,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
     const isMatched = await token.matchToken(otp);
 
     if (!isMatched) {
-        return res.status(404).json({ message: "Password Is Wrong" });
+        return res.status(404).json({ message: "OTP Is Wrong" });
     }
 
     user.verified = true;

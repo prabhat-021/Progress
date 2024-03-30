@@ -2,13 +2,14 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 // Import necessary functions and modules from Redux for creating the store, combining reducers, and applying middleware
 import { thunk } from "redux-thunk";
 // Import 'thunk' middleware for handling asynchronous actions
-import { userLoginReducer, userRegisterReducer } from "./reducers/loginReducers";
+import { userLoginReducer, userOtpReducer, userRegisterReducer } from "./reducers/loginReducers";
 // Import reducers for user login, registration, and update from userReducers.js file
 
 // Combine all reducers into one root reducer
 const reducer = combineReducers({
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
+    userOtp: userOtpReducer,
 });
 
 // Check if user information exists in local storage, if so, parse it, otherwise set to null
