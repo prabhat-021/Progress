@@ -1,12 +1,27 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../actions/userAction";
+import { Link } from 'react-router-dom'; // Import Link from React Router
 
 export default function Navbar() {
 
     const [isOpen, setIsOpen] = useState(false);
 
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    // console.log(userInfo);
+    const { name, pic, email } = userInfo || {};
+
+    const dispatch = useDispatch();
+
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
+
+    const handleLogout = async () => {
+        await dispatch(logout());
+        // window.location.reload();
+        setIsOpen(false);
+    }
 
     return (
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -16,34 +31,36 @@ export default function Navbar() {
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">CollegeSearch</span>
                 </a>
                 <div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-                    <button
+                    {userInfo ? <button
                         type="button"
                         className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button"
                         aria-expanded={isOpen ? 'true' : 'false'}
                         onClick={toggleDropdown}
                     >
                         <span className="sr-only">Open user menu</span>
-                        <img className="w-8 h-8 rounded-full" src="https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg" alt="user photo" />
-                    </button>
+                        <img className="w-8 h-8 rounded-full" src={userInfo ? pic : "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"} alt="user photo" />
+                    </button> : <Link to="/sign-in">
+                        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                            Sign In
+                        </button>
+                    </Link>}
+
                     {/* <!-- Dropdown menu --> */}
                     {isOpen && (
-                        <div className="z-50 absolute right-32 mt-72 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                        <div className="z-50 absolute right-32 mt-64 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
                             <div className="px-4 py-3">
-                                <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                                <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                                <span className="block text-sm text-gray-900 dark:text-white">{name}</span>
+                                <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{email}</span>
                             </div>
                             <ul className="py-2" aria-labelledby="user-menu-button">
                                 <li>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
                                 </li>
                                 <li>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                                    <a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
                                 </li>
                                 <li>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                                    <a onClick={handleLogout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                                 </li>
                             </ul>
                         </div>
@@ -74,7 +91,7 @@ export default function Navbar() {
                         </li>
                     </ul>
                 </div>
-            </div>
-        </nav>
+            </div >
+        </nav >
     )
 }

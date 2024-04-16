@@ -19,7 +19,7 @@ const userInformation = localStorage.getItem("userInfo") ? JSON.parse(localStora
 const initialState = {
     userLogin: { userInfo: userInformation }
 };
-
+  
 // Define middleware array with thunk middleware
 const middleware = [thunk];
 
