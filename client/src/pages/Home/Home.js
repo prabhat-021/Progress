@@ -11,7 +11,7 @@ import Colleges from "../../components/Colleges/Colleges"
 
 function Home() {
   return (
-    <div className="bg-gradient-to-b from-blue-700 via-[#717365] to-[#030426] bg-opacity-100">
+    <div className="bg-gradient-to-b  from-[#d8d8d4] to-[#050736] bg-opacity-100">
       
       <Navbar/>
       <HeroSection />

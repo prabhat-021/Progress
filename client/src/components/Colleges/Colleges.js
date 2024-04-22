@@ -38,7 +38,7 @@ const college_data = [
     <div>
        <div className="flex flex-wrap justify-center m-6 ">
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5xl">
-                  <span className="dark:text-gray-900">COLLEGES</span>
+                  <span className="dark:text-gray-900 ml-8 items-center tracking-widest">COLLEGES</span>
                   <div className=" text-base mb-4  flex justify-center  font-normal dark:text-gray-900 text-my-grey  mt-4">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </div>
