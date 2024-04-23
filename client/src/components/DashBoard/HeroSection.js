@@ -1,6 +1,8 @@
 import React from "react";
 import { LinearGradient } from "react-text-gradients";
-import college from '../assets/iit.jpg'
+import college from "../../assets/iit.jpg";
+import CountUp from "react-countup";
+// import ScrollTrigger from "react-scroll-trigger";
 function HeroSection() {
   return (
     <div>
@@ -18,16 +20,17 @@ function HeroSection() {
               <div className="px-6 text-center text-white md:px-12">
                 <h1 className="mt-2  mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-7xl">
                   <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
-                    Find Over 25000+ College{" "}
+                    Find Over{" "}
+                    {<CountUp start={0} end={25000} duration={2} delay={0} />}+
+                    College{" "}
                   </LinearGradient>{" "}
                   in India <br />
                   <span>of your Choice</span>
                 </h1>
                 <div className="flex justify-center">
-                {/* <img src={college} alt='college image' className="max-w-3xl w-full"/> */}
+                  {/* <img src={college} alt='college image' className="max-w-3xl w-full"/> */}
                 </div>
-               
-                
+
                 <button
                   type="button"
                   className=" hover:bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500  rounded border-2 mt-9 hover:border-0 px-[46px] pt-[14px] pb-[12px] text-sm font-medium uppercase leading-normal text-neutral-50 transition duration-150 ease-in-out hover:border-neutral-100 hover:bg-neutral-100 hover:bg-opacity-10 hover:text-neutral-100 focus:border-neutral-100 focus:text-neutral-100 focus:outline-none focus:ring-0 active:border-neutral-200 mb-6 active:text-neutral-200"

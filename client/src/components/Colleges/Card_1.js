@@ -1,143 +1,104 @@
 import React from "react";
-import img2 from '../../assets/cardimg.avif'
 
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Typography,
-  Button,
-  Tooltip,
-} from "@material-tailwind/react";
-
-const Card_1 = ({ name }) => {
+const Card_1 = ({ name , location , img}) => {
+    
   return (
-    <div>
-      <Card className="w-full  max-w-[22rem] shadow-lg">
-        <CardHeader floated={false} color="blue-gray">
-          <img
-            src={img2}
-            alt="ui/ux review check"
-          />
-          <div className="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60 " />
-        </CardHeader>
-        <CardBody>
-          <div className="flex items-center justify-between h-[80%]">
-            <Typography variant="h5" color="blue-gray" className="font-medium">
-             {name}
-            </Typography>
-            <Typography
-              color="blue-gray"
-              className="flex items-center gap-1.5 font-normal"
-            ></Typography>
-          </div>
-          <Typography color="gray">
-            Enter a freshly updated and thoughtfully furnished peaceful home
-            surrounded by ancient trees, stone walls, and open meadows.
-          </Typography>
-          <div className="group mt-8 inline-flex flex-wrap items-center gap-3">
-            <Tooltip content="$129 per night">
-              <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path d="M12 7.5a2.25 2.25 0 100 4.5 2.25 2.25 0 000-4.5z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M1.5 4.875C1.5 3.839 2.34 3 3.375 3h17.25c1.035 0 1.875.84 1.875 1.875v9.75c0 1.036-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 14.625v-9.75zM8.25 9.75a3.75 3.75 0 117.5 0 3.75 3.75 0 01-7.5 0zM18.75 9a.75.75 0 00-.75.75v.008c0 .414.336.75.75.75h.008a.75.75 0 00.75-.75V9.75a.75.75 0 00-.75-.75h-.008zM4.5 9.75A.75.75 0 015.25 9h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H5.25a.75.75 0 01-.75-.75V9.75z"
-                    clipRule="evenodd"
-                  />
-                  <path d="M2.25 18a.75.75 0 000 1.5c5.4 0 10.63.722 15.6 2.075 1.19.324 2.4-.558 2.4-1.82V18.75a.75.75 0 00-.75-.75H2.25z" />
-                </svg>
-              </span>
-            </Tooltip>
-            <Tooltip content="Free wifi">
-              <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M1.371 8.143c5.858-5.857 15.356-5.857 21.213 0a.75.75 0 010 1.061l-.53.53a.75.75 0 01-1.06 0c-4.98-4.979-13.053-4.979-18.032 0a.75.75 0 01-1.06 0l-.53-.53a.75.75 0 010-1.06zm3.182 3.182c4.1-4.1 10.749-4.1 14.85 0a.75.75 0 010 1.061l-.53.53a.75.75 0 01-1.062 0 8.25 8.25 0 00-11.667 0 .75.75 0 01-1.06 0l-.53-.53a.75.75 0 010-1.06zm3.204 3.182a6 6 0 018.486 0 .75.75 0 010 1.061l-.53.53a.75.75 0 01-1.061 0 3.75 3.75 0 00-5.304 0 .75.75 0 01-1.06 0l-.53-.53a.75.75 0 010-1.06zm3.182 3.182a1.5 1.5 0 012.122 0 .75.75 0 010 1.061l-.53.53a.75.75 0 01-1.061 0l-.53-.53a.75.75 0 010-1.06z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            </Tooltip>
-            <Tooltip content="2 bedrooms">
-              <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
-                  <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
-                </svg>
-              </span>
-            </Tooltip>
-            <Tooltip content={`65" HDTV`}>
-              <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path d="M19.5 6h-15v9h15V6z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M3.375 3C2.339 3 1.5 3.84 1.5 4.875v11.25C1.5 17.16 2.34 18 3.375 18H9.75v1.5H6A.75.75 0 006 21h12a.75.75 0 000-1.5h-3.75V18h6.375c1.035 0 1.875-.84 1.875-1.875V4.875C22.5 3.839 21.66 3 20.625 3H3.375zm0 13.5h17.25a.375.375 0 00.375-.375V4.875a.375.375 0 00-.375-.375H3.375A.375.375 0 003 4.875v11.25c0 .207.168.375.375.375z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            </Tooltip>
-            <Tooltip content="Fire alert">
-              <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="h-5 w-5"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M12.963 2.286a.75.75 0 00-1.071-.136 9.742 9.742 0 00-3.539 6.177A7.547 7.547 0 016.648 6.61a.75.75 0 00-1.152-.082A9 9 0 1015.68 4.534a7.46 7.46 0 01-2.717-2.248zM15.75 14.25a3.75 3.75 0 11-7.313-1.172c.628.465 1.35.81 2.133 1a5.99 5.99 0 011.925-3.545 3.75 3.75 0 013.255 3.717z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </span>
-            </Tooltip>
-            {/* <Tooltip content="And +20 more">
-              <span className="cursor-pointer rounded-full border border-gray-900/5 bg-gray-900/5 p-3 text-gray-900 transition-colors hover:border-gray-900/10 hover:bg-gray-900/10 hover:!opacity-100 group-hover:opacity-70">
-                +20
-              </span>
-            </Tooltip> */}
-          </div>
-        </CardBody>
-        <CardFooter className="pt-3">
-          <Button className="bg-black h-9" size="lg" fullWidth={true}>
-            EXPLORE
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-    // <div className='shadow-xl p-5 min-w-[250px] rounded-xl flex flex-col bg-stone-700 '>
 
-    //   <img src={img2} alt="" className='rounded-2xl  overflow-hidden bg-[#0c0c0c] bg-fixed ' />
-    //   <div className='text-xl text-my-blue font-bold flex justify-center mt-3 '>{name}</div>
-    //   <div className=' text-my-grey font-bold flex justify-center mt-3 '>Best Engineering College</div>
-    //   <div className=' text-my-grey font-bold flex justify-center mt-1 '>in Uttar Pradesh</div>
-    //   <div className='text-xl text-my-blue font-bold flex justify-center mt-3 '>{price}​</div>
+    <div>
+      <div className=" max-w-[20rem] max-h-[34rem] overflow-hidden bg-white rounded-lg shadow-lg text-black">
+        <img
+          className="object-cover object-center w-full h-56"
+          src={img}
+          alt="image Loading"
+        />
+
+        {/* <div className="flex items-center px-6 py-3 bg-gray-900">
+        <svg aria-label="headphones icon" className="w-6 h-6 text-white fill-current" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M17 21C15.8954 21 15 20.1046 15 19V15C15 13.8954 15.8954 13 17 13H19V12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12V13H7C8.10457 13 9 13.8954 9 15V19C9 20.1046 8.10457 21 7 21H3V12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12V21H17ZM19 15H17V19H19V15ZM7 15H5V19H7V15Z"/>
+        </svg>
+
+        <h1 className="mx-3 text-lg font-semibold text-white">Focusing</h1>
+    </div> */}
+
+        <div className="px-6 py-2">
+          <h1 className="text-xl font-semibold text-gray-800 ">
+            {name}
+          </h1>
+
+          <p className="py-2 text-gray-700 ">
+            Full Stack maker & UI / UX Designer , love hip hop music Author of
+            Building UI.
+          </p>
+
+          <div className="flex items-center mt-4 text-gray-700 ">
+            <svg
+              aria-label="suitcase icon"
+              className="w-6 h-6 fill-current"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M14 11H10V13H14V11Z" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M7 5V4C7 2.89545 7.89539 2 9 2H15C16.1046 2 17 2.89545 17 4V5H20C21.6569 5 23 6.34314 23 8V18C23 19.6569 21.6569 21 20 21H4C2.34314 21 1 19.6569 1 18V8C1 6.34314 2.34314 5 4 5H7ZM9 4H15V5H9V4ZM4 7C3.44775 7 3 7.44769 3 8V14H21V8C21 7.44769 20.5522 7 20 7H4ZM3 18V16H21V18C21 18.5523 20.5522 19 20 19H4C3.44775 19 3 18.5523 3 18Z"
+              />
+            </svg>
+
+            <h1 className="px-2 text-sm">Meraki UI</h1>
+          </div>
+
+          <div className="flex items-center mt-4 text-gray-700 ">
+            <svg
+              aria-label="location pin icon"
+              className="w-6 h-6 fill-current"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M16.2721 10.2721C16.2721 12.4813 14.4813 14.2721 12.2721 14.2721C10.063 14.2721 8.27214 12.4813 8.27214 10.2721C8.27214 8.063 10.063 6.27214 12.2721 6.27214C14.4813 6.27214 16.2721 8.063 16.2721 10.2721ZM14.2721 10.2721C14.2721 11.3767 13.3767 12.2721 12.2721 12.2721C11.1676 12.2721 10.2721 11.3767 10.2721 10.2721C10.2721 9.16757 11.1676 8.27214 12.2721 8.27214C13.3767 8.27214 14.2721 9.16757 14.2721 10.2721Z"
+              />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M5.79417 16.5183C2.19424 13.0909 2.05438 7.3941 5.48178 3.79418C8.90918 0.194258 14.6059 0.0543983 18.2059 3.48179C21.8058 6.90919 21.9457 12.606 18.5183 16.2059L12.3124 22.7241L5.79417 16.5183ZM17.0698 14.8268L12.243 19.8965L7.17324 15.0698C4.3733 12.404 4.26452 7.9732 6.93028 5.17326C9.59603 2.37332 14.0268 2.26454 16.8268 4.93029C19.6267 7.59604 19.7355 12.0269 17.0698 14.8268Z"
+              />
+            </svg>
+
+            <h1 className="px-2 text-sm"> {location}</h1>
+          </div>
+
+          <div className="flex items-center mt-4 text-gray-700 ">
+            <svg
+              aria-label="email icon"
+              className="w-6 h-6 fill-current"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M3.00977 5.83789C3.00977 5.28561 3.45748 4.83789 4.00977 4.83789H20C20.5523 4.83789 21 5.28561 21 5.83789V17.1621C21 18.2667 20.1046 19.1621 19 19.1621H5C3.89543 19.1621 3 18.2667 3 17.1621V6.16211C3 6.11449 3.00333 6.06765 3.00977 6.0218V5.83789ZM5 8.06165V17.1621H19V8.06199L14.1215 12.9405C12.9499 14.1121 11.0504 14.1121 9.87885 12.9405L5 8.06165ZM6.57232 6.80554H17.428L12.7073 11.5263C12.3168 11.9168 11.6836 11.9168 11.2931 11.5263L6.57232 6.80554Z"
+              />
+            </svg>
+
+            <h1 className="px-2 text-sm">patterson@example.com</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+    // <div classNameName='shadow-xl p-5 min-w-[250px] rounded-xl flex flex-col bg-stone-700 '>
+
+    //   <img src={img2} alt="" classNameName='rounded-2xl  overflow-hidden bg-[#0c0c0c] bg-fixed ' />
+    //   <div classNameName='text-xl text-my-blue font-bold flex justify-center mt-3 '>{name}</div>
+    //   <div classNameName=' text-my-grey font-bold flex justify-center mt-3 '>Best Engineering College</div>
+    //   <div classNameName=' text-my-grey font-bold flex justify-center mt-1 '>in Uttar Pradesh</div>
+    //   <div classNameName='text-xl text-my-blue font-bold flex justify-center mt-3 '>{price}​</div>
     // </div>
   );
 };

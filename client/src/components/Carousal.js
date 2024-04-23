@@ -39,11 +39,11 @@ function CarouselCard() {
 
   return (
     <>
-     <div>
+     <div className="bg-[#e4e6e6]">
      <div className="flex flex-wrap justify-center m-6 ">
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
                   
-                  <span className="text-white">NOTIFICATION</span>
+                  <span className="text-gray-900 tracking-widest">NOTIFICATION</span>
                  
                 </h1>
         

@@ -1,9 +1,11 @@
-import HeroSection from "../../components/HeroSection";
+import HeroSection from "../../components/DashBoard/HeroSection";
 import Footer from "../../components/Footer";
 // import CarouselCard from "../../components/Carousal";
 import Navbar from "../../components/Navbar/NavbarNew"
 import Courses from "../../components/Courses";
 import Colleges from "../../components/Colleges/Colleges"
+
+// import AccordionCustomIcon from "../../components/Accordin";
 // import { LinearGradient } from "react-text-gradients";
 
 
@@ -11,13 +13,15 @@ import Colleges from "../../components/Colleges/Colleges"
 
 function Home() {
   return (
-    <div className="bg-gradient-to-b  from-[#d8d8d4] to-[#050736] bg-opacity-100">
+    <div className="bg-gradient-to-b  from-[#2a2a2b] to-[#11143b] bg-opacity-100">
       
       <Navbar/>
       <HeroSection />
       <Courses/>
       <Colleges/>
+      
       {/* <CarouselCard/> */}
+      {/* <AccordionCustomIcon/> */}
       <Footer />
     </div>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { RiGraduationCapLine } from "react-icons/ri";
+import Button from "./Button/Button";
 
 const Courses = () => {
   return (
@@ -23,14 +23,14 @@ const Courses = () => {
               Read More
             </div> */}
 
-        <div className="flex justify-evenly  flex-wrap  gap-3 pb-20 pr-4 pl-4 ">
+        <div className="flex justify-evenly  flex-wrap  gap-3 pb-6 pr-4 pl-4 ">
           <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow  ">
             <a href="#">
               <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
                 B.Tech
               </h5>
             </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
               BTech is a highly sought-after undergraduate engineering degree,
               offering a gateway to diverse and rewarding career opportunities
               in the ever-evolving technological landscape
@@ -64,7 +64,7 @@ const Courses = () => {
                 M.Tech
               </h5>
             </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
               MTech is a professional postgraduate engineering master's degree
               programme awarded to candidates after completion of two years of
               study in the discipline of engineering.
@@ -98,7 +98,7 @@ const Courses = () => {
                 M.B.A.
               </h5>
             </a>
-            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+            <p class="mb-3 font-normal text-sm text-gray-700 dark:text-gray-400">
               A master of business administration (MBA) is a graduate degree
               that provides theoretical and practical training for business or
               investment management.
@@ -127,6 +127,9 @@ const Courses = () => {
           </div>
         </div>
       </div>
+      <div className="flex justify-center items center pb-10">
+        <Button/>
+        </div>
     </div>
   );
 };
