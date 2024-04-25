@@ -1,6 +1,6 @@
 import HeroSection from "../../components/DashBoard/HeroSection";
 import Footer from "../../components/Footer";
-// import CarouselCard from "../../components/Carousal";
+import CarouselCard from "../../components/Carousal";
 import Navbar from "../../components/Navbar/NavbarNew"
 import Courses from "../../components/Courses";
 import Colleges from "../../components/Colleges/Colleges"
@@ -13,14 +13,14 @@ import Colleges from "../../components/Colleges/Colleges"
 
 function Home() {
   return (
-    <div className="bg-gradient-to-b  from-[#2a2a2b] to-[#11143b] bg-opacity-100">
+    <div className="bg-gradient-to-b  bg-slate-900 bg-opacity-100">
       
       <Navbar/>
       <HeroSection />
       <Courses/>
       <Colleges/>
       
-      {/* <CarouselCard/> */}
+      <CarouselCard/>
       {/* <AccordionCustomIcon/> */}
       <Footer />
     </div>

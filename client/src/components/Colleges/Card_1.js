@@ -1,13 +1,11 @@
 import React from "react";
 
-const Card_1 = ({ name , location , img}) => {
-    
+const Card_1 = ({ name, location, img }) => {
   return (
-
     <div>
-      <div className=" max-w-[20rem] max-h-[34rem] overflow-hidden bg-white rounded-lg shadow-lg text-black">
+      <div className=" max-w-[20rem] max-h-[22rem] overflow-hidden bg-white rounded-lg shadow-lg text-black">
         <img
-          className="object-cover object-center w-full h-56"
+          className="object-cover object-center w-full h-32"
           src={img}
           alt="image Loading"
         />
@@ -21,16 +19,14 @@ const Card_1 = ({ name , location , img}) => {
     </div> */}
 
         <div className="px-6 py-2">
-          <h1 className="text-xl font-semibold text-gray-800 ">
-            {name}
-          </h1>
+          <h1 className="text-xl font-semibold text-gray-800 ">{name}</h1>
 
-          <p className="py-2 text-gray-700 ">
+          <p className=" text-gray-700 ">
             Full Stack maker & UI / UX Designer , love hip hop music Author of
             Building UI.
           </p>
 
-          <div className="flex items-center mt-4 text-gray-700 ">
+          <div className="flex items-center mt-2 text-gray-700 ">
             <svg
               aria-label="suitcase icon"
               className="w-6 h-6 fill-current"
@@ -49,7 +45,7 @@ const Card_1 = ({ name , location , img}) => {
             <h1 className="px-2 text-sm">Meraki UI</h1>
           </div>
 
-          <div className="flex items-center mt-4 text-gray-700 ">
+          <div className="flex items-center mt-2 text-gray-700 ">
             <svg
               aria-label="location pin icon"
               className="w-6 h-6 fill-current"
@@ -72,7 +68,7 @@ const Card_1 = ({ name , location , img}) => {
             <h1 className="px-2 text-sm"> {location}</h1>
           </div>
 
-          <div className="flex items-center mt-4 text-gray-700 ">
+          <div className="flex items-center mt-2 text-gray-700 ">
             <svg
               aria-label="email icon"
               className="w-6 h-6 fill-current"

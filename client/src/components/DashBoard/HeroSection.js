@@ -21,7 +21,7 @@ function HeroSection() {
                 <h1 className="mt-2  mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-7xl">
                   <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
                     Find Over{" "}
-                    {<CountUp start={0} end={25000} duration={2} delay={0} />}+
+                    {<CountUp start={0} end={25000} duration={3} delay={0} />}+
                     College{" "}
                   </LinearGradient>{" "}
                   in India <br />
