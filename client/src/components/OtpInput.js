@@ -35,7 +35,7 @@ export default function OtpInput() {
         if (!userInfo._id || !otp) {
             setError("Invalid request, missing parameters!");
         } else {
-            dispatch(verifyEmail(userInfo._id, otp));
+            dispatch(verifyEmail(userInfo, otp));
         }
     }
 

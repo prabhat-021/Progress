@@ -39,18 +39,26 @@ function CarouselCard() {
 
   return (
     <>
-      {/*<!-- Component: Card Carousel --> */}
-      <div className="glide-06 relative w-full overflow-hidden rounded bg-black  ">
+     <div className="bg-[#e4e6e6]">
+     <div className="flex flex-wrap justify-center m-6 ">
+        <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
+                  
+                  <span className="text-gray-900 tracking-widest">NOTIFICATION</span>
+                 
+                </h1>
+        
+       </div>:{/*<!-- Component: Card Carousel --> */}
+      <div className="glide-06 relative w-full overflow-hidden rounded dark:bg-[#6EE7B7">
         {/*    <!-- Slides --> */}
         <div className="overflow-hidden" data-glide-el="track">
           <ul className="whitespace-no-wrap  flex-no-wrap [backface-visibility: hidden] [transform-style: preserve-3d] [touch-action: pan-Y] [will-change: transform] relative flex w-full overflow-hidden p-0">
             <li className="">
               <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                  <Typography variant="h5" color="blue-gray" className="mb-2 text-gray-900">
                     UI/UX Review Check
                   </Typography>
-                  <Typography>
+                  <Typography className="text-gray-900">
                     The place is close to Barceloneta Beach and bus stop just 2
                     min by walk and near to &quot;Naviglio&quot; where you can
                     enjoy the main night life in Barcelona.
@@ -64,10 +72,10 @@ function CarouselCard() {
             <li>
             <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                  <Typography variant="h5" color="blue-gray" className="mb-2 text-gray-900">
                     UI/UX Review Check
                   </Typography>
-                  <Typography>
+                  <Typography className="text-gray-900">
                     The place is close to Barceloneta Beach and bus stop just 2
                     min by walk and near to &quot;Naviglio&quot; where you can
                     enjoy the main night life in Barcelona.
@@ -81,10 +89,10 @@ function CarouselCard() {
             <li>
             <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                  <Typography variant="h5" color="blue-gray" className="mb-2 text-gray-900">
                     UI/UX Review Check
                   </Typography>
-                  <Typography>
+                  <Typography className="text-gray-900">
                     The place is close to Barceloneta Beach and bus stop just 2
                     min by walk and near to &quot;Naviglio&quot; where you can
                     enjoy the main night life in Barcelona.
@@ -98,10 +106,10 @@ function CarouselCard() {
             <li>
             <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                  <Typography variant="h5" color="blue-gray" className="mb-2 text-gray-900">
                     UI/UX Review Check
                   </Typography>
-                  <Typography>
+                  <Typography className="text-gray-900">
                     The place is close to Barceloneta Beach and bus stop just 2
                     min by walk and near to &quot;Naviglio&quot; where you can
                     enjoy the main night life in Barcelona.
@@ -115,10 +123,27 @@ function CarouselCard() {
             <li>
             <Card className="mt-6 w-96 bg-stone-500">
                 <CardBody>
-                  <Typography variant="h5" color="blue-gray" className="mb-2">
+                  <Typography variant="h5" color="blue-gray" className="mb-2 text-gray-900">
                     UI/UX Review Check
                   </Typography>
-                  <Typography>
+                  <Typography className="text-gray-900">
+                    The place is close to Barceloneta Beach and bus stop just 2
+                    min by walk and near to &quot;Naviglio&quot; where you can
+                    enjoy the main night life in Barcelona.
+                  </Typography>
+                </CardBody>
+                <CardFooter className="pt-0">
+                  <Button>Read More</Button>
+                </CardFooter>
+              </Card>
+            </li>
+            <li>
+            <Card className="mt-6 w-96 bg-stone-500">
+                <CardBody>
+                  <Typography variant="h5" color="blue-gray" className="mb-2 text-gray-900">
+                    UI/UX Review Check
+                  </Typography>
+                  <Typography className="text-gray-900">
                     The place is close to Barceloneta Beach and bus stop just 2
                     min by walk and near to &quot;Naviglio&quot; where you can
                     enjoy the main night life in Barcelona.
@@ -213,6 +238,7 @@ function CarouselCard() {
             <span className="block h-2 w-2 rounded-full bg-white/20 ring-1 ring-slate-700 transition-colors duration-300 focus:outline-none"></span>
           </button>
         </div>
+      </div>
       </div>
       {/*<!-- End Card Carousel --> */}
     </>
