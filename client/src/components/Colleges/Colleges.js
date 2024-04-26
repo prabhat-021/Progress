@@ -23,7 +23,7 @@ const college_data = [
   {
     name: "KIET",
     img: {kietimg},
-    location:"Muradnagar",
+    location: "Muragdnagar",
    
   },
   {
@@ -60,12 +60,14 @@ const college_data = [
        </div>
         
         
-       <div className="flex gap-5 m-10 flex-wrap justify-center">
-          {college_data.map((e) => (
-            <Card_1 name={e.name} img={e.img} location={e.location} key={e} />
-          ))}
+       <div className="flex gap-5 m-10  flex-wrap justify-center">
+          {college_data.map((e,index) => ( 
+            <Card_1 name={e.name} img={e.img} location={e.location} key={index} />
+          )
+          )}
+          
         </div>
-        <div className="flex justify-center items center">
+        <div className="flex justify-center pb-10 items center">
         <Button/>
         </div>
       </div>
