@@ -14,7 +14,7 @@ function App() {
         <Route path="/home" element={<Home />} exact />
         <Route path="/sign-in" element={<Login />} />
         {/* <Route path="/demo" element={<Demo />} /> */}
-        <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About />} exact />
         <Route path="/resetPassword" element={<ResetForm />} />
         {/* <Route path="/contact" element={<Contact />} /> */}
       </Routes>
