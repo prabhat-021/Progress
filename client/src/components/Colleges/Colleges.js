@@ -7,77 +7,71 @@ import jssimg from "../../assets/JSS.jpeg"
 import mietimg from "../../assets/MIET.jpeg"
 import akgecimg from "../../assets/AKGEC.jpeg"
 import Button from "../Button/Button";
+
 const college_data = [
   {
     name: "GLA",
-    img: {glaimg},
+    img: glaimg,
     location: "Greater Noida",
-    
+
   },
   {
     name: "ABES",
-    img: {abesimg},
+    img: abesimg,
     location: "Ghaziabad",
-   
+
   },
   {
     name: "KIET",
-    img: {kietimg},
+    img: kietimg,
     location: "Muragdnagar",
-   
+
   },
   {
     name: "JSS",
-    img: {jssimg},
-    location:"Noida",
-   
+    img: jssimg,
+    location: "Noida",
+
   },
   {
     name: "MIET",
-    img: {mietimg},
-    location:"Meerut",
-    
+    img: mietimg,
+    location: "Meerut",
+
   },
   {
     name: "AKGEC",
-    img: {akgecimg},
-    location:"Ghaziabad",
-    
+    img: akgecimg,
+    location: "Ghaziabad",
+
   },
 ];
- 
- function Colleges() {
+
+function Colleges() {
   return (
     <div>
-       <div className="flex flex-wrap justify-center m-6 ">
+      <div className="flex flex-wrap justify-center m-6 ">
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5xl">
-                  <span className="text-white ml-8 items-center tracking-widest">COLLEGES</span>
-                  <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        </div>
-                </h1>
-        
-       </div>
-        
-        
-       <div className="flex gap-5 m-10  flex-wrap justify-center">
-          {college_data.map((e,index) => ( 
-            <Card_1 name={e.name} img={e.img} location={e.location} key={index} />
-          )
-          )}
-          
-        </div>
-        <div className="flex justify-center pb-10 items center">
-        <Button/>
-        </div>
+          <span className="text-white ml-8 items-center tracking-widest">COLLEGES</span>
+          <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </div>
+        </h1>
       </div>
-
-      
-    
-    
+      <div className="flex gap-5 m-10  flex-wrap justify-center">
+        {college_data.map((e, index) => (
+          <Card_1 name={e.name} img={e.img} location={e.location} key={index} />
+        )
+        )}
+      </div>
+      <div className="flex justify-center pb-10 items center">
+        <Button />
+      </div>
+    </div>
   );
 }
-export default Colleges
+
+export default Colleges;
 
 
 {/*import React from 'react'

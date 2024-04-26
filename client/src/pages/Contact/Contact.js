@@ -1,11 +1,9 @@
 import React from 'react'
+import Navbar from '../../components/Navbar/NavbarNew'
 
  function Contact() {
   return (
-    <div>
-      hello everypne
-      ]
-    </div>
+    <Navbar />
   )
 }
 export default Contact
