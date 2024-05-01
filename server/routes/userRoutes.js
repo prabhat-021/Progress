@@ -1,5 +1,5 @@
 const express = require("express");
-const { resetPassword, registerUser, authUser, verifyEmail, forgetPassword } = require("../controllers/userControllers.js");
+const { resetPassword, registerUser, authUser, verifyEmail, forgetPassword , redisData} = require("../controllers/userControllers.js");
 const auth = require("../middleware/auth.js");
 const isResetTokenValid = require("../middleware/user.js");
 const { validateUser, validate } = require("../middleware/validator.js");
@@ -14,6 +14,7 @@ router.route("/resetPassword").post(isResetTokenValid, resetPassword);
 router.route("/verifyToken").get(isResetTokenValid, (req, res) => {
     res.json({ success: true });
 });
+router.route("/redis-data").get(redisData);
 // router.route("/profile").post(auth, updateUserProfile);
 
 module.exports = router;

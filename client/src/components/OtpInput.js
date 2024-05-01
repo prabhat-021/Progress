@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "./ErrorMessage.js";
 import { verifyEmail } from "../actions/userAction.js";
@@ -7,15 +8,41 @@ import Loading from "./Loading.js";
 export default function OtpInput() {
     const [otp, setOtp] = useState("");
     const [error, setError] = useState("");
+    const [data, setData] = useState([]);
 
     const dispatch = useDispatch();
-    const userRegister = useSelector(state => state.userRegister);
-    const { userInfo } = userRegister;
-    console.log(userInfo._id);
-    console.log(otp);
+
+    const config = {
+        headers: {
+            "Content-type": "application/json",
+        },
+    };
+
+    const baseUrl = 'http://localhost:5000/api/users';
+
+    useEffect(() => {
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${baseUrl}/redis-data`,config);
+                // console.log(response);
+                setData(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                setError("Error fetching data");
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // const userRegister = useSelector(state => state.userRegister);
+    // const { userInfo } = userRegister;
+    // console.log(userInfo._id);
+    // console.log(otp);
 
     const userOtp = useSelector(state => state.userOtp);
-    const { loading, error: otpError, userInfo: otpUserInfo } = userOtp;
+    const { loading } = userOtp;
 
     // Function to handle changes in the input fields
     const handleChange = (event, index) => {
@@ -32,16 +59,21 @@ export default function OtpInput() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (!userInfo._id || !otp) {
+        if (!data.id || !otp) {
             setError("Invalid request, missing parameters!");
         } else {
-            dispatch(verifyEmail(userInfo, otp));
+            dispatch(verifyEmail(data, otp));
         }
     }
 
+    const handleClose = () => {
+        // Close the error message by setting errorMessage to null
+        setError(null);
+    };
+
     return (
         <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
+            {error && <ErrorMessage onClose={handleClose}>{error}</ErrorMessage>}
             {loading && <Loading />}
             <div className="flex mb-2 space-x-2 rtl:space-x-reverse">
                 {/* Loop through the input fields */}

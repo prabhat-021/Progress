@@ -64,7 +64,7 @@ export const register = (name, email, password, pic) => async (dispatch) => {
 
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
 
-    // dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
     // localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
@@ -87,7 +87,7 @@ export const verifyEmail = (userInfo, otp) => async (dispatch) => {
       },
     };
 
-    const userId = userInfo._id;
+    const userId = userInfo.id;
 
     const { data } = await axios.post(
       `${baseUrl}/verifyEmail`,
@@ -100,7 +100,7 @@ export const verifyEmail = (userInfo, otp) => async (dispatch) => {
 
     dispatch({ type: USER_LOGIN_SUCCESS, payload: userInfo });
 
-    localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    // localStorage.setItem("userInfo", JSON.stringify(userInfo));
   } catch (error) {
     dispatch({ type: USER_REGISTER_OTP_FAIL, payload: "Wrong OTP" });
   }

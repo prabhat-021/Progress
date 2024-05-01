@@ -27,4 +27,41 @@ Example:
 const newUser = new User({ name, email, password, pic });
 await newUser.save();
 ``` 
+# Automatic Deletion of Unverified Users in MongoDB
+
+## Overview
+This guide outlines the steps to implement automatic deletion of unverified users after a certain period of time using MongoDB's TTL (Time-To-Live) index feature.
+
+## Steps
+
+1. **Add a new field to your user schema**: 
+   - In your MongoDB user schema, add a field to store the creation time of each user. Commonly named something like `createdAt`, this field will hold the timestamp when the user document was created.
+   - Example user schema:
+     ```json
+     {
+       "_id": ObjectId("123456789012"),
+       "username": "example_user",
+       "email": "user@example.com",
+       "createdAt": ISODate("2024-04-30T12:00:00Z")
+     }
+     ```
+
+2. **Create a TTL index on the createdAt field**: 
+   - Once the `createdAt` field is in place, create a TTL index on it. This index automatically deletes documents after a specified period since the value of the indexed field.
+   - Example of creating a TTL index:
+     ```javascript
+     db.users.createIndex({ "createdAt": 1 }, { expireAfterSeconds: 86400 })
+     ```
+     In the above example, `86400` seconds (24 hours) is specified. Any document in the `users` collection with a `createdAt` timestamp older than 24 hours will be automatically deleted.
+
+3. **Explanation of TTL index**: 
+   - The TTL index, or "Time-To-Live" index, allows setting an expiration time for documents. MongoDB periodically scans the collection for documents with expired TTL values and removes them.
+   - When a TTL index is created on a field, MongoDB deletes documents in the collection after the specified time since the value of that field. This feature is useful for automatically cleaning up old or temporary data.
+
+4. **Considerations**:
+   - Ensure the `createdAt` field is properly populated with the creation time of each user document.
+   - Choose an appropriate expiration time based on application requirements, balancing user verification needs and data cleanup efficiency.
+   - Periodically review and adjust the expiration time according to changes in application usage patterns or requirements.
+
+By following these steps, automatic deletion of unverified users after a certain period using MongoDB's TTL index feature can be implemented.
 
