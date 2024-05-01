@@ -1,32 +1,51 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "./ErrorMessage.js";
 import { verifyEmail } from "../actions/userAction.js";
 import Loading from "./Loading.js";
+import { useNavigate } from "react-router-dom";
 
 export default function OtpInput() {
     const [otp, setOtp] = useState("");
     const [error, setError] = useState("");
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     const userRegister = useSelector(state => state.userRegister);
     const { userInfo } = userRegister;
-    console.log(userInfo._id);
-    console.log(otp);
+    // console.log(userInfo._id);
+    // console.log(otp);
 
     const userOtp = useSelector(state => state.userOtp);
-    const { loading, error: otpError, userInfo: otpUserInfo } = userOtp;
+    const { loading } = userOtp;
 
-    // Function to handle changes in the input fields
-    const handleChange = (event, index) => {
-        const { value } = event.target;
+    const localUserInfo = localStorage.getItem("userInfo");
 
-        // Clone the existing otp array to modify the value at the specified index
-        const newOtp = [...otp];
-        newOtp[index] = value;
+    const inputRefs = useRef([]);
 
-        // Join the otp array elements to form the complete otp string
-        setOtp(newOtp.join(""));
+    const handleChange = (index, e) => {
+        const input = e.target;
+        const value = input.value;
+
+        let newOtp = otp;
+        newOtp = newOtp.substr(0, index) + value + newOtp.substr(index + 1);
+        setOtp(newOtp);
+
+        // Move to the next input field if current input is filled
+        if (value && index < inputRefs.current.length - 1) {
+            inputRefs.current[index + 1].focus();
+        }
+    };
+
+    const handleKeyDown = (index, e) => {
+        const input = e.target;
+        const value = input.value;
+
+        // Move to the previous input field if Backspace is pressed on an empty input
+        if (e.key === 'Backspace' && !value && index > 0) {
+            inputRefs.current[index - 1].focus();
+        }
     };
 
     const handleSubmit = (e) => {
@@ -39,34 +58,67 @@ export default function OtpInput() {
         }
     }
 
+    const handleClose = () => {
+        // Close the error message by setting errorMessage to null
+        setError(null);
+    };
+
+    useEffect(() => {
+        if (localUserInfo) {
+            navigate("/");
+        }
+
+    }, [localUserInfo])
+
     return (
-        <form className="max-w-sm mx-auto" onSubmit={handleSubmit}>
-            {error && <ErrorMessage>{error}</ErrorMessage>}
-            {loading && <Loading />}
-            <div className="flex mb-2 space-x-2 rtl:space-x-reverse">
-                {/* Loop through the input fields */}
-                {[1, 2, 3, 4].map((index) => (
-                    <div key={index}>
-                        {/* Use index in the id and name attributes for uniqueness */}
-                        <label className="sr-only">{`Code ${index}`}</label>
-                        <input
-                            type="text"
-                            maxLength="1"
-                            data-focus-input-init
-                            data-focus-input-prev={index > 1 ? `code-${index - 1}` : null}
-                            data-focus-input-next={index < 4 ? `code-${index + 1}` : null}
-                            id={`code-${index}`}
-                            name={`code-${index}`}
-                            className="block w-9 h-9 py-3 text-sm font-extrabold text-center text-gray-900 bg-white border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            required
-                            // Handle onChange event to update otp state
-                            onChange={(event) => handleChange(event, index - 1)}
-                        />
+        <section className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
+            <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
+                <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
+                    <div className="flex flex-col items-center justify-center text-center space-y-2">
+                        <div className="font-semibold text-3xl">
+                            <p>Email Verification</p>
+                        </div>
+                        <div className="flex flex-row text-sm font-medium text-gray-400">
+                            <p>We have sent a code to your email <span className="font-bold">{userInfo.email}</span></p>
+                        </div>
                     </div>
-                ))}
+
+                    <div>
+                        {error && <ErrorMessage onClose={handleClose}>{error}</ErrorMessage>}
+                        {loading && <Loading />}
+                        <form onSubmit={handleSubmit}>
+                            <div className="flex flex-col space-y-16">
+                                <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
+                                    {[...Array(4)].map((_, index) => (
+                                        <div className="w-16 h-16" key={index}>
+                                            <input
+                                                ref={el => (inputRefs.current[index] = el)}
+                                                className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-gray-200 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
+                                                type="text"
+                                                maxLength={1}
+                                                onChange={e => handleChange(index, e)}
+                                                onKeyDown={e => handleKeyDown(index, e)}
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="flex flex-col space-y-5">
+                                    <div>
+                                        <button className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none text-white text-sm shadow-sm">
+                                            Verify Account
+                                        </button>
+                                    </div>
+
+                                    <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
+                                        <p>Didn't recieve code?</p> <a className="flex flex-row items-center text-blue-600" href="http://" target="_blank" rel="noopener noreferrer">Resend</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <p id="helper-text-explanation" className="mt-2 text-sm text-gray-500 dark:text-gray-400">Please introduce the 4 digit code we sent via email.</p>
-            <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Submit</button>
-        </form>
+        </section>
     )
 }

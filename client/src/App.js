@@ -4,7 +4,8 @@ import About from "./pages/About/About";
 import Contact from "./pages/Contact/Contact";
 import ResetForm from "./components/resetForm/ResetForm";
 import Login from "./pages/Auth/Login";
-// import Demo from "./pages/Auth/Demo";
+import OtpInput from "./components/OtpInput";
+
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} exact />
         <Route path="/sign-in" element={<Login />} />
-        {/* <Route path="/demo" element={<Demo />} /> */}
+        <Route path="/verifyOtp" element={<OtpInput />} />
         <Route path="/about" element={<About />} exact />
         <Route path="/resetPassword" element={<ResetForm />} />
         <Route path="/contact" element={<Contact />} />

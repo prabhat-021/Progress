@@ -31,12 +31,24 @@ const userSchema = mongoose.Schema(
             type: Boolean,
             required: true,
             default: false,
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now(),
         }
     },
     {
         timestamps: true,
     }
 );
+
+// userSchema.index(
+//     { createdAt: 1 },
+//     {
+//         expireAfterSeconds: 100, // Expiration time in seconds (1 hour)
+//         partialFilterExpression: { verified: false } // Condition for unverified users
+//     }
+// );
 
 userSchema.pre("save", async function (next) {
 

@@ -62,6 +62,8 @@ export const register = (name, email, password, pic) => async (dispatch) => {
       config
     );
 
+    // console.log(data);
+
     dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
 
     // dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
@@ -94,7 +96,7 @@ export const verifyEmail = (userInfo, otp) => async (dispatch) => {
       { userId, otp },
       config
     );
-    console.log(data);
+    // console.log(data);
 
     dispatch({ type: USER_REGISTER_OTP_SUCCESS, payload: userInfo });
 
