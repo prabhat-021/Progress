@@ -12,37 +12,49 @@ const college_data = [
   {
     name: "GLA",
     img: glaimg,
+    college: "college",
     location: "Greater Noida",
+    email: "director@gla.edu",
 
   },
   {
     name: "ABES",
     img: abesimg,
+    college: "college",
     location: "Ghaziabad",
+    email: "director@abes.edu",
 
   },
   {
     name: "KIET",
     img: kietimg,
+    college: "college",
     location: "Muragdnagar",
+    email: "director@kiet.edu",
 
   },
   {
     name: "JSS",
     img: jssimg,
+    college: "college",
     location: "Noida",
+    email: "director@jss.edu",
 
   },
   {
     name: "MIET",
     img: mietimg,
+    college: "college",
     location: "Meerut",
+    email: "director@miet.edu",
 
   },
   {
     name: "AKGEC",
     img: akgecimg,
+    college: "college",
     location: "Ghaziabad",
+    email: "director@akgec.edu",
 
   },
 ];
@@ -54,13 +66,13 @@ function Colleges() {
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5xl">
           <span className="text-white ml-8 items-center tracking-widest">COLLEGES</span>
           <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          Where knowledge meets opportunity, and friendships last a lifetime.
           </div>
         </h1>
       </div>
       <div className="flex gap-5 m-10  flex-wrap justify-center">
         {college_data.map((e, index) => (
-          <Card_1 name={e.name} img={e.img} location={e.location} key={index} />
+          <Card_1 name={e.name} img={e.img} location={e.location} email = {e.email} college={e.college} key={index} />
         )
         )}
       </div>

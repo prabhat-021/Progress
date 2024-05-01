@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/prabhat-021/project#readme",
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",

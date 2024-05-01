@@ -9,16 +9,16 @@ import {
 
 const sections = [
   {
-    title: "Solutions",
-    items: ["Marketing", "Analytics", "Commerce", "Data", "Cloud"],
+    title: "Links",
+    items: ["Home", "About", "Contact Us", "Pricing", "Documentation", "Guides",],
   },
-  {
-    title: "Support",
-    items: ["Pricing", "Documentation", "Guides", "API Status"],
-  },
+  // {
+  //   title: "Support",
+  //   items: ["Pricing", "Documentation", "Guides", ],
+  // },
   {
     title: "Company",
-    items: ["About", "Blog", "Jobs", "Press", "Partners"],
+    items: ["About", "Blog", "Courses","Colleges", "Partners"],
   },
   {
     title: "Legal",
@@ -37,7 +37,7 @@ const items = [
 const Footer = () => {
   return (
     <div className="w-full mt-22  bg-slate-900  text-gray-300 py-y px-2">
-      <div className="max-w-[1240px] mx-auto grid grid-cols-2 md:grid-cols-6 border-b-2 border-gray-600 py-8">
+      <div className="max-w-[1240px] mx-auto grid grid-cols-2 md:grid-cols-5 border-b-2 border-gray-600 py-8">
         {sections.map((section, index) => (
           <div key={index}>
             <h6 className="font-bold uppercase pt-2">{section.title}</h6>
@@ -68,7 +68,7 @@ const Footer = () => {
           <p className="py-4">
             The latest news, articles, and resources, sent to your inbox weekly.
           </p>
-          <form className="flex flex-col sm:flex-row">
+          <form className=" flex-col sm:flex-row">
             <input
               className="w-full p-2 mr-4 rounded-md mb-4"
               type="email"

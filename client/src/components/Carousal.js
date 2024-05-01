@@ -46,7 +46,7 @@ function CarouselCard() {
               NOTIFICATION
             </span>
             <div className=" text-base mb-6  ml-4 flex  font-normal dark:text-gray-900   mt-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            Keeping you informed and connected in a fast-paced world.
             </div>
           </h1>
         </div>

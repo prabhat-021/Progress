@@ -11,8 +11,8 @@ function CardH1({imageUrl,title,text}) {
                   <span className='w-16 h-26 inline-block mb-4'>
                   <img src={imageUrl} alt="Mission Quality" />
                   </span>
-                  <h3 className='uppercase text-blue-700 text-opacity-60 text-xl font-semibold mb-2 mt-0 leading-6'>{title}</h3>
-                  <p className='text-6 leading-7 text-gray-700 text-lg text-center mb-0 mt-0 font-normal text-opacity-70'>{text}
+                  <h3 className='uppercase dark:text-gray-900 text-opacity-60 text-xl font-semibold mb-2 mt-0 leading-6'>{title}</h3>
+                  <p className='text-6 leading-7 text-gray-800 text-lg text-center mb-0 mt-0 font-normal text-opacity-70'>{text}
 
                   </p>
                 </div>

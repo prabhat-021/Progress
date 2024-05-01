@@ -14,7 +14,7 @@ const Courses = () => {
               COURSES
             </span>
             <div className=" text-base mb-4  flex  font-normal dark:text-gray-900   mt-4">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            The pathways to unlocking your potential and shaping your future.             
             </div>
           </h1>
         </div>
