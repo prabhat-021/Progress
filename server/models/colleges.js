@@ -63,8 +63,12 @@ const collegeSchema = mongoose.Schema(
                     required: true
                 },
                 content: {
-                    type: String,
-                    required: true
+                    type: [String],
+                    default: [],
+                },
+                createdAt: {
+                    type: Date,
+                    default: new Date()
                 },
             }
         ], // Array of comments
@@ -78,7 +82,7 @@ const courseSchema = new mongoose.Schema({
     name: { type: String, required: true },
     domain: { type: String, required: true },
     code: { type: String, required: true, unique: true },
-    description: { type: String , required:true},
+    description: { type: String, required: true },
     information: {
         type: String,
         required: true,
@@ -101,8 +105,12 @@ const courseSchema = new mongoose.Schema({
                 required: true
             },
             content: {
-                type: String,
-                required: true
+                type: [String],
+                default: [],
+            },
+            createdAt: {
+                type: Date,
+                default: new Date()
             },
         }
     ], // Array of comments

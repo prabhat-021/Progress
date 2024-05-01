@@ -54,7 +54,7 @@ const Login = () => {
 
     useEffect(() => {
         if (userInfo) {
-            navigate("/home")
+            navigate("/")
         }
     }, [userInfo, navigate]);
 

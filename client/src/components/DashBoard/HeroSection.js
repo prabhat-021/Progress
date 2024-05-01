@@ -1,5 +1,4 @@
 import React from "react";
-import { LinearGradient } from "react-text-gradients";
 import college from "../../assets/iit.jpg";
 import CountUp from "react-countup";
 // import ScrollTrigger from "react-scroll-trigger";
@@ -19,11 +18,11 @@ function HeroSection() {
             <div className="flex h-full items-center justify-center">
               <div className="px-6 text-center text-white md:px-12">
                 <h1 className="mt-2  mb-16 text-5xl font-bold tracking-tight md:text-6xl xl:text-7xl">
-                  <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
+                  {/* <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}> */}
                     Find Over{" "}
                     {<CountUp start={0} end={25000} duration={3} delay={0} />}+
                     College{" "}
-                  </LinearGradient>{" "}
+                  {/* </LinearGradient>{" "} */}
                   in India <br />
                   <span>of your Choice</span>
                 </h1>
