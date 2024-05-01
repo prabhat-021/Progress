@@ -23,9 +23,9 @@ const registerUser = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: "User already exists" });
         };
 
-        // const newUser = new User({
-        //     name, email, password, pic
-        // })
+        const newUser = new User({
+            name, email, password, pic
+        })
 
         const OTP = generateOTP();
         const verificationToken = new VerificationToken({
@@ -34,7 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
         })
 
         await verificationToken.save();
-        // await newUser.save();
+        await newUser.save();
 
         transporter().sendMail({
             from: 'prabhatsahrawat010203@gmail.com',
@@ -43,17 +43,17 @@ const registerUser = asyncHandler(async (req, res) => {
             html: generateEmailTemplate(OTP),
         });
 
-        // if (newUser) {
-        //     res.status(201).json({
-        //         _id: newUser._id,
-        //         name: newUser.name,
-        //         email: newUser.email,
-        //         pic: newUser.pic,
-        //         token: generateToken(newUser._id)
-        //     });
-        // } else {
-        //     res.status(400).json({ message: "Error occoured" })
-        // }
+        if (newUser) {
+            res.status(201).json({
+                _id: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+                pic: newUser.pic,
+                token: generateToken(newUser._id)
+            });
+        } else {
+            res.status(400).json({ message: "Error occoured" })
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "Something went wrong" });
@@ -86,13 +86,13 @@ const authUser = asyncHandler(async (req, res) => {
         }
 
         if (user && isMatched) {
-            // res.status(201).json({
-            //     _id: user._id,
-            //     name: user.name,
-            //     email: user.email,
-            //     pic: user.pic,
-            //     token: generateToken(user._id)
-            // });
+            res.status(201).json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                pic: user.pic,
+                token: generateToken(user._id)
+            });
         }
     } catch (error) {
         console.log(error);
@@ -112,7 +112,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: "Invalid user ID!" });
     }
 
-    // const user = await User.findById(userId);
+    const user = await User.findById(userId);
     if (!user) {
         return res.status(404).json({ message: "User Not Found" });
     }
@@ -137,7 +137,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
     await VerificationToken.findByIdAndDelete(token._id);
 
-    // await user.save();
+    await user.save();
 
     transporter().sendMail({
         from: 'prabhatsahrawat010203@gmail.com',
