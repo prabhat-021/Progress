@@ -34,11 +34,11 @@ const collegeSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        isAdmin: {
-            type: Boolean,
-            required: true,
-            default: false,
-        },
+        // isAdmin: {
+        //     type: Boolean,
+        //     required: true,
+        //     default: false,
+        // },
         collegePhoto: {
             type: String,
             required: true,
