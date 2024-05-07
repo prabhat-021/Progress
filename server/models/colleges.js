@@ -78,11 +78,22 @@ const collegeSchema = mongoose.Schema(
     }
 );
 
-const courseSchema = new mongoose.Schema({
+const courseSchema = mongoose.Schema({
     name: { type: String, required: true },
     domain: { type: String, required: true },
     code: { type: String, required: true, unique: true },
     description: { type: String, required: true },
+    author: {
+        type: String,
+        required: true,
+        // default: {
+        //     user: {
+        //         type: mongoose.Schema.Types.ObjectId,
+        //         ref: 'User',
+        //         required: true
+        //     },
+        // },
+    },
     information: {
         type: String,
         required: true,
@@ -96,6 +107,11 @@ const courseSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 1 // Changed default value to 1
+    },
+    coursePhoto: {
+        type: String,
+        required: true,
+        default: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAiPcahbfC4iLvexrZuv4Nkp7hC-VWnTJ_jbblJYROB1NLRqxa_TKGL3KOZtpRVAYFCEI&usqp=CAU",
     },
     comments: [
         {
