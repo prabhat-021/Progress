@@ -4,8 +4,8 @@ const { addCollege, deleteCollege, updateCollege, commentOnCollege } = require("
 const { auth, isAdmin } = require("../middleware/auth");
 
 router.route("/addCollege").post(auth, isAdmin, addCollege);
-router.delete("/:id", auth, isAdmin, deleteCollege);
-router.patch("/:id", auth, isAdmin, updateCollege);
-router.route("/:id",auth,commentOnCollege);
+router.delete("/:id/delete", auth, isAdmin, deleteCollege);
+router.patch("/:id/update", auth, isAdmin, updateCollege);
+router.patch("/:id/comment",auth,commentOnCollege);
 
 module.exports = router;

@@ -1,9 +1,9 @@
-const asyncHandler = require("express-async-handler");
+// const asyncHandler = require("express-async-handler");
 const { College } = require("../models/colleges");
 const { mongoose } = require("mongoose");
 
 
-const addCollege = asyncHandler(async (req, res) => {
+const addCollege = async (req, res) => {
 
     try {
         const { collegeName, code, email, description, information, location, collegePhoto } = req.body;
@@ -31,9 +31,9 @@ const addCollege = asyncHandler(async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 
-});
+};
 
-const updateCollege = asyncHandler(async (req, res) => {
+const updateCollege = async (req, res) => {
 
     try {
 
@@ -44,16 +44,16 @@ const updateCollege = asyncHandler(async (req, res) => {
 
         const updatedCollege = await College.findByIdAndUpdate(id, { ...college, id }, { new: true });
         res.json(updatedCollege);
-        
+
     } catch (error) {
 
         console.error(error);
         res.status(500).json({ message: "Something went wrong" });
     }
 
-});
+};
 
-const deleteCollege = asyncHandler(async (req, res) => {
+const deleteCollege = async (req, res) => {
 
     try {
 
@@ -69,17 +69,47 @@ const deleteCollege = asyncHandler(async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 
-});
+};
 
-const commentOnCollege = asyncHandler(async (req, res) => {
+
+const commentOnCollege = async (req, res) => {
+
+    const { id } = req.params;
+    const { value } = req.body;
 
     try {
+        const college = await College.findById(id);
+        // college.comments.content.push(value);
+        const newComment = {
+            user: req.user._id,
+            content: value,
+        };
 
+        college.comments.push(newComment);
+
+        const updatedCollege = await College.findByIdAndUpdate(id, college, { new: true });
+        // const updatedCollege=await College.save();
+
+        res.json(updatedCollege);
     } catch (error) {
 
-        console.error(error);
-        res.status(500).json({ message: "Something went wrong" });
-    }
-});
+        res.status(404).json({ message: error.message });
 
-module.exports = { addCollege, updateCollege, deleteCollege ,commentOnCollege};
+    }
+};
+
+const getCollegeById = async (req, res) => {
+
+    const { id } = req.params;
+
+    try {
+        const course = await College.findById(id);
+
+        res.status(200).json(course);
+    } catch (error) {
+
+        res.status(404).json({ message: error.message });
+    }
+};
+
+module.exports = { addCollege, updateCollege, deleteCollege, commentOnCollege, getCollegeById };

@@ -63,8 +63,9 @@ const collegeSchema = mongoose.Schema(
                     required: true
                 },
                 content: {
-                    type: [String],
-                    default: [],
+                    type: String,
+                    // default: ,
+                    required:true
                 },
                 createdAt: {
                     type: Date,
