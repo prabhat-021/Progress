@@ -5,6 +5,7 @@ const connectDb = require("./config/db.js");
 const userRoutes = require("./routes/userRoutes.js");
 const collegeRoutes = require("./routes/collegeRoutes.js");
 const courseRoutes = require("./routes/courseRoutes.js");
+const admin = require("./routes/admin.js");
 const cors = require("cors");
 // const path = require("path");
 
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/college", collegeRoutes);
+app.use("/api/admin", admin);
 
 // __dirname = path.resolve();
 // if (process.env.NODE_ENV === "production") {

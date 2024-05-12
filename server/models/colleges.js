@@ -50,6 +50,11 @@ const collegeSchema = mongoose.Schema(
             required: true,
             default: false,
         },
+        featured:{
+            type:Boolean,
+            required: true,
+            default: false,
+        },
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
