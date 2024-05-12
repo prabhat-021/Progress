@@ -227,4 +227,31 @@ const resetPassword = async (req, res) => {
     res.json({ success: true, message: "Password Reset Successfully" });
 };
 
-module.exports = { registerUser, authUser, verifyEmail, forgetPassword, resetPassword };
+const updateProfile = async (req, res) => {
+    
+    try {
+        const { email } = req.body;
+
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found, Invalid request" });
+        };
+
+        user.name = req.body.name || user.name;
+        user.pic = req.body.pic || user.pic;
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        const updatedUser = await user.save();
+
+        res.status(200).json(updatedUser);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json("Something went wrong");
+    }
+};
+
+module.exports = { registerUser, authUser, verifyEmail, forgetPassword, resetPassword, updateProfile };

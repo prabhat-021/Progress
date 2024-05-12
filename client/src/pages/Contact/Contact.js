@@ -106,8 +106,8 @@ const Contact = () => {
               <h2 className="dark:text-gray-900 text-4xl font-oswald uppercase">Contact us</h2>
               {/* ::Text */}
               <p className="text-sm text-gray-500">
-                Have a question? Need Some Help? Or Just want to say hello? 
-                <br/>
+                Have a question? Need Some Help? Or Just want to say hello?
+                <br />
                 We would love to hear from you..
               </p>
               {/* ::Email contact */}

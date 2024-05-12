@@ -27,6 +27,19 @@ const userSchema = mongoose.Schema(
             default:
                 "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
         },
+        coursePurchesd: [
+            {
+                course: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    required: true,
+                    ref: 'Course'
+                },
+                createdAt: {
+                    type: Date,
+                    default: Date.now(),
+                }
+            }
+        ],
         verified: {
             type: Boolean,
             required: true,

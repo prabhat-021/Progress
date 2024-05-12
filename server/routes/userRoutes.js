@@ -1,6 +1,6 @@
 const express = require("express");
-const { resetPassword, registerUser, authUser, verifyEmail, forgetPassword } = require("../controllers/userControllers.js");
-const auth = require("../middleware/auth.js");
+const { resetPassword, registerUser, authUser, verifyEmail, forgetPassword, updateProfile } = require("../controllers/userControllers.js");
+const { auth } = require("../middleware/auth.js");
 const isResetTokenValid = require("../middleware/user.js");
 const { validateUser, validate } = require("../middleware/validator.js");
 
@@ -14,6 +14,6 @@ router.route("/resetPassword").post(isResetTokenValid, resetPassword);
 router.route("/verifyToken").get(isResetTokenValid, (req, res) => {
     res.json({ success: true });
 });
-// router.route("/profile").post(auth, updateUserProfile);
+router.route("/profile").patch(auth, updateProfile);
 
 module.exports = router;

@@ -50,8 +50,8 @@ const collegeSchema = mongoose.Schema(
             required: true,
             default: false,
         },
-        featured:{
-            type:Boolean,
+        featured: {
+            type: Boolean,
             required: true,
             default: false,
         },
@@ -75,7 +75,7 @@ const collegeSchema = mongoose.Schema(
                     default: new Date()
                 },
             }
-        ], // Array of comments
+        ],
     },
     {
         timestamps: true,
@@ -112,6 +112,13 @@ const courseSchema = mongoose.Schema({
         required: true,
         default: 1 // Changed default value to 1
     },
+    courseSold: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        }
+    ],
     coursePhoto: {
         type: String,
         required: true,
@@ -132,7 +139,7 @@ const courseSchema = mongoose.Schema({
                 default: new Date()
             },
         }
-    ], // Array of comments
+    ],
     credits: { type: Number, required: true, default: 300 },
 });
 
