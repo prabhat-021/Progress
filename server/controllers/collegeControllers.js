@@ -1,6 +1,9 @@
 // const asyncHandler = require("express-async-handler");
 const { College } = require("../models/colleges");
 const { mongoose } = require("mongoose");
+const createClient = require("../utils/redisClient.js");
+// import { createClient } from 'redis';
+// const { createClient } = require("redis");
 
 
 const addCollege = async (req, res) => {
@@ -107,9 +110,18 @@ const getCollegeById = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const course = await College.findById(id);
+        const client = await createClient();
 
-        res.status(200).json(course);
+        const cacheValue = await client.get("singleCollege");
+
+        if (cacheValue) return res.json(JSON.parse(cacheValue));
+
+        const college = await College.findById(id);
+
+        await client.set("singleCollege", JSON.stringify(college));
+        await client.expire("singleCollege", 1500)
+
+        res.status(200).json(college);
     } catch (error) {
 
         res.status(404).json({ message: error.message });
@@ -119,8 +131,21 @@ const getCollegeById = async (req, res) => {
 const getColleges = async (req, res) => {
 
     try {
+        const client = await createClient();
+
+        const cacheValue = await client.get("college");
+
+        if (cacheValue) return res.json(JSON.parse(cacheValue));
 
         const college = await College.find();
+
+        // for (const college of colleges) {
+        //     await client.set(`college:${college._id}`, JSON.stringify(college));
+        //     await client.expire(`college:${college._id}`, 30);
+        // }
+        await client.set("college", JSON.stringify(college));
+        await client.expire("college", 1500)
+        // await client.set("colleges", "true");
 
         res.status(200).json(college);
 
@@ -131,4 +156,4 @@ const getColleges = async (req, res) => {
 
 };
 
-module.exports = { addCollege, updateCollege, deleteCollege, commentOnCollege, getCollegeById ,getColleges};
+module.exports = { addCollege, updateCollege, deleteCollege, commentOnCollege, getCollegeById, getColleges };

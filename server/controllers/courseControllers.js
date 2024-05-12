@@ -1,6 +1,8 @@
 // const asyncHandler = require("express-async-handler");
 const { Course } = require("../models/colleges");
 const { mongoose } = require("mongoose");
+const createClient = require("../utils/redisClient.js");
+
 
 const addCourse = async (req, res) => {
 
@@ -105,7 +107,17 @@ const getCourseById = async (req, res) => {
     const { id } = req.params;
 
     try {
+        const client = await createClient();
+
+        const cacheValue = await client.get("singleCourse");
+
+        if (cacheValue) return res.json(JSON.parse(cacheValue));
+
         const course = await Course.findById(id);
+
+        await client.set("singleCourse", JSON.stringify(course));
+        await client.expire("singleCourse", 1500)
+
 
         res.status(200).json(course);
     } catch (error) {
@@ -118,7 +130,16 @@ const getCourses = async (req, res) => {
 
     try {
 
+        const client = await createClient();
+
+        const cacheValue = await client.get("course");
+
+        if (cacheValue) return res.json(JSON.parse(cacheValue));
+
         const courses = await Course.find();
+
+        await client.set("course", JSON.stringify(courses));
+        await client.expire("course", 1500)
 
         res.status(200).json(courses);
 
@@ -129,4 +150,4 @@ const getCourses = async (req, res) => {
 
 };
 
-module.exports = { addCourse, commentOnCourse, getCourseById, updateCourse, deleteCourse ,getCourses};
+module.exports = { addCourse, commentOnCourse, getCourseById, updateCourse, deleteCourse, getCourses };

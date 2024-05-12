@@ -6,8 +6,6 @@ const generateToken = require("../utils/generateToken.js");
 const { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate } = require("../utils/mail.js");
 const { isValidObjectId } = require("mongoose");
 const crypto = require("crypto");
-// const { error } = require("console");
-// const { promisify } = require('util');
 
 const registerUser = async (req, res) => {
     try {

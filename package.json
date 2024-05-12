@@ -15,9 +15,9 @@
   "author": "Prabhat Sehrawat",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/prabhat-021/project/issues"
+    "url": "https://github.com/prabhat-021/progress/issues"
   },
-  "homepage": "https://github.com/prabhat-021/project#readme",
+  "homepage": "https://github.com/prabhat-021/progress#readme",
   "dependencies": {
     "@heroicons/react": "^1.0.6",
     "bcryptjs": "^2.4.3",
@@ -30,6 +30,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
     "nodemailer": "^6.9.12",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "redis": "^4.6.13"
   }
 }
