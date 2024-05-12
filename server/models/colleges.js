@@ -58,14 +58,12 @@ const collegeSchema = mongoose.Schema(
         comments: [
             {
                 user: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'User',
+                    type: String,
                     required: true
                 },
                 content: {
                     type: String,
-                    // default: ,
-                    required:true
+                    required: true
                 },
                 createdAt: {
                     type: Date,
@@ -117,13 +115,12 @@ const courseSchema = mongoose.Schema({
     comments: [
         {
             user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
+                type: String,
                 required: true
             },
             content: {
-                type: [String],
-                default: [],
+                type: String,
+                required: true
             },
             createdAt: {
                 type: Date,
@@ -131,7 +128,7 @@ const courseSchema = mongoose.Schema({
             },
         }
     ], // Array of comments
-    credits: { type: Number, required: true },
+    credits: { type: Number, required: true, default: 300 },
 });
 
 const College = mongoose.model("College", collegeSchema);

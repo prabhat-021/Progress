@@ -1,4 +1,4 @@
-const asyncHandler = require("express-async-handler");
+// const  = require("express-async-handler");
 const User = require("../models/userData.js");
 const VerificationToken = require("../models/verificationTokenschema.js");
 const ResetToken = require("../models/resetToken.js");
@@ -9,7 +9,7 @@ const crypto = require("crypto");
 // const { error } = require("console");
 // const { promisify } = require('util');
 
-const registerUser = asyncHandler(async (req, res) => {
+const registerUser = async (req, res) => {
     try {
         const { name, email, password, pic } = req.body;
 
@@ -59,9 +59,9 @@ const registerUser = asyncHandler(async (req, res) => {
         res.status(500).json({ message: "Something went wrong" });
     }
 
-});
+};
 
-const authUser = asyncHandler(async (req, res) => {
+const authUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -99,9 +99,9 @@ const authUser = asyncHandler(async (req, res) => {
         res.status(500).json("Something went wrong");
     }
 
-});
+};
 
-const verifyEmail = asyncHandler(async (req, res) => {
+const verifyEmail = async (req, res) => {
     const { userId, otp } = req.body;
 
     if (!userId || !otp.trim()) {
@@ -148,9 +148,9 @@ const verifyEmail = asyncHandler(async (req, res) => {
 
     res.status(201).json({ success: true, message: "Your Email is Verified" })
 
-});
+};
 
-const forgetPassword = asyncHandler(async (req, res) => {
+const forgetPassword = async (req, res) => {
 
     const { email } = req.body;
     if (!email) {
@@ -195,9 +195,9 @@ const forgetPassword = asyncHandler(async (req, res) => {
 
     res.status(200).json({ success: true, message: "Password reset link is sent to your email" });
 
-});
+};
 
-const resetPassword = asyncHandler(async (req, res) => {
+const resetPassword = async (req, res) => {
     const { password } = req.body;
 
     const user = await User.findById(req.user._id);
@@ -227,6 +227,6 @@ const resetPassword = asyncHandler(async (req, res) => {
     });
 
     res.json({ success: true, message: "Password Reset Successfully" });
-});
+};
 
 module.exports = { registerUser, authUser, verifyEmail, forgetPassword, resetPassword };

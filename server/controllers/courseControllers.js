@@ -40,8 +40,12 @@ const commentOnCourse = async (req, res) => {
     try {
         const course = await Course.findById(id);
 
+        if (!course) {
+            res.status(404).json({ message: "Course doesn't exist !!" });
+        }
+
         const newComment = {
-            user: req.user._id,
+            user: req.user.name,
             content: value,
         };
 
@@ -67,7 +71,7 @@ const updateCourse = async (req, res) => {
 
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No Course With This Id");
 
-        const updatedCourse = await Course.findByIdAndUpdate(id, { ...course, id }, { new: true });
+        const updatedCourse = await Course.findByIdAndUpdate(id, { ...course }, { new: true });
         res.json(updatedCourse);
 
     } catch (error) {
@@ -110,4 +114,19 @@ const getCourseById = async (req, res) => {
     }
 };
 
-module.exports = { addCourse, commentOnCourse, getCourseById, updateCourse, deleteCourse };
+const getCourses = async (req, res) => {
+
+    try {
+
+        const courses = await Course.find();
+
+        res.status(200).json(courses);
+
+    } catch (error) {
+
+        res.status(404).json({ message: error.message });
+    }
+
+};
+
+module.exports = { addCourse, commentOnCourse, getCourseById, updateCourse, deleteCourse ,getCourses};

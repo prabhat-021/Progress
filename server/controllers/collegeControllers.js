@@ -42,7 +42,7 @@ const updateCollege = async (req, res) => {
 
         if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send("No College With This Id");
 
-        const updatedCollege = await College.findByIdAndUpdate(id, { ...college, id }, { new: true });
+        const updatedCollege = await College.findByIdAndUpdate(id, { ...college }, { new: true });
         res.json(updatedCollege);
 
     } catch (error) {
@@ -79,9 +79,13 @@ const commentOnCollege = async (req, res) => {
 
     try {
         const college = await College.findById(id);
+
+        if (!college) {
+            res.status(404).json({ message: "College doesn't exist !!" });
+        }
         // college.comments.content.push(value);
         const newComment = {
-            user: req.user._id,
+            user: req.user.name,
             content: value,
         };
 
@@ -112,4 +116,19 @@ const getCollegeById = async (req, res) => {
     }
 };
 
-module.exports = { addCollege, updateCollege, deleteCollege, commentOnCollege, getCollegeById };
+const getColleges = async (req, res) => {
+
+    try {
+
+        const college = await College.find();
+
+        res.status(200).json(college);
+
+    } catch (error) {
+
+        res.status(404).json({ message: error.message });
+    }
+
+};
+
+module.exports = { addCollege, updateCollege, deleteCollege, commentOnCollege, getCollegeById ,getColleges};
