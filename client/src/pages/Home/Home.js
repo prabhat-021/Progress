@@ -19,7 +19,6 @@ function Home() {
       <HeroSection />
       <Courses/>
       <Colleges/>
-      
       <CarouselCard/>
       {/* <AccordionCustomIcon/> */}
       <Footer />

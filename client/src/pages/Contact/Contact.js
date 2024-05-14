@@ -17,7 +17,7 @@ const Contact = () => {
 
   return (
     <>
-      <Navbar />
+       <Navbar />
       <div className="relative mx-auto w-full max-w-7xl bg-[#e4e6e6] text-gray-700">
         <div className="grid grid-cols-2">
           {/* :MAP CONTAINER */}

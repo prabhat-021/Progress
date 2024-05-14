@@ -5,6 +5,9 @@ import Contact from "./pages/Contact/Contact";
 import ResetForm from "./components/resetForm/ResetForm";
 import Login from "./pages/Auth/Login";
 import OtpInput from "./components/OtpInput";
+import ErrorPage from "./components/ErrorPage";
+
+
 
 
 function App() {
@@ -18,6 +21,7 @@ function App() {
         <Route path="/about" element={<About />} exact />
         <Route path="/resetPassword" element={<ResetForm />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   );
