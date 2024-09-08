@@ -7,6 +7,7 @@ import jssimg from "../../assets/JSS.jpeg"
 import mietimg from "../../assets/MIET.jpeg"
 import akgecimg from "../../assets/AKGEC.jpeg"
 import Button from "../Button/Button";
+import college from "../../assets/iit.jpg";
 
 const college_data = [
   {
@@ -61,8 +62,16 @@ const college_data = [
 
 function Colleges() {
   return (
-    <div>
-      <div className="flex flex-wrap justify-center m-6 ">
+    
+    <div className="overflow-hidden bg-cover bg-fixed bg-no-repeat "
+     style={{
+      backgroundPosition: "80%",
+      backgroundImage: `url(${college})`,
+      height: "990px",
+     }}
+    >
+      <div className="bg-[hsla(0,0%,0%,0.75)]">
+        <div className="flex flex-wrap justify-center  ">
         <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5xl">
           <span className="text-white ml-8 items-center tracking-widest">COLLEGES</span>
           <div className=" text-base mb-4  flex justify-center  font-normal text-white text-my-grey  mt-4">
@@ -70,6 +79,7 @@ function Colleges() {
           </div>
         </h1>
       </div>
+      
       <div className="flex gap-5 m-10  flex-wrap justify-center">
         {college_data.map((e, index) => (
           <Card_1 name={e.name} img={e.img} location={e.location} email = {e.email} college={e.college} key={index} />
@@ -80,6 +90,8 @@ function Colleges() {
         <Button />
       </div>
     </div>
+    </div>
+    
   );
 }
 

@@ -11,7 +11,9 @@ import hatImg from "../../assets/herosectionimages/hat.svg";
 import notesImg from "../../assets/herosectionimages/notes.svg";
 import studentImg from "../../assets/herosectionimages/student.svg";
 import cupImg from "../../assets/herosectionimages/cup.svg";
-import Navbar from "../../components/Navbar/NavbarNew";
+import Navbar from "../../components/Navbar/Navbar";
+// import Navbar from "../../components/Navbar/NavbarNew";
+
 import Footer from "../../components/Footer";
 
 function About() {
@@ -30,7 +32,7 @@ function About() {
   return (
     <>
       <Navbar />
-      <div className="font-sans text-sm font-normal leading-13 text-gray-700  bg-white overflow-x-hidden ">
+      <div className="font-sans text-sm font-normal leading-13 text-gray-700 bg-white overflow-x-hidden ">
         <div className="min-h-screen	box-border block font-sans isolate">
           <div className="bg-neutral-50 overflow-x-hidden	w-full	box-border block font-sans isolate">
             <div className="pt-10 w-full  box-border block pr-1 pl-1 isolate">

@@ -11,7 +11,7 @@ function HeroSection() {
           style={{
             backgroundPosition: "50%",
             backgroundImage: `url(${college})`,
-            height: "500px",
+            height: "600px",
           }}
         >
           <div className="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsla(0,0%,0%,0.75)] bg-fixed">

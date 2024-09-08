@@ -2,6 +2,8 @@ import HeroSection from "../../components/DashBoard/HeroSection";
 import Footer from "../../components/Footer";
 import CarouselCard from "../../components/Carousal";
 import Navbar from "../../components/Navbar/NavbarNew"
+// import Navbar from "../../components/Navbar/Navbar";
+
 import Courses from "../../components/Courses";
 import Colleges from "../../components/Colleges/Colleges"
 
