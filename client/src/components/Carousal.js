@@ -42,11 +42,11 @@ function CarouselCard() {
       <div className="bg-[#e4e6e6]">
         <div className="flex items-center justify-center flex-wrap   ">
           <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
-          <div className="flex justify-center">
+            <div className="flex justify-center">
               <span className="text-white tracking-widest dark:text-gray-900">NOTIFICATION</span>
             </div>
             <div className=" text-base mb-6  ml-4 flex  font-normal dark:text-gray-900   mt-4">
-            Keeping you informed and connected in a fast-paced world.
+              Keeping you informed and connected in a fast-paced world.
             </div>
           </h1>
         </div>
@@ -62,7 +62,64 @@ function CarouselCard() {
                       color="blue-gray"
                       className="mb-2 text-gray-900"
                     >
-                      UI/UX Review Check
+                      Colleges Reviews
+                    </Typography>
+                    <Typography className="text-gray-900">
+                    The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
+                    </Typography>
+                  </CardBody>
+                  <CardFooter className="pt-0">
+                    <Button>Read More</Button>
+                  </CardFooter>
+                </Card>
+              </li>
+              <li>
+                <Card className="mt-6 w-96 bg-white">
+                  <CardBody>
+                    <Typography
+                      variant="h5"
+                      color="blue-gray"
+                      className="mb-2 text-gray-900"
+                    >
+                      Latest News
+                    </Typography>
+                    <Typography className="text-gray-900">
+                    The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
+                    </Typography>
+                  </CardBody>
+                  <CardFooter className="pt-0">
+                    <Button>Read More</Button>
+                  </CardFooter>
+                </Card>
+              </li>
+              <li>
+                <Card className="mt-6 w-96 bg-white">
+                  <CardBody>
+                    <Typography
+                      variant="h5"
+                      color="blue-gray"
+                      className="mb-2 text-gray-900"
+                    >
+                      Colleges Reviews
+                    </Typography>
+                    <Typography className="text-gray-900">
+                      The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
+                    </Typography>
+                  </CardBody>
+                  <CardFooter className="pt-0">
+                    <Button>Read More</Button>
+                  </CardFooter>
+                </Card>
+              </li>
+              <li>
+                <Card className="mt-6 w-96 bg-white">
+                  <CardBody>
+                    <Typography
+                      variant="h5"
+                      color="blue-gray"
+                      className="mb-2 text-gray-900"
+                    >
+                      Latest News
                     </Typography>
                     <Typography className="text-gray-900">
                       The place is close to Barceloneta Beach and bus stop just
@@ -83,75 +140,10 @@ function CarouselCard() {
                       color="blue-gray"
                       className="mb-2 text-gray-900"
                     >
-                      UI/UX Review Check
+                      College Reviews
                     </Typography>
                     <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
-                    </Typography>
-                  </CardBody>
-                  <CardFooter className="pt-0">
-                    <Button>Read More</Button>
-                  </CardFooter>
-                </Card>
-              </li>
-              <li>
-                <Card className="mt-6 w-96 bg-white">
-                  <CardBody>
-                    <Typography
-                      variant="h5"
-                      color="blue-gray"
-                      className="mb-2 text-gray-900"
-                    >
-                      UI/UX Review Check
-                    </Typography>
-                    <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
-                    </Typography>
-                  </CardBody>
-                  <CardFooter className="pt-0">
-                    <Button>Read More</Button>
-                  </CardFooter>
-                </Card>
-              </li>
-              <li>
-                <Card className="mt-6 w-96 bg-white">
-                  <CardBody>
-                    <Typography
-                      variant="h5"
-                      color="blue-gray"
-                      className="mb-2 text-gray-900"
-                    >
-                      UI/UX Review Check
-                    </Typography>
-                    <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
-                    </Typography>
-                  </CardBody>
-                  <CardFooter className="pt-0">
-                    <Button>Read More</Button>
-                  </CardFooter>
-                </Card>
-              </li>
-              <li>
-                <Card className="mt-6 w-96 bg-white">
-                  <CardBody>
-                    <Typography
-                      variant="h5"
-                      color="blue-gray"
-                      className="mb-2 text-gray-900"
-                    >
-                      UI/UX Review Check
-                    </Typography>
-                    <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
+                    The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -250,6 +242,9 @@ function CarouselCard() {
   );
 }
 export default CarouselCard;
+
+
+
 // import jssimg from "../assets/"
 // import mietimg from "../../assets/MIET.jpeg"
 // import akgecimg from "../../assets/AKGEC.jpeg"
