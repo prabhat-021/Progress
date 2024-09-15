@@ -11,8 +11,8 @@ import hatImg from "../../assets/herosectionimages/hat.svg";
 import notesImg from "../../assets/herosectionimages/notes.svg";
 import studentImg from "../../assets/herosectionimages/student.svg";
 import cupImg from "../../assets/herosectionimages/cup.svg";
-import Navbar from "../../components/Navbar/Navbar";
-// import Navbar from "../../components/Navbar/NavbarNew";
+// import Navbar from "../../components/Navbar/Navbar";
+import Navbar from "../../components/Navbar/NavbarNew";
 
 import Footer from "../../components/Footer";
 

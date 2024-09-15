@@ -6,6 +6,7 @@ import Navbar from "../../components/Navbar/NavbarNew"
 
 import Courses from "../../components/Courses";
 import Colleges from "../../components/Colleges/Colleges"
+// import CarouselBasicExample from "../../components/Carousal";
 
 // import AccordionCustomIcon from "../../components/Accordin";
 // import { LinearGradient } from "react-text-gradients";
@@ -21,6 +22,7 @@ function Home() {
       <HeroSection />
       <Courses/>
       <Colleges/>
+      {/* <CarouselBasicExample/>/ */}
       <CarouselCard/>
       {/* <AccordionCustomIcon/> */}
       <Footer />

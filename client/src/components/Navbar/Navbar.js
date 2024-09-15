@@ -26,6 +26,9 @@ function classNames(...classes) {
 export default function Example() {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
+  // const { name, pic, email } = userInfo || {};
+
+    // const dispatch = useDispatch();
 
 
   return (
@@ -164,7 +167,7 @@ export default function Example() {
                           )}
                         </Menu.Item>
                         <Menu.Item>
-                          {({ active }) => (
+                         userInfo ? {({ active }) => (
                             <a
                               href="#"
                               className={classNames(
