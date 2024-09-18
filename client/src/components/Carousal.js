@@ -65,7 +65,7 @@ function CarouselCard() {
                       Colleges Reviews
                     </Typography>
                     <Typography className="text-gray-900">
-                    The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
+                    One reviewer says that the people at the college are nice and friendly, but that the location is a drawback. They also say that placements depend on your CV and exposure.
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -84,7 +84,7 @@ function CarouselCard() {
                       Latest News
                     </Typography>
                     <Typography className="text-gray-900">
-                    The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
+                    The controversy emerged after the Delhi University noted certain 'crucial and alarming aspects' in the list submitted by St Stephen's college.
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -122,9 +122,7 @@ function CarouselCard() {
                       Latest News
                     </Typography>
                     <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
+                    Delhi University will be offering admission to around 71,600 seats (excluding supernumerary seats) across 69 colleges, departments, and centres.
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -132,7 +130,7 @@ function CarouselCard() {
                   </CardFooter>
                 </Card>
               </li>
-              <li>
+              {/* <li>
                 <Card className="mt-6 w-96 bg-white">
                   <CardBody>
                     <Typography
@@ -143,14 +141,15 @@ function CarouselCard() {
                       College Reviews
                     </Typography>
                     <Typography className="text-gray-900">
-                    The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
+                    One reviewer says that the faculty at ITS Engineering College in Greater Noida are helpful and knowledgeable, and that the college has good placements. Another reviewer says that the fees are moderate, and that the ROI is good. 
+
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
                     <Button>Read More</Button>
                   </CardFooter>
                 </Card>
-              </li>
+              </li> */}
             </ul>
           </div>
           {/*    <!-- Controls --> */}
