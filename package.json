@@ -1,0 +1,36 @@
+{
+  "name": "projectmajor",
+  "version": "1.0.0",
+  "description": "CollegeSearch",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm start \" \"npm run client\" "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prabhat-021/progress.git"
+  },
+  "author": "Prabhat Sehrawat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prabhat-021/project/issues"
+  },
+  "homepage": "https://github.com/prabhat-021/project#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "express-async-handler": "^1.2.0",
+    "express-validator": "^7.0.1",
+    "ioredis": "^5.4.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.2.1",
+    "nodemailer": "^6.9.12",
+    "nodemon": "^3.1.0",
+    "redis": "^4.6.13"
+  }
+}
