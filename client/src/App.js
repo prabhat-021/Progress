@@ -6,6 +6,7 @@ import ResetForm from "./components/resetForm/ResetForm";
 import Login from "./pages/Auth/Login";
 import OtpInput from "./components/OtpInput";
 import ErrorPage from "./components/ErrorPage";
+import Profile from "./pages/Auth/Profile";
 
 
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/about" element={<About />} exact />
         <Route path="/resetPassword" element={<ResetForm />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
