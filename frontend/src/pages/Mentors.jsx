@@ -24,18 +24,19 @@ const Mentors = () => {
     applyFilter()
   }, [Mentors, speciality])
 
+  console.log(filterDoc);
   return (
     <div>
       <p className='text-gray-600'>Browse through the Mentors specialist.</p>
       <div className='flex flex-col sm:flex-row items-start gap-5 mt-5'>
         <button onClick={() => setShowFilter(!showFilter)} className={`py-1 px-3 border rounded text-sm  transition-all sm:hidden ${showFilter ? 'bg-primary text-white' : ''}`}>Filters</button>
         <div className={`flex-col gap-4 text-sm text-gray-600 ${showFilter ? 'flex' : 'hidden sm:flex'}`}>
-          <p onClick={() => speciality === 'General physician' ? navigate('/Mentors') : navigate('/Mentors/General physician')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'General physician' ? 'bg-[#E2E5FF] text-black ' : ''}`}>General physician</p>
-          <p onClick={() => speciality === 'Gynecologist' ? navigate('/Mentors') : navigate('/Mentors/Gynecologist')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Gynecologist' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Gynecologist</p>
-          <p onClick={() => speciality === 'Dermatologist' ? navigate('/Mentors') : navigate('/Mentors/Dermatologist')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Dermatologist' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Dermatologist</p>
-          <p onClick={() => speciality === 'Pediatricians' ? navigate('/Mentors') : navigate('/Mentors/Pediatricians')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Pediatricians' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Pediatricians</p>
-          <p onClick={() => speciality === 'Neurologist' ? navigate('/Mentors') : navigate('/Mentors/Neurologist')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Neurologist' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Neurologist</p>
-          <p onClick={() => speciality === 'Gastroenterologist' ? navigate('/Mentors') : navigate('/Mentors/Gastroenterologist')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Gastroenterologist' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Gastroenterologist</p>
+          <p onClick={() => speciality === 'General Mentor' ? navigate('/Mentors') : navigate('/Mentors/General Mentor')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'General Mentor' ? 'bg-[#E2E5FF] text-black ' : ''}`}>General Mentor</p>
+          <p onClick={() => speciality === 'Engineering' ? navigate('/Mentors') : navigate('/Mentors/Engineering')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Engineering' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Engineering</p>
+          <p onClick={() => speciality === 'Doctor' ? navigate('/Mentors') : navigate('/Mentors/Doctor')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Doctor' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Doctor</p>
+          <p onClick={() => speciality === 'Fashion Design' ? navigate('/Mentors') : navigate('/Mentors/Fashion Design')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Fashion Design' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Fashion Design</p>
+          <p onClick={() => speciality === 'Mircosoft/Amazon' ? navigate('/Mentors') : navigate('/Mentors/Mircosoft/Amazon')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'Mircosoft/Amazon' ? 'bg-[#E2E5FF] text-black ' : ''}`}>Mircosoft/Amazon</p>
+          <p onClick={() => speciality === 'MBA' ? navigate('/Mentors') : navigate('/Mentors/MBA')} className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${speciality === 'MBA' ? 'bg-[#E2E5FF] text-black ' : ''}`}>MBA</p>
         </div>
         <div className='w-full grid grid-cols-auto gap-4 gap-y-6'>
           {filterDoc.map((item, index) => (
