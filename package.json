@@ -15,10 +15,11 @@
   "author": "Prabhat Sehrawat",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/prabhat-021/project/issues"
+    "url": "https://github.com/prabhat-021/progress/issues"
   },
-  "homepage": "https://github.com/prabhat-021/project#readme",
+  "homepage": "https://github.com/prabhat-021/progress#readme",
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
     "bcryptjs": "^2.4.3",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
