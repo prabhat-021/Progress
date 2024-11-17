@@ -47,7 +47,7 @@ export default function Navbar() {
 
                     {/* <!-- Dropdown menu --> */}
                     {isOpen && (
-                        <div className="z-50 absolute right-32 mt-64 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                        <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" id="user-dropdown">
                             <div className="px-4 py-3">
                                 <span className="block text-sm text-gray-900 dark:text-white">{name}</span>
                                 <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{email}</span>

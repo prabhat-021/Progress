@@ -10,12 +10,13 @@ const Courses = () => {
             {/* <LinearGradient gradient={["to left", "#17acff ,#ff68f0"]}>
                   FEATURED  {" "}
                   </LinearGradient>{" "} */}
-            <span className="dark:text-gray-900 ml-9 items-center tracking-widest">
-              COURSES
-            </span>
-            <div className=" text-base mb-4  flex  font-normal dark:text-gray-900   mt-4">
-            The pathways to unlocking your potential and shaping your future.             
+            <div className="flex justify-center">
+              <span className="text-white tracking-widest dark:text-gray-900">COURSES</span>
             </div>
+            <div className="text-base mb-4 text-center font-normal dark:text-gray-900 mt-4">
+              The pathways to unlocking your potential and shaping your future.
+            </div>
+
           </h1>
         </div>
 
@@ -39,7 +40,7 @@ const Courses = () => {
               href="#"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Read more
+              Explore More
               <svg
                 class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                 aria-hidden="true"
@@ -73,7 +74,7 @@ const Courses = () => {
               href="#"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Read more
+              Explore more
               <svg
                 class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                 aria-hidden="true"
@@ -107,7 +108,7 @@ const Courses = () => {
               href="#"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              Read more
+              Explore more
               <svg
                 class="rtl:rotate-180 w-3.5 h-3.5 ms-2"
                 aria-hidden="true"
@@ -128,8 +129,8 @@ const Courses = () => {
         </div>
       </div>
       <div className="flex justify-center items center pb-10">
-        <Button/>
-        </div>
+        {/* <Button/> */}
+      </div>
     </div>
   );
 };

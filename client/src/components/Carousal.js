@@ -42,11 +42,11 @@ function CarouselCard() {
       <div className="bg-[#e4e6e6]">
         <div className="flex items-center justify-center flex-wrap   ">
           <h1 className="mt-6  text-5xl font-bold tracking-tight md:text-5xl xl:text-5sxl">
-            <span className="dark:text-gray-900  items-center tracking-wider">
-              NOTIFICATION
-            </span>
+            <div className="flex justify-center">
+              <span className="text-white tracking-widest dark:text-gray-900">NOTIFICATION</span>
+            </div>
             <div className=" text-base mb-6  ml-4 flex  font-normal dark:text-gray-900   mt-4">
-            Keeping you informed and connected in a fast-paced world.
+              Keeping you informed and connected in a fast-paced world.
             </div>
           </h1>
         </div>
@@ -62,12 +62,10 @@ function CarouselCard() {
                       color="blue-gray"
                       className="mb-2 text-gray-900"
                     >
-                      UI/UX Review Check
+                      Colleges Reviews
                     </Typography>
                     <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
+                    One reviewer says that the people at the college are nice and friendly, but that the location is a drawback. They also say that placements depend on your CV and exposure.
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -83,12 +81,10 @@ function CarouselCard() {
                       color="blue-gray"
                       className="mb-2 text-gray-900"
                     >
-                      UI/UX Review Check
+                      Latest News
                     </Typography>
                     <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
+                    The controversy emerged after the Delhi University noted certain 'crucial and alarming aspects' in the list submitted by St Stephen's college.
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -104,12 +100,10 @@ function CarouselCard() {
                       color="blue-gray"
                       className="mb-2 text-gray-900"
                     >
-                      UI/UX Review Check
+                      Colleges Reviews
                     </Typography>
                     <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
+                      The quality of teaching is way more good as i think about this college the management of academics i... Read more at: https://www.careers360.com/colleges/reviews
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -125,12 +119,10 @@ function CarouselCard() {
                       color="blue-gray"
                       className="mb-2 text-gray-900"
                     >
-                      UI/UX Review Check
+                      Latest News
                     </Typography>
                     <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
+                    Delhi University will be offering admission to around 71,600 seats (excluding supernumerary seats) across 69 colleges, departments, and centres.
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
@@ -138,7 +130,7 @@ function CarouselCard() {
                   </CardFooter>
                 </Card>
               </li>
-              <li>
+              {/* <li>
                 <Card className="mt-6 w-96 bg-white">
                   <CardBody>
                     <Typography
@@ -146,19 +138,18 @@ function CarouselCard() {
                       color="blue-gray"
                       className="mb-2 text-gray-900"
                     >
-                      UI/UX Review Check
+                      College Reviews
                     </Typography>
                     <Typography className="text-gray-900">
-                      The place is close to Barceloneta Beach and bus stop just
-                      2 min by walk and near to &quot;Naviglio&quot; where you
-                      can enjoy the main night life in Barcelona.
+                    One reviewer says that the faculty at ITS Engineering College in Greater Noida are helpful and knowledgeable, and that the college has good placements. Another reviewer says that the fees are moderate, and that the ROI is good. 
+
                     </Typography>
                   </CardBody>
                   <CardFooter className="pt-0">
                     <Button>Read More</Button>
                   </CardFooter>
                 </Card>
-              </li>
+              </li> */}
             </ul>
           </div>
           {/*    <!-- Controls --> */}
@@ -250,3 +241,70 @@ function CarouselCard() {
   );
 }
 export default CarouselCard;
+
+
+
+// import jssimg from "../assets/"
+// import mietimg from "../../assets/MIET.jpeg"
+// import akgecimg from "../../assets/AKGEC.jpeg"
+// import React from "react";
+// import { TECarousel, TECarouselItem } from "tw-elements-react";
+
+// export default function CarouselBasicExample() {
+//   return (
+//     <>
+//       <TECarousel showControls showIndicators ride="carousel">
+//         <div className="relative w-full overflow-hidden after:clear-both after:block after:content-['']">
+//           <TECarouselItem
+//             itemID={1}
+//             className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+//           >
+//             <img
+//               src={jssimg}
+//               className="block w-full"
+//               alt="..."
+//             />
+//             <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
+//               <h5 className="text-xl">First slide label</h5>
+//               <p>
+//                 Some representative placeholder content for the first slide.
+//               </p>
+//             </div>
+//           </TECarouselItem>
+//           <TECarouselItem
+//             itemID={2}
+//             className="relative float-left hidden -mr-[100%] w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+//           >
+//             <img
+//               src={mietimg}
+//               className="block w-full"
+//               alt="..."
+//             />
+//             <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
+//               <h5 className="text-xl">Second slide label</h5>
+//               <p>
+//                 Some representative placeholder content for the second slide.
+//               </p>
+//             </div>
+//           </TECarouselItem>
+//           <TECarouselItem
+//             itemID={3}
+//             className="relative float-left -mr-[100%] hidden w-full transition-transform duration-[600ms] ease-in-out motion-reduce:transition-none"
+//           >
+//             <img
+//               src={akgecimg}
+//               className="block w-full"
+//               alt="..."
+//             />
+//             <div className="absolute inset-x-[15%] bottom-5 hidden py-5 text-center text-white md:block">
+//               <h5 className="text-xl">Third slide label</h5>
+//               <p>
+//                 Some representative placeholder content for the third slide.
+//               </p>
+//             </div>
+//           </TECarouselItem>
+//         </div>
+//       </TECarousel>
+//     </>
+//   );
+// }
