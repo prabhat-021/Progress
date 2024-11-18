@@ -39,7 +39,7 @@ const Meeting = () => {
 
             // setting end time of the date with index
             let endTime = new Date()
-            endTime.setDate(today.getDate() + i)
+            endTime.setDate(today.getDate() + i )
             endTime.setHours(21, 0, 0, 0)
 
             // setting hours 

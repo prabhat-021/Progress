@@ -18,7 +18,7 @@ const Navbar = () => {
 
   return (
     <div className='flex items-center justify-between text-sm py-4 mb-5 border-b border-b-[#ADADAD]'>
-      <img onClick={() => navigate('/')} className='w-44 cursor-pointer' src={assets.logo} alt="" />
+      <img onClick={() => navigate('/')} className='w-44 h-8 cursor-pointer' src="https://flowbite.com/docs/images/logo.svg" alt="" />
       <ul className='md:flex items-start gap-5 font-medium hidden'>
         <NavLink to='/' >
           <li className='py-1'>HOME</li>
@@ -26,6 +26,10 @@ const Navbar = () => {
         </NavLink>
         <NavLink to='/Mentors' >
           <li className='py-1'>ALL MENTORS</li>
+          <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
+        </NavLink>
+        <NavLink to='/College' >
+          <li className='py-1'>ALL COLLEGES</li>
           <hr className='border-none outline-none h-0.5 bg-primary w-3/5 m-auto hidden' />
         </NavLink>
         <NavLink to='/about' >
@@ -65,6 +69,7 @@ const Navbar = () => {
           <ul className='flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium'>
             <NavLink onClick={() => setShowMenu(false)} to='/'><p className='px-4 py-2 rounded full inline-block'>HOME</p></NavLink>
             <NavLink onClick={() => setShowMenu(false)} to='/Mentors' ><p className='px-4 py-2 rounded full inline-block'>ALL MENTORS</p></NavLink>
+            <NavLink onClick={() => setShowMenu(false)} to='/College' ><p className='px-4 py-2 rounded full inline-block'>ALL COLLEGES</p></NavLink>
             <NavLink onClick={() => setShowMenu(false)} to='/about' ><p className='px-4 py-2 rounded full inline-block'>ABOUT</p></NavLink>
             <NavLink onClick={() => setShowMenu(false)} to='/contact' ><p className='px-4 py-2 rounded full inline-block'>CONTACT</p></NavLink>
           </ul>
