@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import MentorMeetings from './pages/Mentor/MentorMeetings';
 import MentorDashboard from './pages/Mentor/MentorDashboard';
 import MentorProfile from './pages/Mentor/MentorProfile';
+import AddCollege from './pages/Admin/AddColleges';
 
 const App = () => {
 
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/admin-dashboard' element={<Dashboard />} />
           <Route path='/all-Meetings' element={<AllMeetings />} />
           <Route path='/add-Mentor' element={<AddMentor />} />
+          <Route path='/add-College' element={<AddCollege />} />
           <Route path='/Mentor-list' element={<MentorsList />} />
           <Route path='/Mentor-dashboard' element={<MentorDashboard />} />
           <Route path='/Mentor-Meetings' element={<MentorMeetings />} />

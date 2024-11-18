@@ -13,6 +13,7 @@ import Footer from './components/Footer'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Verify from './pages/Verify'
+import AllColleges from './pages/AllColleges';
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/Mentors' element={<Mentors />} />
+        <Route path='/College' element={<AllColleges />} />
         <Route path='/Mentors/:speciality' element={<Mentors />} />
         <Route path='/login' element={<Login />} />
         <Route path='/about' element={<About />} />
