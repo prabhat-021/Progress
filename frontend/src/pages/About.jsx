@@ -10,12 +10,13 @@ const About = () => {
       </div>
 
       <div className='my-10 flex flex-col md:flex-row gap-12'>
-        <img className='w-full md:max-w-[360px]' src={assets.about_image} alt="" />
+        <img className='w-full md:max-w-[360px]' src={assets.aboutus} alt="" />
         <div className='flex flex-col justify-center gap-6 md:w-2/4 text-sm text-gray-600'>
-          <p>Welcome to Prescripto, your trusted partner in managing your healthcare needs conveniently and efficiently. At Prescripto, we understand the challenges individuals face when it comes to scheduling Mentor Meetings and managing their health records.</p>
-          <p>Prescripto is committed to excellence in healthcare technology. We continuously strive to enhance our platform, integrating the latest advancements to improve user experience and deliver superior service. Whether you're booking your first Meeting or managing ongoing care, Prescripto is here to support you every step of the way.</p>
+          <p>Welcome to EduLink India, your one-stop platform for everything you need to navigate university life in India.
+          We understand that the journey through higher education can be overwhelming—from choosing the right university and course to staying updated on events, placements, and academic opportunities.</p>
+          <p>Thats why we have created a platform that brings together all the essential information about Indian universities into a single, user-friendly hub.</p>
           <b className='text-gray-800'>Our Vision</b>
-          <p>Our vision at Prescripto is to create a seamless healthcare experience for every user. We aim to bridge the gap between patients and healthcare providers, making it easier for you to access the care you need, when you need it.</p>
+          <p>our mission is to empower students, educators, and institutions by fostering connectivity and accessibility to crucial academic resources.</p>
         </div>
       </div>
 
