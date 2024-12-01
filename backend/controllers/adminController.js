@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import MeetingModel from "../models/MeetingModel.js";
-import MentorModel from "../models/MentorModel.js";
+import MentorModel from "../models/mentorModel.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
@@ -88,7 +88,6 @@ const addMentor = async (req, res) => {
         const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
         const imageUrl = imageUpload.secure_url
         // const imageUrl = "hahuhauah"
-
 
         const MentorData = {
             name,
