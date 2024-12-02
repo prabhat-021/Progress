@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import MentorModel from "../models/MentorModel.js";
+import MentorModel from "../models/mentorModel.js";
 import MeetingModel from "../models/MeetingModel.js";
 
 // API for Mentor Login 

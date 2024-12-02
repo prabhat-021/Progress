@@ -2,18 +2,18 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import userModel from "../models/userModel.js";
-import MentorModel from "../models/MentorModel.js";
+import MentorModel from "../models/mentorModel.js";
 import MeetingModel from "../models/MeetingModel.js";
 import { v2 as cloudinary } from 'cloudinary'
 import stripe from "stripe";
 import razorpay from 'razorpay';
 
-// Gateway Initialize
-const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
-const razorpayInstance = new razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-})
+// // Gateway Initialize
+// const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
+// const razorpayInstance = new razorpay({
+//     key_id: process.env.RAZORPAY_KEY_ID,
+//     key_secret: process.env.RAZORPAY_KEY_SECRET,
+// })
 
 // API to register user
 const registerUser = async (req, res) => {
@@ -36,8 +36,7 @@ const registerUser = async (req, res) => {
             return res.json({ success: false, message: "Please enter a strong password" })
         }
 
-        // hashing user password
-        const salt = await bcrypt.genSalt(10); // the more no. round the more time it will take
+        const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt)
 
         const userData = {
@@ -113,7 +112,6 @@ const updateProfile = async (req, res) => {
 
         if (imageFile) {
 
-            // upload image to cloudinary
             const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
             const imageURL = imageUpload.secure_url
 
@@ -236,113 +234,113 @@ const listMeeting = async (req, res) => {
     }
 }
 
-// API to make payment of Meeting using razorpay
-const paymentRazorpay = async (req, res) => {
-    try {
+// // API to make payment of Meeting using razorpay
+// const paymentRazorpay = async (req, res) => {
+//     try {
 
-        const { MeetingId } = req.body
-        const MeetingData = await MeetingModel.findById(MeetingId)
+//         const { MeetingId } = req.body
+//         const MeetingData = await MeetingModel.findById(MeetingId)
 
-        if (!MeetingData || MeetingData.cancelled) {
-            return res.json({ success: false, message: 'Meeting Cancelled or not found' })
-        }
+//         if (!MeetingData || MeetingData.cancelled) {
+//             return res.json({ success: false, message: 'Meeting Cancelled or not found' })
+//         }
 
-        // creating options for razorpay payment
-        const options = {
-            amount: MeetingData.amount * 100,
-            currency: process.env.CURRENCY,
-            receipt: MeetingId,
-        }
+//         // creating options for razorpay payment
+//         const options = {
+//             amount: MeetingData.amount * 100,
+//             currency: process.env.CURRENCY,
+//             receipt: MeetingId,
+//         }
 
-        // creation of an order
-        const order = await razorpayInstance.orders.create(options)
+//         // creation of an order
+//         const order = await razorpayInstance.orders.create(options)
 
-        res.json({ success: true, order })
+//         res.json({ success: true, order })
 
-    } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
-    }
-}
+//     } catch (error) {
+//         console.log(error)
+//         res.json({ success: false, message: error.message })
+//     }
+// }
 
-// API to verify payment of razorpay
-const verifyRazorpay = async (req, res) => {
-    try {
-        const { razorpay_order_id } = req.body
-        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
+// // API to verify payment of razorpay
+// const verifyRazorpay = async (req, res) => {
+//     try {
+//         const { razorpay_order_id } = req.body
+//         const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
 
-        if (orderInfo.status === 'paid') {
-            await MeetingModel.findByIdAndUpdate(orderInfo.receipt, { payment: true })
-            res.json({ success: true, message: "Payment Successful" })
-        }
-        else {
-            res.json({ success: false, message: 'Payment Failed' })
-        }
-    } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
-    }
-}
+//         if (orderInfo.status === 'paid') {
+//             await MeetingModel.findByIdAndUpdate(orderInfo.receipt, { payment: true })
+//             res.json({ success: true, message: "Payment Successful" })
+//         }
+//         else {
+//             res.json({ success: false, message: 'Payment Failed' })
+//         }
+//     } catch (error) {
+//         console.log(error)
+//         res.json({ success: false, message: error.message })
+//     }
+// }
 
-// API to make payment of Meeting using Stripe
-const paymentStripe = async (req, res) => {
-    try {
+// // API to make payment of Meeting using Stripe
+// const paymentStripe = async (req, res) => {
+//     try {
 
-        const { MeetingId } = req.body
-        const { origin } = req.headers
+//         const { MeetingId } = req.body
+//         const { origin } = req.headers
 
-        const MeetingData = await MeetingModel.findById(MeetingId)
+//         const MeetingData = await MeetingModel.findById(MeetingId)
 
-        if (!MeetingData || MeetingData.cancelled) {
-            return res.json({ success: false, message: 'Meeting Cancelled or not found' })
-        }
+//         if (!MeetingData || MeetingData.cancelled) {
+//             return res.json({ success: false, message: 'Meeting Cancelled or not found' })
+//         }
 
-        const currency = process.env.CURRENCY.toLocaleLowerCase()
+//         const currency = process.env.CURRENCY.toLocaleLowerCase()
 
-        const line_items = [{
-            price_data: {
-                currency,
-                product_data: {
-                    name: "Meeting Fees"
-                },
-                unit_amount: MeetingData.amount * 100
-            },
-            quantity: 1
-        }]
+//         const line_items = [{
+//             price_data: {
+//                 currency,
+//                 product_data: {
+//                     name: "Meeting Fees"
+//                 },
+//                 unit_amount: MeetingData.amount * 100
+//             },
+//             quantity: 1
+//         }]
 
-        const session = await stripeInstance.checkout.sessions.create({
-            success_url: `${origin}/verify?success=true&MeetingId=${MeetingData._id}`,
-            cancel_url: `${origin}/verify?success=false&MeetingId=${MeetingData._id}`,
-            line_items: line_items,
-            mode: 'payment',
-        })
+//         const session = await stripeInstance.checkout.sessions.create({
+//             success_url: `${origin}/verify?success=true&MeetingId=${MeetingData._id}`,
+//             cancel_url: `${origin}/verify?success=false&MeetingId=${MeetingData._id}`,
+//             line_items: line_items,
+//             mode: 'payment',
+//         })
 
-        res.json({ success: true, session_url: session.url });
+//         res.json({ success: true, session_url: session.url });
 
-    } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
-    }
-}
+//     } catch (error) {
+//         console.log(error)
+//         res.json({ success: false, message: error.message })
+//     }
+// }
 
-const verifyStripe = async (req, res) => {
-    try {
+// const verifyStripe = async (req, res) => {
+//     try {
 
-        const { MeetingId, success } = req.body
+//         const { MeetingId, success } = req.body
 
-        if (success === "true") {
-            await MeetingModel.findByIdAndUpdate(MeetingId, { payment: true })
-            return res.json({ success: true, message: 'Payment Successful' })
-        }
+//         if (success === "true") {
+//             await MeetingModel.findByIdAndUpdate(MeetingId, { payment: true })
+//             return res.json({ success: true, message: 'Payment Successful' })
+//         }
 
-        res.json({ success: false, message: 'Payment Failed' })
+//         res.json({ success: false, message: 'Payment Failed' })
 
-    } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
-    }
+//     } catch (error) {
+//         console.log(error)
+//         res.json({ success: false, message: error.message })
+//     }
 
-}
+// }
 
 export {
     loginUser,
@@ -352,8 +350,8 @@ export {
     bookMeeting,
     listMeeting,
     cancelMeeting,
-    paymentRazorpay,
-    verifyRazorpay,
-    paymentStripe,
-    verifyStripe
+    // paymentRazorpay,
+    // verifyRazorpay,
+    // paymentStripe,
+    // verifyStripe
 }
