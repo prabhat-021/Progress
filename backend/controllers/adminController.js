@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import MeetingModel from "../models/MeetingModel.js";
-import MentorModel from "../models/MentorModel.js";
+import MentorModel from "../models/mentorModel.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
@@ -41,7 +41,6 @@ const MeetingsAdmin = async (req, res) => {
 
 }
 
-// API for Meeting cancellation
 const MeetingCancel = async (req, res) => {
     try {
 
@@ -57,7 +56,6 @@ const MeetingCancel = async (req, res) => {
 
 }
 
-// API for adding Mentor
 const addMentor = async (req, res) => {
 
     try {
@@ -75,20 +73,18 @@ const addMentor = async (req, res) => {
             return res.json({ success: false, message: "Please enter a valid email" })
         }
 
-        // validating strong password
         if (password.length < 8) {
             return res.json({ success: false, message: "Please enter a strong password" })
         }
 
         // hashing user password
-        const salt = await bcrypt.genSalt(10); // the more no. round the more time it will take
+        const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt)
 
         // upload image to cloudinary
         const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
         const imageUrl = imageUpload.secure_url
         // const imageUrl = "hahuhauah"
-
 
         const MentorData = {
             name,

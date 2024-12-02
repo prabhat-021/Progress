@@ -137,7 +137,7 @@ const AddMentor = () => {
                                 <option value="Engineering">Engineering</option>
                                 <option value="Doctor">Doctor</option>
                                 <option value="Fashion Design">Fashion Design</option>
-                                <option value="Mircosoft/Amazon">Mircosoft/Amazon</option>
+                                <option value="MNC">MNC</option>
                                 <option value="MBA">MBA</option>
                             </select>
                         </div>

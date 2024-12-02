@@ -1,12 +1,13 @@
 import mongoose from "mongoose";
 
 const connectDB = async () => {
-
-    mongoose.connection.on('connected', () => console.log("Database Connected"))
-    await mongoose.connect(`mongodb://0.0.0.0:27017`)
-
+    try {
+        const connect = await mongoose.connect(`mongodb://localhost:27017`);
+        console.log(`MongoDb Connected To ${connect.connection.host}`);
+    } catch (error) {
+        console.error(error);
+        process.exit();
+    }
 }
 
 export default connectDB;
-
-// Do not use '@' symbol in your databse user's password else it will show an error.
