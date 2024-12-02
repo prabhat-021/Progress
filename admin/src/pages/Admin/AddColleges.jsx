@@ -10,11 +10,13 @@ const AddCollege = () => {
     const [docImg, setDocImg] = useState(false)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [experience, setExperience] = useState('1 Year')
+    const [star, setStar] = useState('1 Stars')
     const [fees, setFees] = useState('')
     const [about, setAbout] = useState('')
-    const [speciality, setSpeciality] = useState('B.tech')
+    const [speciality, setSpeciality] = useState('Law')
+    const [state, setState] = useState('Haryana')
+    const [city, setCity] = useState('Gurgaoan')
+    const [studentFacultyRatio, setStudentFacultyRatio] = useState('10')
     const [degree, setDegree] = useState('')
     const [address1, setAddress1] = useState('')
     const [address2, setAddress2] = useState('')
@@ -33,34 +35,43 @@ const AddCollege = () => {
 
             const formData = new FormData();
 
+            // Appending existing form data
             formData.append('image', docImg)
             formData.append('name', name)
             formData.append('email', email)
-            formData.append('password', password)
             formData.append('experience', experience)
             formData.append('fees', Number(fees))
             formData.append('about', about)
             formData.append('speciality', speciality)
             formData.append('degree', degree)
             formData.append('address', JSON.stringify({ line1: address1, line2: address2 }))
-
-            // console log formdata            
+            formData.append('star', star)
+            formData.append('state', state)
+            formData.append('city', city)
+            formData.append('studentFacultyRatio', studentFacultyRatio)
+            // console log formData            
             formData.forEach((value, key) => {
                 console.log(`${key}: ${value}`);
             });
 
-            const { data } = await axios.post(backendUrl + '/api/admin/add-Mentor', formData, { headers: { aToken } })
+            // Sending POST request
+            const { data } = await axios.post(backendUrl + '/api/admin/add-College', formData, { headers: { aToken } })
+
             if (data.success) {
                 toast.success(data.message)
                 setDocImg(false)
                 setName('')
-                setPassword('')
                 setEmail('')
+                setStar('1 Stars')
+                setFees('')
+                setAbout('')
+                setSpeciality('Law')
+                setState('Haryana')
+                setCity('Gurgaon')
+                setStudentFacultyRatio('10')
+                setDegree('')
                 setAddress1('')
                 setAddress2('')
-                setDegree('')
-                setAbout('')
-                setFees('')
             } else {
                 toast.error(data.message)
             }
@@ -69,7 +80,6 @@ const AddCollege = () => {
             toast.error(error.message)
             console.log(error)
         }
-
     }
 
     return (
@@ -91,39 +101,39 @@ const AddCollege = () => {
                     <div className='w-full lg:flex-1 flex flex-col gap-4'>
 
                         <div className='flex-1 flex flex-col gap-1'>
-                            <p>Your name</p>
+                            <p>College name</p>
                             <input onChange={e => setName(e.target.value)} value={name} className='border rounded px-3 py-2' type="text" placeholder='Name' required />
                         </div>
 
                         <div className='flex-1 flex flex-col gap-1'>
-                            <p>Mentor Email</p>
+                            <p>College Email</p>
                             <input onChange={e => setEmail(e.target.value)} value={email} className='border rounded px-3 py-2' type="email" placeholder='Email' required />
                         </div>
 
-
                         <div className='flex-1 flex flex-col gap-1'>
-                            <p>Set Password</p>
-                            <input onChange={e => setPassword(e.target.value)} value={password} className='border rounded px-3 py-2' type="password" placeholder='Password' required />
-                        </div>
-
-                        <div className='flex-1 flex flex-col gap-1'>
-                            <p>Experience</p>
-                            <select onChange={e => setExperience(e.target.value)} value={experience} className='border rounded px-2 py-2' >
-                                <option value="1 Year">1 Year</option>
-                                <option value="2 Year">2 Years</option>
-                                <option value="3 Year">3 Years</option>
-                                <option value="4 Year">4 Years</option>
-                                <option value="5 Year">5 Years</option>
-                                <option value="6 Year">6 Years</option>
-                                <option value="8 Year">8 Years</option>
-                                <option value="9 Year">9 Years</option>
-                                <option value="10 Year">10 Years</option>
+                            <p>Rating</p>
+                            <select onChange={e => setStar(e.target.value)} value={star} className='border rounded px-2 py-2' >
+                                <option value="">Select Star Rating</option>
+                                <option value="1 Year">1 Stars</option>
+                                <option value="2 Year">2 Stars</option>
+                                <option value="3 Year">3 Stars</option>
+                                <option value="4 Year">4 Stars</option>
+                                <option value="5 Year">5 Stars</option>
+                                <option value="6 Year">6 Stars</option>
+                                <option value="8 Year">8 Stars</option>
+                                <option value="9 Year">9 Stars</option>
+                                <option value="10 Year">10 Stars</option>
                             </select>
                         </div>
 
                         <div className='flex-1 flex flex-col gap-1'>
-                            <p>Fees</p>
-                            <input onChange={e => setFees(e.target.value)} value={fees} className='border rounded px-3 py-2' type="number" placeholder='Mentor fees' required />
+                            <p>Application Fees</p>
+                            <input onChange={e => setFees(e.target.value)} value={fees} className='border rounded px-3 py-2' type="number" placeholder='Application fees' required />
+                        </div>
+
+                        <div className='flex-1 flex flex-col gap-1'>
+                            <p>Course Fees</p>
+                            <input onChange={e => setFees(e.target.value)} value={fees} className='border rounded px-3 py-2' type="number" placeholder='College fees' required />
                         </div>
 
                     </div>
@@ -133,19 +143,78 @@ const AddCollege = () => {
                         <div className='flex-1 flex flex-col gap-1'>
                             <p>Speciality</p>
                             <select onChange={e => setSpeciality(e.target.value)} value={speciality} className='border rounded px-2 py-2'>
-                                <option value="General Mentor">General Mentor</option>
+                                <option value="">Select Speciality</option>
                                 <option value="Engineering">Engineering</option>
-                                <option value="Doctor">Doctor</option>
-                                <option value="Fashion Design">Fashion Design</option>
-                                <option value="Mircosoft/Amazon">Mircosoft/Amazon</option>
-                                <option value="MBA">MBA</option>
+                                <option value="Medical">Medical</option>
+                                <option value="Business/Management">Business/Management</option>
+                                <option value="Law">Law</option>
+                                <option value="Arts & Humanities">Arts & Humanities</option>
+                                <option value="Science & Technology">Science & Technology</option>
+                                <option value="Design & Architecture">Design & Architecture</option>
                             </select>
                         </div>
 
 
                         <div className='flex-1 flex flex-col gap-1'>
-                            <p>Degree</p>
-                            <input onChange={e => setDegree(e.target.value)} value={degree} className='border rounded px-3 py-2' type="text" placeholder='Degree' required />
+                            <p>State</p>
+                            <select onChange={e => setState(e.target.value)} value={state} className='border rounded px-2 py-2'>
+                                <option value="">Select State</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Gujarat">Gujarat</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Kerala">Kerala</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Karnataka">Karnataka</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Chhatisgarh">Chhatisgarh</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Odisha">Odisha</option>
+                                <option value="Haryana">Haryana</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Uttrakhand">Uttrakhand</option>
+                                <option value="Goa">Goa</option>
+                                <option value="Dadra & Nagar Haveli">Dadra & Nagar Haveli</option>
+                                <option value="Daman & Diu">Daman & Diu</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                                <option value="Puducherry">Puducherry</option>
+                                <option value="Andaman & Nicobar Islands">Andaman & Nicobar Islands</option>
+                            </select>
+                        </div>
+
+                        <div className='flex-1 flex flex-col gap-1'>
+                            <p>City</p>
+                            <input onChange={e => setCity(e.target.value)} value={city} className='border rounded px-3 py-2' type="text" placeholder='City' required />
+                        </div>
+
+                        <div className='flex-1 flex flex-col gap-1'>
+                            <p>Student-Faculty Ratio</p>
+                            <select onChange={e => setStudentFacultyRatio(e.target.value)} value={studentFacultyRatio} className='border rounded px-2 py-2'>
+                                <option value="">Select Ratio</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60">60</option>
+                                <option value="70">70</option>
+                            </select>
                         </div>
 
                         <div className='flex-1 flex flex-col gap-1'>
@@ -163,7 +232,7 @@ const AddCollege = () => {
                     <textarea onChange={e => setAbout(e.target.value)} value={about} className='w-full px-4 pt-2 border rounded' rows={5} placeholder='write about College'></textarea>
                 </div>
 
-                <button type='submit' className='bg-primary px-10 py-3 mt-4 text-white rounded-full'>Add Mentor</button>
+                <button type='submit' className='bg-primary px-10 py-3 mt-4 text-white rounded-full'>Add College</button>
 
             </div>
 
