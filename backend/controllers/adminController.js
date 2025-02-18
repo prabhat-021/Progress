@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import MeetingModel from "../models/MeetingModel.js";
 import MentorModel from "../models/mentorModel.js";
+import CollegeModel from "../models/collegeModel.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import { v2 as cloudinary } from "cloudinary";
@@ -110,6 +111,49 @@ const addMentor = async (req, res) => {
     }
 }
 
+const addCollege = async (req, res) => {
+    try {
+        const { name, email, experience, fees, appFees, about, speciality, address, star, state, city, studentFacultyRatio } = req.body;
+
+        const imageFile = req.file;
+
+        // Checking for missing fields
+        if (!name || !email || !speciality || !experience || !about || !fees || !appFees || !address || !star || !state || !city || !studentFacultyRatio) {
+            return res.json({ success: false, message: "Missing Details" });
+        }
+
+        // Upload image to Cloudinary
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
+        const imageUrl = imageUpload.secure_url;
+        // const imageUrl = "kjbsksxbKZx";
+
+        // Create new college entry
+        const CollegeData = new CollegeModel({
+            name,
+            email,
+            image: imageUrl,
+            experience,
+            fees,
+            appFees,
+            about,
+            speciality,
+            address: JSON.parse(address),
+            star,
+            state,
+            city,
+            studentFacultyRatio,
+            date: Date.now()
+        });
+
+        await CollegeData.save();
+        res.json({ success: true, message: "College Added Successfully" });
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
+
 // API to get all Mentors list for admin panel
 const allMentors = async (req, res) => {
     try {
@@ -152,5 +196,6 @@ export {
     MeetingCancel,
     addMentor,
     allMentors,
-    adminDashboard
+    adminDashboard,
+    addCollege
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useContext, useEffect } from 'react'
 import { MentorContext } from '../../context/MentorContext'
 import { AppContext } from '../../context/AppContext'

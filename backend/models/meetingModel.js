@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const MeetingSchema = new mongoose.Schema({
     userId: { type: String, required: true },
@@ -14,5 +14,5 @@ const MeetingSchema = new mongoose.Schema({
     isCompleted: { type: Boolean, default: false }
 })
 
-const MeetingModel = mongoose.models.Meeting || mongoose.model("Meeting", MeetingSchema)
-export default MeetingModel
+const MeetingModel = mongoose.models.Meeting || mongoose.model("Meeting", MeetingSchema);
+export default MeetingModel;

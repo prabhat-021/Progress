@@ -1,5 +1,4 @@
-import React from 'react'
-import { assets } from '../assets/assets'
+import { assets } from '../assets/assets';
 
 const About = () => {
   return (
@@ -13,7 +12,7 @@ const About = () => {
         <img className='w-full md:max-w-[360px]' src={assets.aboutus} alt="" />
         <div className='flex flex-col justify-center gap-6 md:w-2/4 text-sm text-gray-600'>
           <p>Welcome to EduLink India, your one-stop platform for everything you need to navigate university life in India.
-          We understand that the journey through higher education can be overwhelming—from choosing the right university and course to staying updated on events, placements, and academic opportunities.</p>
+            We understand that the journey through higher education can be overwhelming—from choosing the right university and course to staying updated on events, placements, and academic opportunities.</p>
           <p>Thats why we have created a platform that brings together all the essential information about Indian universities into a single, user-friendly hub.</p>
           <b className='text-gray-800'>Our Vision</b>
           <p>our mission is to empower students, educators, and institutions by fostering connectivity and accessibility to crucial academic resources.</p>

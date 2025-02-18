@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { assets } from '../../assets/assets'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -10,19 +10,20 @@ const AddCollege = () => {
     const [docImg, setDocImg] = useState(false)
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
+    const [experience, setExperience] = useState('')
     const [star, setStar] = useState('1 Stars')
     const [fees, setFees] = useState('')
+    const [appFees, setAppFees] = useState('')
     const [about, setAbout] = useState('')
     const [speciality, setSpeciality] = useState('Law')
     const [state, setState] = useState('Haryana')
     const [city, setCity] = useState('Gurgaoan')
     const [studentFacultyRatio, setStudentFacultyRatio] = useState('10')
-    const [degree, setDegree] = useState('')
     const [address1, setAddress1] = useState('')
     const [address2, setAddress2] = useState('')
 
-    const { backendUrl } = useContext(AppContext)
-    const { aToken } = useContext(AdminContext)
+    const { backendUrl } = useContext(AppContext);
+    const { aToken } = useContext(AdminContext);
 
     const onSubmitHandler = async (event) => {
         event.preventDefault()
@@ -41,9 +42,9 @@ const AddCollege = () => {
             formData.append('email', email)
             formData.append('experience', experience)
             formData.append('fees', Number(fees))
+            formData.append('appFees', Number(appFees))
             formData.append('about', about)
             formData.append('speciality', speciality)
-            formData.append('degree', degree)
             formData.append('address', JSON.stringify({ line1: address1, line2: address2 }))
             formData.append('star', star)
             formData.append('state', state)
@@ -64,12 +65,12 @@ const AddCollege = () => {
                 setEmail('')
                 setStar('1 Stars')
                 setFees('')
+                setAppFees('')
                 setAbout('')
                 setSpeciality('Law')
                 setState('Haryana')
                 setCity('Gurgaon')
                 setStudentFacultyRatio('10')
-                setDegree('')
                 setAddress1('')
                 setAddress2('')
             } else {
@@ -111,24 +112,29 @@ const AddCollege = () => {
                         </div>
 
                         <div className='flex-1 flex flex-col gap-1'>
+                            <p>Established </p>
+                            <input onChange={e => setExperience(e.target.value)} value={experience} className='border rounded px-3 py-2' type="number" placeholder='Year' required />
+                        </div>
+
+                        <div className='flex-1 flex flex-col gap-1'>
                             <p>Rating</p>
                             <select onChange={e => setStar(e.target.value)} value={star} className='border rounded px-2 py-2' >
                                 <option value="">Select Star Rating</option>
-                                <option value="1 Year">1 Stars</option>
-                                <option value="2 Year">2 Stars</option>
-                                <option value="3 Year">3 Stars</option>
-                                <option value="4 Year">4 Stars</option>
-                                <option value="5 Year">5 Stars</option>
-                                <option value="6 Year">6 Stars</option>
-                                <option value="8 Year">8 Stars</option>
-                                <option value="9 Year">9 Stars</option>
-                                <option value="10 Year">10 Stars</option>
+                                <option value="1 Star">1 Stars</option>
+                                <option value="2 Star">2 Stars</option>
+                                <option value="3 Star">3 Stars</option>
+                                <option value="4 Star">4 Stars</option>
+                                <option value="5 Star">5 Stars</option>
+                                <option value="6 Star">6 Stars</option>
+                                <option value="8 Star">8 Stars</option>
+                                <option value="9 Star">9 Stars</option>
+                                <option value="10 Star">10 Stars</option>
                             </select>
                         </div>
 
                         <div className='flex-1 flex flex-col gap-1'>
                             <p>Application Fees</p>
-                            <input onChange={e => setFees(e.target.value)} value={fees} className='border rounded px-3 py-2' type="number" placeholder='Application fees' required />
+                            <input onChange={e => setAppFees(e.target.value)} value={appFees} className='border rounded px-3 py-2' type="number" placeholder='Application fees' required />
                         </div>
 
                         <div className='flex-1 flex flex-col gap-1'>

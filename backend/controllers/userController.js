@@ -5,8 +5,8 @@ import userModel from "../models/userModel.js";
 import MentorModel from "../models/mentorModel.js";
 import MeetingModel from "../models/MeetingModel.js";
 import { v2 as cloudinary } from 'cloudinary'
-import stripe from "stripe";
-import razorpay from 'razorpay';
+// import stripe from "stripe";
+// import razorpay from 'razorpay';
 
 // // Gateway Initialize
 // const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
