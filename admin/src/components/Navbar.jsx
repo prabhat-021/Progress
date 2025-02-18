@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { assets } from '../assets/assets'
 import { MentorContext } from '../context/MentorContext'
 import { AdminContext } from '../context/AdminContext'

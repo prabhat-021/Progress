@@ -1,6 +1,7 @@
-import React, { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { AppContext } from '../context/AppContext'
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../context/AppContext';
+
 const TopMentors = () => {
 
     const navigate = useNavigate()
@@ -31,4 +32,4 @@ const TopMentors = () => {
     )
 }
 
-export default TopMentors
+export default TopMentors;
