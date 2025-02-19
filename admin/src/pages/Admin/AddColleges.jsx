@@ -1,26 +1,26 @@
-import { useContext, useState } from 'react'
-import { assets } from '../../assets/assets'
-import { toast } from 'react-toastify'
-import axios from 'axios'
-import { AdminContext } from '../../context/AdminContext'
-import { AppContext } from '../../context/AppContext'
+import { useContext, useState } from "react"
+import { assets } from "../../assets/assets"
+import { toast } from "react-toastify"
+import axios from "axios"
+import { AdminContext } from "../../context/AdminContext"
+import { AppContext } from "../../context/AppContext"
 
 const AddCollege = () => {
 
     const [docImg, setDocImg] = useState(false)
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [experience, setExperience] = useState('')
-    const [star, setStar] = useState('1 Stars')
-    const [fees, setFees] = useState('')
-    const [appFees, setAppFees] = useState('')
-    const [about, setAbout] = useState('')
-    const [speciality, setSpeciality] = useState('Law')
-    const [state, setState] = useState('Haryana')
-    const [city, setCity] = useState('Gurgaoan')
-    const [studentFacultyRatio, setStudentFacultyRatio] = useState('10')
-    const [address1, setAddress1] = useState('')
-    const [address2, setAddress2] = useState('')
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [experience, setExperience] = useState("")
+    const [star, setStar] = useState("1 Stars")
+    const [fees, setFees] = useState("")
+    const [appFees, setAppFees] = useState("")
+    const [about, setAbout] = useState("")
+    const [speciality, setSpeciality] = useState("Law")
+    const [state, setState] = useState("Haryana")
+    const [city, setCity] = useState("Gurgaoan")
+    const [studentFacultyRatio, setStudentFacultyRatio] = useState("10")
+    const [address1, setAddress1] = useState("")
+    const [address2, setAddress2] = useState("")
 
     const { backendUrl } = useContext(AppContext);
     const { aToken } = useContext(AdminContext);
@@ -31,48 +31,48 @@ const AddCollege = () => {
         try {
 
             if (!docImg) {
-                return toast.error('Image Not Selected')
+                return toast.error("Image Not Selected")
             }
 
             const formData = new FormData();
 
             // Appending existing form data
-            formData.append('image', docImg)
-            formData.append('name', name)
-            formData.append('email', email)
-            formData.append('experience', experience)
-            formData.append('fees', Number(fees))
-            formData.append('appFees', Number(appFees))
-            formData.append('about', about)
-            formData.append('speciality', speciality)
-            formData.append('address', JSON.stringify({ line1: address1, line2: address2 }))
-            formData.append('star', star)
-            formData.append('state', state)
-            formData.append('city', city)
-            formData.append('studentFacultyRatio', studentFacultyRatio)
+            formData.append("image", docImg)
+            formData.append("name", name)
+            formData.append("email", email)
+            formData.append("experience", experience)
+            formData.append("fees", Number(fees))
+            formData.append("appFees", Number(appFees))
+            formData.append("about", about)
+            formData.append("speciality", speciality)
+            formData.append("address", JSON.stringify({ line1: address1, line2: address2 }))
+            formData.append("star", star)
+            formData.append("state", state)
+            formData.append("city", city)
+            formData.append("studentFacultyRatio", studentFacultyRatio)
             // console log formData            
             formData.forEach((value, key) => {
                 console.log(`${key}: ${value}`);
             });
 
             // Sending POST request
-            const { data } = await axios.post(backendUrl + '/api/admin/add-College', formData, { headers: { aToken } })
+            const { data } = await axios.post(backendUrl + "/api/admin/add-College", formData, { headers: { aToken } })
 
             if (data.success) {
                 toast.success(data.message)
                 setDocImg(false)
-                setName('')
-                setEmail('')
-                setStar('1 Stars')
-                setFees('')
-                setAppFees('')
-                setAbout('')
-                setSpeciality('Law')
-                setState('Haryana')
-                setCity('Gurgaon')
-                setStudentFacultyRatio('10')
-                setAddress1('')
-                setAddress2('')
+                setName("")
+                setEmail("")
+                setStar("1 Stars")
+                setFees("")
+                setAppFees("")
+                setAbout("")
+                setSpeciality("Law")
+                setState("Haryana")
+                setCity("Gurgaon")
+                setStudentFacultyRatio("10")
+                setAddress1("")
+                setAddress2("")
             } else {
                 toast.error(data.message)
             }
@@ -84,41 +84,41 @@ const AddCollege = () => {
     }
 
     return (
-        <form onSubmit={onSubmitHandler} className='m-5 w-full'>
+        <form onSubmit={onSubmitHandler} className="m-5 w-full">
 
-            <p className='mb-3 text-lg font-medium'>Add College</p>
+            <p className="mb-3 text-lg font-medium">Add College</p>
 
-            <div className='bg-white px-8 py-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll'>
-                <div className='flex items-center gap-4 mb-8 text-gray-500'>
+            <div className="bg-white px-8 py-8 border rounded w-full max-w-4xl max-h-[80vh] overflow-y-scroll">
+                <div className="flex items-center gap-4 mb-8 text-gray-500">
                     <label htmlFor="doc-img">
-                        <img className='w-16 bg-gray-100 rounded-full cursor-pointer' src={docImg ? URL.createObjectURL(docImg) : assets.upload_area} alt="" />
+                        <img className="w-16 bg-gray-100 rounded-full cursor-pointer" src={docImg ? URL.createObjectURL(docImg) : assets.upload_area} alt="" />
                     </label>
                     <input onChange={(e) => setDocImg(e.target.files[0])} type="file" name="" id="doc-img" hidden />
                     <p>Upload College <br /> picture</p>
                 </div>
 
-                <div className='flex flex-col lg:flex-row items-start gap-10 text-gray-600'>
+                <div className="flex flex-col lg:flex-row items-start gap-10 text-gray-600">
 
-                    <div className='w-full lg:flex-1 flex flex-col gap-4'>
+                    <div className="w-full lg:flex-1 flex flex-col gap-4">
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>College name</p>
-                            <input onChange={e => setName(e.target.value)} value={name} className='border rounded px-3 py-2' type="text" placeholder='Name' required />
+                            <input onChange={e => setName(e.target.value)} value={name} className="border rounded px-3 py-2" type="text" placeholder="Name" required />
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>College Email</p>
-                            <input onChange={e => setEmail(e.target.value)} value={email} className='border rounded px-3 py-2' type="email" placeholder='Email' required />
+                            <input onChange={e => setEmail(e.target.value)} value={email} className="border rounded px-3 py-2" type="email" placeholder="Email" required />
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>Established </p>
-                            <input onChange={e => setExperience(e.target.value)} value={experience} className='border rounded px-3 py-2' type="number" placeholder='Year' required />
+                            <input onChange={e => setExperience(e.target.value)} value={experience} className="border rounded px-3 py-2" type="number" placeholder="Year" required />
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>Rating</p>
-                            <select onChange={e => setStar(e.target.value)} value={star} className='border rounded px-2 py-2' >
+                            <select onChange={e => setStar(e.target.value)} value={star} className="border rounded px-2 py-2" >
                                 <option value="">Select Star Rating</option>
                                 <option value="1 Star">1 Stars</option>
                                 <option value="2 Star">2 Stars</option>
@@ -132,23 +132,23 @@ const AddCollege = () => {
                             </select>
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>Application Fees</p>
-                            <input onChange={e => setAppFees(e.target.value)} value={appFees} className='border rounded px-3 py-2' type="number" placeholder='Application fees' required />
+                            <input onChange={e => setAppFees(e.target.value)} value={appFees} className="border rounded px-3 py-2" type="number" placeholder="Application fees" required />
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>Course Fees</p>
-                            <input onChange={e => setFees(e.target.value)} value={fees} className='border rounded px-3 py-2' type="number" placeholder='College fees' required />
+                            <input onChange={e => setFees(e.target.value)} value={fees} className="border rounded px-3 py-2" type="number" placeholder="College fees" required />
                         </div>
 
                     </div>
 
-                    <div className='w-full lg:flex-1 flex flex-col gap-4'>
+                    <div className="w-full lg:flex-1 flex flex-col gap-4">
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>Speciality</p>
-                            <select onChange={e => setSpeciality(e.target.value)} value={speciality} className='border rounded px-2 py-2'>
+                            <select onChange={e => setSpeciality(e.target.value)} value={speciality} className="border rounded px-2 py-2">
                                 <option value="">Select Speciality</option>
                                 <option value="Engineering">Engineering</option>
                                 <option value="Medical">Medical</option>
@@ -161,9 +161,9 @@ const AddCollege = () => {
                         </div>
 
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>State</p>
-                            <select onChange={e => setState(e.target.value)} value={state} className='border rounded px-2 py-2'>
+                            <select onChange={e => setState(e.target.value)} value={state} className="border rounded px-2 py-2">
                                 <option value="">Select State</option>
                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
                                 <option value="Telangana">Telangana</option>
@@ -204,14 +204,14 @@ const AddCollege = () => {
                             </select>
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>City</p>
-                            <input onChange={e => setCity(e.target.value)} value={city} className='border rounded px-3 py-2' type="text" placeholder='City' required />
+                            <input onChange={e => setCity(e.target.value)} value={city} className="border rounded px-3 py-2" type="text" placeholder="City" required />
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>Student-Faculty Ratio</p>
-                            <select onChange={e => setStudentFacultyRatio(e.target.value)} value={studentFacultyRatio} className='border rounded px-2 py-2'>
+                            <select onChange={e => setStudentFacultyRatio(e.target.value)} value={studentFacultyRatio} className="border rounded px-2 py-2">
                                 <option value="">Select Ratio</option>
                                 <option value="10">10</option>
                                 <option value="20">20</option>
@@ -223,10 +223,10 @@ const AddCollege = () => {
                             </select>
                         </div>
 
-                        <div className='flex-1 flex flex-col gap-1'>
+                        <div className="flex-1 flex flex-col gap-1">
                             <p>Address</p>
-                            <input onChange={e => setAddress1(e.target.value)} value={address1} className='border rounded px-3 py-2' type="text" placeholder='Address 1' required />
-                            <input onChange={e => setAddress2(e.target.value)} value={address2} className='border rounded px-3 py-2' type="text" placeholder='Address 2' required />
+                            <input onChange={e => setAddress1(e.target.value)} value={address1} className="border rounded px-3 py-2" type="text" placeholder="Address 1" required />
+                            <input onChange={e => setAddress2(e.target.value)} value={address2} className="border rounded px-3 py-2" type="text" placeholder="Address 2" required />
                         </div>
 
                     </div>
@@ -234,11 +234,11 @@ const AddCollege = () => {
                 </div>
 
                 <div>
-                    <p className='mt-4 mb-2'>About College</p>
-                    <textarea onChange={e => setAbout(e.target.value)} value={about} className='w-full px-4 pt-2 border rounded' rows={5} placeholder='write about College'></textarea>
+                    <p className="mt-4 mb-2">About College</p>
+                    <textarea onChange={e => setAbout(e.target.value)} value={about} className="w-full px-4 pt-2 border rounded" rows={5} placeholder="write about College"></textarea>
                 </div>
 
-                <button type='submit' className='bg-primary px-10 py-3 mt-4 text-white rounded-full'>Add College</button>
+                <button type="submit" className="bg-primary px-10 py-3 mt-4 text-white rounded-full">Add College</button>
 
             </div>
 
