@@ -1,8 +1,8 @@
-import axios from 'axios';
-import { useContext, useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
-import { AppContext } from '../context/AppContext';
-import { toast } from 'react-toastify';
+import axios from "axios";
+import { useContext, useEffect } from "react"
+import { useNavigate, useSearchParams } from "react-router-dom"
+import { AppContext } from "../context/AppContext";
+import { toast } from "react-toastify";
 
 const Verify = () => {
 
@@ -44,7 +44,7 @@ const Verify = () => {
     }, [token])
 
     return (
-        <div className='min-h-[60vh] flex items-center justify-center'>
+        <div className="min-h-[60vh] flex items-center justify-center">
             <div className="w-20 h-20 border-4 border-gray-300 border-t-4 border-t-primary rounded-full animate-spin"></div>
         </div>
     )
