@@ -171,14 +171,16 @@ const allMentors = async (req, res) => {
 const adminDashboard = async (req, res) => {
     try {
 
-        const Mentors = await MentorModel.find({})
-        const users = await userModel.find({})
-        const Meetings = await MeetingModel.find({})
+        const Mentors = await MentorModel.find({});
+        const users = await userModel.find({});
+        const Meetings = await MeetingModel.find({});
+        const College = await CollegeModel.find({});
 
         const dashData = {
             Mentors: Mentors.length,
             Meetings: Meetings.length,
-            patients: users.length,
+            user: users.length,
+            collegeList: College.length,
             latestMeetings: Meetings.reverse()
         }
 

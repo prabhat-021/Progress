@@ -24,7 +24,7 @@ const Colleges = () => {
   //   applyFilter()
   // }, [Mentors, speciality])
 
-  console.log(filterDoc);
+  // console.log(filterDoc);
   return (
     <div>
       <p className='text-gray-600'>Find Colleges with Custom Filters</p>
