@@ -11,11 +11,10 @@ const About = () => {
       <div className="my-10 flex flex-col md:flex-row gap-12">
         <img className="w-full md:max-w-[360px]" src={assets.aboutus} alt="" />
         <div className="flex flex-col justify-center gap-6 md:w-2/4 text-sm text-gray-600">
-          <p>Welcome to EduLink India, your one-stop platform for everything you need to navigate university life in India.
-            We understand that the journey through higher education can be overwhelming—from choosing the right university and course to staying updated on events, placements, and academic opportunities.</p>
+          <p>At College Search, we believe that the right guidance at the right time can shape a student's future. Our platform is dedicated to providing comprehensive, reliable, and up-to-date information about Indian universities, courses, admissions, scholarships, and career opportunities..</p>
           <p>Thats why we have created a platform that brings together all the essential information about Indian universities into a single, user-friendly hub.</p>
           <b className="text-gray-800">Our Vision</b>
-          <p>our mission is to empower students, educators, and institutions by fostering connectivity and accessibility to crucial academic resources.</p>
+          <p>We aim to bridge the gap between students and higher education by offering trustworthy guidance and mentorship. Whether you’re a high school student exploring universities, a college student seeking career advice, or a professional looking for higher education options, we are here to guide you every step of the way.</p>
         </div>
       </div>
 
