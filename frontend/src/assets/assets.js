@@ -9,7 +9,7 @@ import upload_icon from "./upload_icon.png";
 import stripe_logo from "./stripe_logo.png";
 import razorpay_logo from "./razorpay_logo.png";
 import college_img from "./college.jpg";
-import aboutus from "./about_img.jpeg";
+import aboutus from "./aboutus_pic.jpg";
 import contactus from "./map.png";
 import navIcon from "./online-education.gif";
 
