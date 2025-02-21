@@ -1,19 +1,19 @@
-import { useContext, useEffect, useState } from "react"
-import { AppContext } from "../context/AppContext"
-import axios from "axios"
-import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
-  const [state, setState] = useState("Sign Up")
+  const [state, setState] = useState("Sign Up");
 
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const navigate = useNavigate()
-  const { backendUrl, token, setToken } = useContext(AppContext)
+  const navigate = useNavigate();
+  const { backendUrl, token, setToken } = useContext(AppContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -23,10 +23,10 @@ const Login = () => {
       const { data } = await axios.post(backendUrl + "/api/user/register", { name, email, password })
 
       if (data.success) {
-        localStorage.setItem("token", data.token)
-        setToken(data.token)
+        localStorage.setItem("token", data.token);
+        setToken(data.token);
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
 
     } else {
@@ -80,4 +80,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;
