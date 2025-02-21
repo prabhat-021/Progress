@@ -4,7 +4,13 @@ import validator from "validator";
 import userModel from "../models/userModel.js";
 import MentorModel from "../models/mentorModel.js";
 import MeetingModel from "../models/MeetingModel.js";
-import { v2 as cloudinary } from 'cloudinary'
+import { v2 as cloudinary } from 'cloudinary';
+import generateToken from "../utils/generateToken.js";
+import { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate } from "../utils/mail.js";
+import VerificationToken from "../models/verificationTokenschema.js";
+import ResetToken from "../models/resetToken.js";
+
+
 // import stripe from "stripe";
 // import razorpay from 'razorpay';
 
@@ -21,35 +27,65 @@ const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
-        // checking for all data to register user
         if (!name || !email || !password) {
-            return res.json({ success: false, message: 'Missing Details' })
+            return res.status(400).json({ success: false, message: 'Missing Details' })
         }
 
-        // validating email format
+        const userExist = await userModel.findOne({ email });
+
+        if (userExist) {
+            return res.status(400).json({ success: false, message: "User already exists" });
+        };
+
+        if (name.length < 3 || name.length > 20) {
+            return res.status(400).json({ success: false, message: "Name must be 3 to 20 characters long!" })
+        }
+
         if (!validator.isEmail(email)) {
-            return res.json({ success: false, message: "Please enter a valid email" })
+            return res.status(400).json({ success: false, message: "Please enter a valid email" })
         }
 
-        // validating strong password
-        if (password.length < 8) {
-            return res.json({ success: false, message: "Please enter a strong password" })
+        if (password.length < 8 || password.length > 20) {
+            return res.status(400).json({ success: false, message: "Password must be 8 to 20 characters long!" })
         }
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt)
-
-        const userData = {
+        const userData = new userModel({
             name,
             email,
-            password: hashedPassword,
+            password,
+        });
+
+        const OTP = generateOTP();
+        const verificationToken = new VerificationToken({
+            owner: newUser._id,
+            token: OTP,
+        })
+
+        await verificationToken.save();
+        await userData.save();
+
+        transporter().sendMail({
+            from: 'prabhatsahrawat010203@gmail.com',
+            to: newUser.email,
+            subject: "Verify your email account",
+            html: generateEmailTemplate(OTP),
+        });
+
+        // const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+
+        // res.json({ success: true, token })
+
+        if (newUser) {
+            res.status(201).json({
+                success: true,
+                _id: newUser._id,
+                name: newUser.name,
+                email: newUser.email,
+                token: generateToken(newUser._id)
+            });
+        } else {
+            res.status(400).json({ success: false, message: "Error occoured" })
         }
-
-        const newUser = new userModel(userData)
-        const user = await newUser.save()
-        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-
-        res.json({ success: true, token })
 
     } catch (error) {
         console.log(error)
@@ -62,20 +98,38 @@ const loginUser = async (req, res) => {
 
     try {
         const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: "Provide All Details" });
+        };
+
         const user = await userModel.findOne({ email })
 
         if (!user) {
             return res.json({ success: false, message: "User does not exist" })
         }
 
-        const isMatch = await bcrypt.compare(password, user.password)
+        const isMatch = await matchPassword(password);
 
-        if (isMatch) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-            res.json({ success: true, token })
+        if (!isMatch) {
+            return res.status(404).json({ success: false, message: "Password Is Wrong" });
         }
-        else {
-            res.json({ success: false, message: "Invalid credentials" })
+
+        // if (isMatch) {
+        //     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
+        //     res.json({ success: true, token })
+        // }
+        // else {
+        //     res.json({ success: false, message: "Invalid credentials" })
+        // }
+        if (user && isMatched) {
+            res.status(201).json({
+                success: true,
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                token: generateToken(user._id)
+            });
         }
     } catch (error) {
         console.log(error)
@@ -96,7 +150,132 @@ const getProfile = async (req, res) => {
         console.log(error)
         res.json({ success: false, message: error.message })
     }
-}
+};
+
+const verifyEmail = async (req, res) => {
+    const { userId, otp } = req.body;
+
+    if (!userId || !otp.trim()) {
+        return res.status(400).json({ message: "Invalid request, missing parameters!" });
+    };
+
+    const user = await userModel.findById(userId);
+    if (!user) {
+        return res.status(404).json({ success: false, message: "User Not Found" });
+    }
+
+    if (user.verified) {
+        return res.status(400).json({ message: "This Account is Already verified" });
+    }
+
+    const token = await VerificationToken.findOne({ owner: user._id });
+    if (!token) {
+        return res.status(404).json({ success: false, message: "User Not Found" });
+    }
+
+    const isMatched = await token.matchToken(otp);
+
+    if (!isMatched) {
+        return res.status(404).json({ success: false, message: "OTP Is Wrong" });
+    }
+
+    user.verified = true;
+
+    await VerificationToken.findByIdAndDelete(token._id);
+
+    await user.save();
+
+    transporter().sendMail({
+        from: 'prabhatsahrawat010203@gmail.com',
+        to: user.email,
+        subject: "Verify your email account",
+        html: plainEmailTemplate("Email Verified Succesfully", "Thanks for connecting with us "),
+    });
+
+    res.status(201).json({ success: true, message: "Your Email is Verified" })
+
+};
+
+const forgetPassword = async (req, res) => {
+
+    const { email } = req.body;
+    if (!email || !validator.isEmail(email)) {
+        return res.status(404).json({ success: false, message: "Please Provide a valid email!" });
+    };
+
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+        return res.status(404).json({ success: false, message: "User not found, Invalid request" });
+    };
+
+    const token = await ResetToken.findOne({ owner: user._id });
+
+    if (token) {
+        return res.status(400).json({ success: false, message: "Only after one hour you can request for another token!" });
+    };
+
+    const generateToken = () => {
+        return new Promise((resolve, reject) => {
+            crypto.randomBytes(30, (err, buff) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
+
+                const newToken = buff.toString('hex');
+                resolve(newToken);
+            });
+        });
+    };
+
+    const newToken = await generateToken();
+    const resetToken = new ResetToken({ owner: user._id, token: newToken });
+
+    await resetToken.save();
+
+    transporter().sendMail({
+        from: 'prabhatsahrawat010203@gmail.com',
+        to: user.email,
+        subject: "Password Reset",
+        html: generatePasswordResetTemplate(`http://localhost:3000/resetPassword?token=${newToken}&id=${user._id}`),
+    });
+
+    res.status(200).json({ success: true, message: "Password reset link is sent to your email" });
+
+};
+
+const resetPassword = async (req, res) => {
+    const { password } = req.body;
+
+    const user = await userModel.findById(req.user._id);
+    if (!user) {
+        return res.status(404).json({ success: false, message: "User not found, Invalid request" });
+    };
+
+    const isSamePassword = await user.matchPassword(password);
+    if (isSamePassword) {
+        return res.status(400).json({ success: false, message: "New password must be different" });
+    };
+
+    if (password.trim().length < 8 || password.trim().length > 20) {
+        return res.status(400).json({ message: "Password must be 8 to 20 characters long!" });
+    }
+
+    user.password = password.trim();
+    await user.save();
+
+    await ResetToken.findOneAndDelete({ owner: user._id });
+
+    transporter().sendMail({
+        from: 'prabhatsahrawat010203@gmail.com',
+        to: user.email,
+        subject: "Password Reset Successfully",
+        html: plainEmailTemplate("Password Reset Successfully", "Now you can login with new password"),
+    });
+
+    res.json({ success: true, message: "Password Reset Successfully" });
+};
 
 // API to update user profile
 const updateProfile = async (req, res) => {
@@ -350,6 +529,9 @@ export {
     bookMeeting,
     listMeeting,
     cancelMeeting,
+    forgetPassword,
+    verifyEmail,
+    resetPassword,
     // paymentRazorpay,
     // verifyRazorpay,
     // paymentStripe,
