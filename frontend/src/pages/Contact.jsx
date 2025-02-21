@@ -1,10 +1,7 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppContext } from "../context/AppContext";
 
 const Contact = () => {
-  const navigate = useNavigate();
-  const { Mentors } = useContext(AppContext);
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -35,22 +32,12 @@ const Contact = () => {
           <p className="font-semibold text-lg text-gray-600">CAREERS</p>
           <p className="text-gray-500">Learn more about our teams and job openings.</p>
 
-          {Mentors.length > 0 ? (
-            Mentors.slice(0, 10).map((item, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  navigate(`/Meeting/${item._id}`);
-                  window.scrollTo(0, 0);
-                }}
+              <button onClick={() => { navigate("/Mentors"); scrollTo(0, 0) }} 
                 className="border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500"
               >
-                Explore Jobs
+                Our Mentors
               </button>
-            ))
-          ) : (
-            <p className="text-gray-500">No mentors available at the moment.</p>
-          )}
+           
         </div>
       </div>
     </div>
