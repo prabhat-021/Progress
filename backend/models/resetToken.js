@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+import mongoose  from "mongoose";
+import bcrypt  from "bcrypt";
 
 const resetTokenSchema = mongoose.Schema(
     {
@@ -19,7 +19,7 @@ const resetTokenSchema = mongoose.Schema(
         }
     },
     {
-        timestampToken:true
+        timestampToken: true
     }
 );
 
@@ -40,6 +40,6 @@ resetTokenSchema.methods.matchToken = async function (enteredToken) {
 
 }
 
-const User = mongoose.model("ResetToken", resetTokenSchema);
+const Reset = mongoose.model.ResetToken || mongoose.model("ResetToken", resetTokenSchema);
 
-module.exports = User;
+export default Reset;

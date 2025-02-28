@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 const generateOTP = () => {
   let otp = ''
@@ -86,6 +86,6 @@ const generatePasswordResetTemplate = (url) => {
 `
 };
 
-module.exports = { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate };
+export { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate };
 
 

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
+import mongoose  from "mongoose";
+import bcrypt  from "bcrypt";
 
 const verificationTokenSchema = mongoose.Schema(
     {
@@ -19,7 +19,7 @@ const verificationTokenSchema = mongoose.Schema(
         }
     },
     {
-        timestampToken:true
+        timestampToken: true
     }
 );
 
@@ -40,6 +40,6 @@ verificationTokenSchema.methods.matchToken = async function (enteredToken) {
 
 }
 
-const User = mongoose.model("VerificationToken", verificationTokenSchema);
+const verificationToken = mongoose.model.VerificationToken || mongoose.model("VerificationToken", verificationTokenSchema);
 
-module.exports = User;
+export default verificationToken;

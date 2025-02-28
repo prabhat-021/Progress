@@ -1,17 +1,17 @@
 import { createContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import axios from 'axios'
+import axios from 'axios';
 
-export const AppContext = createContext()
+export const AppContext = createContext();
 
 const AppContextProvider = (props) => {
 
     const currencySymbol = '₹'
     const backendUrl = import.meta.env.VITE_BACKEND_URL
 
-    const [Mentors, setMentors] = useState([])
-    const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : '')
-    const [userData, setUserData] = useState(false)
+    const [Mentors, setMentors] = useState([]);
+    const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : '');
+    const [userData, setUserData] = useState(false);
 
     // Getting Mentors using API
     const getDoctosData = async () => {
@@ -78,4 +78,4 @@ const AppContextProvider = (props) => {
 
 }
 
-export default AppContextProvider
+export default AppContextProvider;

@@ -1,6 +1,7 @@
 import express from 'express';
 import { loginUser, registerUser, getProfile, updateProfile, bookMeeting, listMeeting, cancelMeeting, verifyEmail, forgetPassword, resetPassword } from '../controllers/userController.js';
 import upload from '../middleware/multer.js';
+import { isResetTokenValid } from "../middleware/user.js";
 import authUser from '../middleware/authUser.js';
 const userRouter = express.Router();
 

@@ -165,7 +165,7 @@ const allMentors = async (req, res) => {
         console.log(error)
         res.json({ success: false, message: error.message })
     }
-}
+};
 
 // API to get dashboard data for admin panel
 const adminDashboard = async (req, res) => {
@@ -190,7 +190,38 @@ const adminDashboard = async (req, res) => {
         console.log(error)
         res.json({ success: false, message: error.message })
     }
-}
+};
+
+const deleteMentor = async (req, res) => {
+
+    try {
+
+        const { email } = req.body;
+
+        const menti = await MentorModel.findOne({ email });
+
+        // res.json({menti});
+
+        if (!menti) {
+            return res.json({ success: false, message: "Mentor does't exist" });
+        }
+
+        const leftMeetings = await MeetingModel.find({ docId: menti._id, isCompleted: false, cancelled: false });
+
+        if (leftMeetings.length !== 0) {
+            return res.json({ success: false, message: "Mentor has existing Meetings left" });
+        }
+
+        await MentorModel.findByIdAndDelete(menti._id);
+
+        res.json({ success: true, message: 'Mentor deleted' });
+        // res.json({leftMeetings});
+
+    } catch (error) {
+        console.error(error)
+        res.json({ success: false, message: error.message })
+    }
+};
 
 export {
     loginAdmin,
@@ -199,5 +230,6 @@ export {
     addMentor,
     allMentors,
     adminDashboard,
-    addCollege
+    addCollege,
+    deleteMentor
 }

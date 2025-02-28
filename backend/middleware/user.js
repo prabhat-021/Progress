@@ -1,6 +1,6 @@
 import { isValidObjectId } from "mongoose";
-import userModel from "../models/userModel";
-import ResetToken from "../models/resetToken";
+import userModel from "../models/userModel.js";
+import ResetToken from "../models/resetToken.js";
 
 const isResetTokenValid = async (req, res, next) => {
     const { token, id } = req.query;
@@ -32,4 +32,4 @@ const isResetTokenValid = async (req, res, next) => {
     next();
 };
 
-module.exports = isResetTokenValid;
+export { isResetTokenValid };

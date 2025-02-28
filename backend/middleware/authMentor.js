@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt from 'jsonwebtoken';
 
 // Mentor authentication middleware
 const authMentor = async (req, res, next) => {

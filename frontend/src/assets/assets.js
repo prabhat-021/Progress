@@ -12,6 +12,7 @@ import college_img from "./college.jpg";
 import aboutus from "./aboutus_pic.jpg";
 import contactus from "./map.png";
 import navIcon from "./online-education.gif";
+import group_profiles from "./group_profiles.png";
 
 
 export const assets = {
@@ -20,6 +21,7 @@ export const assets = {
     verified_icon,
     info_icon,
     arrow_icon,
+    group_profiles,
     contactus,
     aboutus,
     menu_icon,
