@@ -14,7 +14,7 @@ const AppContextProvider = (props) => {
     const [userData, setUserData] = useState(false);
 
     // Getting Mentors using API
-    const getDoctosData = async () => {
+    const getMentorData = async () => {
 
         try {
 
@@ -53,7 +53,7 @@ const AppContextProvider = (props) => {
     }
 
     useEffect(() => {
-        getDoctosData()
+        getMentorData()
     }, [])
 
     useEffect(() => {
@@ -63,7 +63,7 @@ const AppContextProvider = (props) => {
     }, [token])
 
     const value = {
-        Mentors, getDoctosData,
+        Mentors, getMentorData,
         currencySymbol,
         backendUrl,
         token, setToken,

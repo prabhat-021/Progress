@@ -107,7 +107,7 @@ const loginUser = async (req, res) => {
             return res.json({ success: false, message: "User does not exist" })
         }
 
-        const isMatch = await matchPassword(password);
+        const isMatch = await user.matchPassword(password);
 
         if (!isMatch) {
             return res.status(404).json({ success: false, message: "Password Is Wrong" });
@@ -120,7 +120,7 @@ const loginUser = async (req, res) => {
         // else {
         //     res.json({ success: false, message: "Invalid credentials" })
         // }
-        if (user && isMatched) {
+        if (user && isMatch) {
             res.status(201).json({
                 success: true,
                 _id: user._id,

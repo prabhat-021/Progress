@@ -7,13 +7,13 @@ const Navbar = () => {
 
   const navigate = useNavigate()
 
-  const [showMenu, setShowMenu] = useState(false)
-  const { token, setToken, userData } = useContext(AppContext)
+  const [showMenu, setShowMenu] = useState(false);
+  const { token, setToken, userData } = useContext(AppContext);
 
   const logout = () => {
     localStorage.removeItem("token")
     setToken(false)
-    navigate("/login")
+    navigate("/")
   }
 
   return (
