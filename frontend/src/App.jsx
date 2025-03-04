@@ -13,6 +13,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verify from "./pages/Verify"
 import AllColleges from "./pages/AllColleges";
+import ErrorPage from "./components/ErrorPage.jsx";
+import OtpInput from "./components/OtpInput.jsx";
 
 const App = () => {
   return (
@@ -25,12 +27,14 @@ const App = () => {
         <Route path="/College" element={<AllColleges />} />
         <Route path="/Mentors/:speciality" element={<Mentors />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/verifyOtp" element={<OtpInput />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/Meeting/:docId" element={<Meeting />} />
         <Route path="/my-Meetings" element={<MyMeetings />} />
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
     </div>

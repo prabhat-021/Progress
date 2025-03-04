@@ -1,13 +1,13 @@
-import { useContext } from "react"
-import { assets } from "../assets/assets"
-import { NavLink } from "react-router-dom"
-import { MentorContext } from "../context/MentorContext"
-import { AdminContext } from "../context/AdminContext"
+import { useContext } from "react";
+import { assets } from "../assets/assets";
+import { NavLink } from "react-router-dom";
+import { MentorContext } from "../context/MentorContext";
+import { AdminContext } from "../context/AdminContext";
 
 const Sidebar = () => {
 
-  const { dToken } = useContext(MentorContext)
-  const { aToken } = useContext(AdminContext)
+  const { dToken } = useContext(MentorContext);
+  const { aToken } = useContext(AdminContext);
 
   return (
     <div className="min-h-screen bg-white border-r">
@@ -53,4 +53,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default Sidebar;

@@ -5,15 +5,15 @@ import { AppContext } from "../context/AppContext";
 
 const Navbar = () => {
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
   const { token, setToken, userData } = useContext(AppContext);
 
   const logout = () => {
-    localStorage.removeItem("token")
-    setToken(false)
-    navigate("/")
+    localStorage.removeItem("token");
+    setToken(false);
+    navigate("/");
   }
 
   return (
@@ -63,7 +63,7 @@ const Navbar = () => {
         {/* ---- Mobile Menu ---- */}
         <div className={`md:hidden ${showMenu ? "fixed w-full" : "h-0 w-0"} right-0 top-0 bottom-0 z-20 overflow-hidden bg-white transition-all`}>
           <div className="flex items-center justify-between px-5 py-6">
-            <img src="https://flowbite.com/docs/images/logo.svg" className="w-36 h-8" alt="" />
+            <img src={assets.navIcon} className="w-36 h-8" alt="" />
             <img onClick={() => setShowMenu(false)} src={assets.cross_icon} className="w-7" alt="" />
           </div>
           <ul className="flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium">
@@ -79,4 +79,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default Navbar;

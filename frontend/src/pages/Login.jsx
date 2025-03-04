@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
-import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -11,33 +10,29 @@ const Login = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
-  const { backendUrl, token, setToken } = useContext(AppContext);
+  const { token, login, register, otpSent } = useContext(AppContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
     if (state === "Sign Up") {
-
-      const { data } = await axios.post(backendUrl + "/api/user/register", { name, email, password })
-
-      if (data.success) {
-        localStorage.setItem("token", data.token);
-        setToken(data.token);
+      if (!email || !password) {
+        toast.error("Please Provide All Details");
       } else {
-        toast.error(data.message);
+        await login(email, password);
       }
 
     } else {
 
-      const { data } = await axios.post(backendUrl + "/api/user/login", { email, password })
-
-      if (data.success) {
-        localStorage.setItem("token", data.token)
-        setToken(data.token)
+      if (!name || !email || !password) {
+        toast.error("Please Provide All Details");
+      } else if (password !== confirmPassword) {
+        toast.error("Password dosen't Match");
       } else {
-        toast.error(data.message)
+        await register(name, email, password);
       }
 
     }
@@ -47,8 +42,10 @@ const Login = () => {
   useEffect(() => {
     if (token) {
       navigate("/")
+    } else if (otpSent) {
+      navigate("/verifyOtp");
     }
-  }, [token])
+  }, [token,otpSent])
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
@@ -70,6 +67,12 @@ const Login = () => {
           <p>Password</p>
           <input onChange={(e) => setPassword(e.target.value)} value={password} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="password" required />
         </div>
+        {state === "Sign Up" ?
+          <div className="w-full ">
+            <p>Confirm Password</p>
+            <input onChange={(e) => setConfirmPassword(e.target.value)} value={confirmPassword} className="border border-[#DADADA] rounded w-full p-2 mt-1" type="password" required />
+          </div> : null
+        }
         <button className="bg-primary text-white w-full py-2 my-2 rounded-md text-base">{state === "Sign Up" ? "Create account" : "Login"}</button>
         {state === "Sign Up"
           ? <p>Already have an account? <span onClick={() => setState("Login")} className="text-primary underline cursor-pointer">Login here</span></p>
