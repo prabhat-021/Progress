@@ -78,7 +78,6 @@ const registerUser = async (req, res) => {
                 _id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,
-                verified: newUser.verified,
                 token: generateToken(newUser._id)
             });
         } else {
@@ -157,7 +156,8 @@ const verifyEmail = async (req, res) => {
         return res.status(400).json({ message: "Invalid request, missing parameters!" });
     };
 
-    const user = await userModel.findById(userId);
+    const user = await userModel.findById(userId).select('-password');
+
     if (!user) {
         return res.status(404).json({ success: false, message: "User Not Found" });
     }
@@ -167,6 +167,7 @@ const verifyEmail = async (req, res) => {
     }
 
     const token = await VerificationToken.findOne({ owner: user._id });
+
     if (!token) {
         return res.status(404).json({ success: false, message: "User Not Found" });
     }
@@ -190,7 +191,7 @@ const verifyEmail = async (req, res) => {
         html: plainEmailTemplate("Email Verified Succesfully", "Thanks for connecting with us "),
     });
 
-    res.status(201).json({ success: true, userData: user, message: "Your Email is Verified" })
+    res.status(201).json({ success: true, message: "Your Email is Verified" })
 
 };
 

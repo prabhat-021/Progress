@@ -13,7 +13,7 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
-  const { userData, login, register, otpSent } = useContext(AppContext);
+  const { login, register, otpSent, verfied } = useContext(AppContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
@@ -40,13 +40,12 @@ const Login = () => {
   }
 
   useEffect(() => {
-    // if (userData) {
-    //   navigate("/")
-    // } else 
     if (otpSent) {
       navigate("/verifyOtp");
     }
-  }, [otpSent])
+
+    if (verfied) navigate("/");
+  }, [otpSent,verfied])
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">

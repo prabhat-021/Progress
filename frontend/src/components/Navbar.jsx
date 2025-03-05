@@ -8,12 +8,12 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
-  const {verfied, userData } = useContext(AppContext);
+  const { verfied, userData, logout } = useContext(AppContext);
 
-  console.log(verfied);
+  // console.log(userData);
 
-  const logout = () => {
-    localStorage.removeItem("userInfo");
+  const handleLogOut = () => {
+    logout();
     navigate("/");
   }
 
@@ -53,7 +53,7 @@ const Navbar = () => {
                 <div className="min-w-48 bg-gray-50 rounded flex flex-col gap-4 p-4">
                   <p onClick={() => navigate("/my-profile")} className="hover:text-black cursor-pointer">My Profile</p>
                   <p onClick={() => navigate("/my-Meetings")} className="hover:text-black cursor-pointer">My Meetings</p>
-                  <p onClick={logout} className="hover:text-black cursor-pointer">Logout</p>
+                  <p onClick={handleLogOut} className="hover:text-black cursor-pointer">Logout</p>
                 </div>
               </div>
             </div>

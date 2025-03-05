@@ -15,10 +15,10 @@ import {
 
 export const AppContext = createContext();
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const initialState = {
     userData: JSON.parse(localStorage.getItem('userInfo')) || null,
+    token: JSON.parse(localStorage.getItem('token')) || null,
     mentors: [],
     loading: false,
     otpSent: JSON.parse(localStorage.getItem('otpSent')) || false,
@@ -32,9 +32,15 @@ const reducer = (state, action) => {
             return { ...state, loading: true };
 
         case USER_LOGIN_SUCCESS:
+            // localStorage.setItem("userInfo", JSON.stringify(action.payload));
+            localStorage.setItem("token", JSON.stringify(action.payload.token));
+            localStorage.setItem('verfied', JSON.stringify(true));
+            return { ...state, loading: false, verfied: true, otpSent: false, token: action.payload.token };
+
         case USER_REGISTER_SUCCESS:
-            localStorage.setItem("userInfo", JSON.stringify(action.payload));
-            return { ...state, loading: false, userData: action.payload };
+            // localStorage.setItem("userInfo", JSON.stringify(action.payload));
+            localStorage.setItem("token", JSON.stringify(action.payload.token));
+            return { ...state, loading: false, token: action.payload.token };
 
         case USER_LOGIN_FAIL:
         case USER_REGISTER_FAIL:
@@ -67,8 +73,11 @@ const reducer = (state, action) => {
 
 const AppContextProvider = (props) => {
 
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [state, dispatch] = useReducer(reducer, initialState);
     const currencySymbol = '₹';
+    // console.log(state.token);
+    
     // Getting Mentors using API
     const getMentorData = async () => {
 
@@ -90,13 +99,15 @@ const AppContextProvider = (props) => {
 
     // Getting User Profile using API
     const loadUserProfileData = async () => {
-
+        // console.log("fuction called");
+        // console.log(state.userData.token);
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: state.userData.token });
+            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token : state.token } });
+            // console.log(data);
 
             if (data.success) {
-                dispatch({ type: "SET_USER", payload: data });
+                dispatch({ type: "SET_USER", payload: data.userData });
             } else {
                 toast.error(data.message);
             }
@@ -113,7 +124,7 @@ const AppContextProvider = (props) => {
         try {
             const { data } = await axios.post(`${backendUrl}/api/user/login`, { email, password });
             if (data.success) {
-                dispatch({ type: USER_LOGIN_SUCCESS, payload: { token: data.token, userData: data.userData } });
+                dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
                 toast.success("Login successful!");
             } else {
                 dispatch({ type: USER_LOGIN_FAIL });
@@ -130,7 +141,7 @@ const AppContextProvider = (props) => {
         try {
             const { data } = await axios.post(`${backendUrl}/api/user/verifyEmail`, { userId, otp });
             if (data.success) {
-                dispatch({ type: USER_LOGIN_SUCCESS, payload: data.userData });
+                // dispatch({ type: USER_LOGIN_SUCCESS, payload: data.userData });
                 dispatch({ type: USER_REGISTER_OTP_SUCCESS });
                 toast.success("Login successful!");
             } else {
@@ -147,14 +158,17 @@ const AppContextProvider = (props) => {
         dispatch({ type: USER_REGISTER_REQUEST });
         try {
             const { data } = await axios.post(`${backendUrl}/api/user/register`, { name, email, password });
+
             if (data.success) {
                 dispatch({ type: USER_OTP_REQUEST });
                 dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
                 toast.success("OTP sent for verification!");
+
             } else {
                 dispatch({ type: USER_REGISTER_FAIL });
                 toast.error(data.message);
             }
+
         } catch (error) {
             dispatch({ type: USER_REGISTER_FAIL });
             toast.error(error.message);
@@ -174,7 +188,7 @@ const AppContextProvider = (props) => {
     }, [state.verfied]);
 
     return (
-        <AppContext.Provider value={{ ...state, login, register, logout, getMentorData, loadUserProfileData, verifyOtp, currencySymbol }}>
+        <AppContext.Provider value={{ ...state, login, register, logout, getMentorData, loadUserProfileData, verifyOtp, currencySymbol, backendUrl }}>
             {props.children}
         </AppContext.Provider>
     )
