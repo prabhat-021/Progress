@@ -8,7 +8,6 @@ import { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, ge
 import VerificationToken from "../models/verificationTokenschema.js";
 import ResetToken from "../models/resetToken.js";
 
-
 // import stripe from "stripe";
 // import razorpay from 'razorpay';
 
@@ -47,7 +46,7 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ success: false, message: "Password must be 8 to 20 characters long!" })
         }
 
-        const userData = new userModel({
+        const newUser = new userModel({
             name,
             email,
             password,
@@ -60,7 +59,7 @@ const registerUser = async (req, res) => {
         })
 
         await verificationToken.save();
-        await userData.save();
+        await newUser.save();
 
         transporter().sendMail({
             from: 'prabhatsahrawat010203@gmail.com',
@@ -79,6 +78,7 @@ const registerUser = async (req, res) => {
                 _id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,
+                verified: newUser.verified,
                 token: generateToken(newUser._id)
             });
         } else {
@@ -130,8 +130,8 @@ const loginUser = async (req, res) => {
             });
         }
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 }
 
@@ -139,14 +139,14 @@ const loginUser = async (req, res) => {
 const getProfile = async (req, res) => {
 
     try {
-        const { userId } = req.body
-        const userData = await userModel.findById(userId).select('-password')
+        const { userId } = req.body;
+        const userData = await userModel.findById(userId).select('-password');
 
-        res.json({ success: true, userData })
+        res.json({ success: true, userData });
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 };
 
@@ -190,7 +190,7 @@ const verifyEmail = async (req, res) => {
         html: plainEmailTemplate("Email Verified Succesfully", "Thanks for connecting with us "),
     });
 
-    res.status(201).json({ success: true, message: "Your Email is Verified" })
+    res.status(201).json({ success: true, userData: user, message: "Your Email is Verified" })
 
 };
 

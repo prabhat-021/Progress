@@ -8,11 +8,12 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
-  const { token, setToken, userData } = useContext(AppContext);
+  const {verfied, userData } = useContext(AppContext);
+
+  console.log(verfied);
 
   const logout = () => {
-    localStorage.removeItem("token");
-    setToken(false);
+    localStorage.removeItem("userInfo");
     navigate("/");
   }
 
@@ -44,7 +45,7 @@ const Navbar = () => {
 
       <div className="flex items-center gap-4 ">
         {
-          token && userData
+          verfied && userData
             ? <div className="flex items-center gap-2 cursor-pointer group relative">
               <img className="w-8 rounded-full" src={userData.image} alt="" />
               <img className="w-2.5" src={assets.dropdown_icon} alt="" />

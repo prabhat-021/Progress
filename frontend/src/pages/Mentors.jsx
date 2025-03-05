@@ -1,32 +1,32 @@
-import { useContext, useEffect, useState } from "react"
-import { AppContext } from "../context/AppContext"
-import { useNavigate, useParams } from "react-router-dom"
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Mentors = () => {
 
-  const { speciality } = useParams()
+  const { speciality } = useParams();
 
-  const [filterDoc, setFilterDoc] = useState([])
-  const [showFilter, setShowFilter] = useState(false)
+  const [filterDoc, setFilterDoc] = useState([]);
+  const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
 
-  const { Mentors } = useContext(AppContext)
+  const { mentors } = useContext(AppContext);
 
   const applyFilter = () => {
     if (speciality) {
-      setFilterDoc(Mentors.filter(doc => doc.speciality === speciality))
+      setFilterDoc(mentors.filter(doc => doc.speciality === speciality));
     } else {
-      setFilterDoc(Mentors)
+      setFilterDoc(mentors);
     }
   }
 
   useEffect(() => {
     applyFilter()
-  }, [Mentors, speciality])
+  }, [mentors, speciality]);
 
-  console.log(filterDoc);
+  // console.log(filterDoc);
   return (
-    <div>
+    <>
       <p className="text-gray-600">Browse through the Mentors specialist.</p>
       <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
         <button onClick={() => setShowFilter(!showFilter)} className={`py-1 px-3 border rounded text-sm  transition-all sm:hidden ${showFilter ? "bg-primary text-white" : "black"}`}>Filters</button>
@@ -53,7 +53,7 @@ const Mentors = () => {
           ))}
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

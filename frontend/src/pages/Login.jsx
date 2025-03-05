@@ -13,12 +13,12 @@ const Login = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
-  const { token, login, register, otpSent } = useContext(AppContext);
+  const { userData, login, register, otpSent } = useContext(AppContext);
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
-    if (state === "Sign Up") {
+    if (state !== "Sign Up") {
       if (!email || !password) {
         toast.error("Please Provide All Details");
       } else {
@@ -40,12 +40,13 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (token) {
-      navigate("/")
-    } else if (otpSent) {
+    // if (userData) {
+    //   navigate("/")
+    // } else 
+    if (otpSent) {
       navigate("/verifyOtp");
     }
-  }, [token,otpSent])
+  }, [otpSent])
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">

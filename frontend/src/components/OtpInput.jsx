@@ -8,9 +8,9 @@ export default function OtpInput() {
 
     const navigate = useNavigate();
 
-    const { otpSent, loading, userData } = useContext(AppContext);
-
-    const localUserInfo = localStorage.getItem("userInfo");
+    const { otpSent, loading, userData , verifyOtp, verfied} = useContext(AppContext);
+    console.log(userData);
+    console.log(otpSent);
 
     const inputRefs = useRef([]);
 
@@ -44,20 +44,19 @@ export default function OtpInput() {
         if (otp.length !==4) {
             toast.error("Invalid request, missing parameters!");
         } else {
-           await verifyEmail(otp);
+           await verifyOtp(userData._id,otp);
         }
     };
 
     useEffect(() => {
         if (!otpSent) navigate("/");
-    },[]);
+    },[otpSent]);
 
     useEffect(() => {
-        if (localUserInfo) {
+        if (verfied) {
             navigate("/");
         }
-
-    }, [localUserInfo])
+    }, [verfied]);
 
     return (
         <section className="relative flex min-h-screen flex-col justify-center overflow-hidden  py-12">
@@ -67,9 +66,9 @@ export default function OtpInput() {
                         <div className="font-semibold text-3xl">
                             <p>Email Verification</p>
                         </div>
-                        {/* <div className="flex flex-row text-sm font-medium text-gray-400">
+                        <div className="flex flex-row text-sm font-medium text-gray-400">
                             <p>We have sent a code to your email <span className="font-bold">{userData.email}</span></p>
-                        </div> */}
+                        </div>
                     </div>
 
                     <div>

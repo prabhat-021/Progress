@@ -6,7 +6,9 @@ import {
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
     USER_LOGOUT,
+    USER_OTP_REQUEST,
     USER_REGISTER_FAIL,
+    USER_REGISTER_OTP_SUCCESS,
     USER_REGISTER_REQUEST,
     USER_REGISTER_SUCCESS,
 } from "../constants/userConstants.js";
@@ -16,11 +18,11 @@ export const AppContext = createContext();
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const initialState = {
-    token: localStorage.getItem('token') || '',
     userData: JSON.parse(localStorage.getItem('userInfo')) || null,
     mentors: [],
     loading: false,
-    otpSent: false,
+    otpSent: JSON.parse(localStorage.getItem('otpSent')) || false,
+    verfied: JSON.parse(localStorage.getItem('verfied')) || false,
 };
 
 const reducer = (state, action) => {
@@ -31,18 +33,18 @@ const reducer = (state, action) => {
 
         case USER_LOGIN_SUCCESS:
         case USER_REGISTER_SUCCESS:
-            localStorage.setItem("token", action.payload.token);
-            localStorage.setItem("userInfo", JSON.stringify(action.payload.userData));
-            return { ...state, loading: false, token: action.payload.token, userData: action.payload.userData };
+            localStorage.setItem("userInfo", JSON.stringify(action.payload));
+            return { ...state, loading: false, userData: action.payload };
 
         case USER_LOGIN_FAIL:
         case USER_REGISTER_FAIL:
             return { ...state, loading: false };
 
         case USER_LOGOUT:
-            localStorage.removeItem("token");
-            localStorage.removeItem("userData");
-            return { ...state, token: '', userData: null };
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('verfied');
+            localStorage.removeItem('otpSent');
+            return { ...state, userData: null, verfied: false, otpSent: false };
 
         case "SET_MENTORS":
             return { ...state, mentors: action.payload };
@@ -50,8 +52,13 @@ const reducer = (state, action) => {
         case "SET_USER":
             return { ...state, userData: action.payload };
 
-        case "OTP_SENT":
+        case USER_OTP_REQUEST:
+            localStorage.setItem('otpSent', JSON.stringify(true));
             return { ...state, otpSent: true };
+
+        case USER_REGISTER_OTP_SUCCESS:
+            localStorage.setItem('verfied', JSON.stringify(true));
+            return { ...state, verfied: true, otpSent: false };
 
         default:
             return state;
@@ -86,10 +93,10 @@ const AppContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token } });
+            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: state.userData.token });
 
             if (data.success) {
-                dispatch({ type: "SET_USER", payload: data.userData });
+                dispatch({ type: "SET_USER", payload: data });
             } else {
                 toast.error(data.message);
             }
@@ -118,12 +125,13 @@ const AppContextProvider = (props) => {
         }
     };
 
-    const verifyOtp = async (id, email, otp) => {
+    const verifyOtp = async (userId, otp) => {
         dispatch({ type: USER_LOGIN_REQUEST });
         try {
-            const { data } = await axios.post(`${backendUrl}/api/user/verify-otp`, { id, email, otp });
+            const { data } = await axios.post(`${backendUrl}/api/user/verifyEmail`, { userId, otp });
             if (data.success) {
-                dispatch({ type: USER_LOGIN_SUCCESS, payload: { token: data.token, userData: data.userData } });
+                dispatch({ type: USER_LOGIN_SUCCESS, payload: data.userData });
+                dispatch({ type: USER_REGISTER_OTP_SUCCESS });
                 toast.success("Login successful!");
             } else {
                 dispatch({ type: USER_LOGIN_FAIL });
@@ -135,13 +143,13 @@ const AppContextProvider = (props) => {
         }
     };
 
-    const register = async (userDetails) => {
+    const register = async (name, email, password) => {
         dispatch({ type: USER_REGISTER_REQUEST });
         try {
-            const { data } = await axios.post(`${backendUrl}/api/user/register`, userDetails);
+            const { data } = await axios.post(`${backendUrl}/api/user/register`, { name, email, password });
             if (data.success) {
-                dispatch({ type: "OTP_SENT" });
-                dispatch({ type: USER_REGISTER_REQUEST, payload: data });
+                dispatch({ type: USER_OTP_REQUEST });
+                dispatch({ type: USER_REGISTER_SUCCESS, payload: data });
                 toast.success("OTP sent for verification!");
             } else {
                 dispatch({ type: USER_REGISTER_FAIL });
@@ -160,10 +168,10 @@ const AppContextProvider = (props) => {
 
     useEffect(() => {
         getMentorData();
-        if (state.token) {
+        if (state.verfied) {
             loadUserProfileData();
         }
-    }, [state.token]);
+    }, [state.verfied]);
 
     return (
         <AppContext.Provider value={{ ...state, login, register, logout, getMentorData, loadUserProfileData, verifyOtp, currencySymbol }}>

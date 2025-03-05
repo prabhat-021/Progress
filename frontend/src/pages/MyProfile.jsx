@@ -6,11 +6,11 @@ import { assets } from "../assets/assets"
 
 const MyProfile = () => {
 
-    const [isEdit, setIsEdit] = useState(false)
+    const [isEdit, setIsEdit] = useState(false);
 
-    const [image, setImage] = useState(false)
+    const [image, setImage] = useState(false);
 
-    const { token, backendUrl, userData, setUserData, loadUserProfileData } = useContext(AppContext)
+    const { backendUrl, userData, loadUserProfileData } = useContext(AppContext);
 
     // Function to update user profile data using API
     const updateUserProfileData = async () => {
@@ -19,28 +19,28 @@ const MyProfile = () => {
 
             const formData = new FormData();
 
-            formData.append("name", userData.name)
-            formData.append("phone", userData.phone)
-            formData.append("address", JSON.stringify(userData.address))
-            formData.append("gender", userData.gender)
-            formData.append("dob", userData.dob)
+            formData.append("name", userData.name);
+            formData.append("phone", userData.phone);
+            formData.append("address", JSON.stringify(userData.address));
+            formData.append("gender", userData.gender);
+            formData.append("dob", userData.dob);
 
-            image && formData.append("image", image)
+            image && formData.append("image", image);
 
-            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, { headers: { token } })
+            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, { headers: userData.token });
 
             if (data.success) {
-                toast.success(data.message)
-                await loadUserProfileData()
-                setIsEdit(false)
-                setImage(false)
+                toast.success(data.message);
+                await loadUserProfileData();
+                setIsEdit(false);
+                setImage(false);
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+            console.log(error);
+            toast.error(error.message);
         }
 
     }
@@ -125,4 +125,4 @@ const MyProfile = () => {
     ) : null
 }
 
-export default MyProfile
+export default MyProfile;
