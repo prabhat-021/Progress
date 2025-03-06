@@ -2,6 +2,7 @@ import { useEffect, useRef, useState , useContext} from "react";
 import Loading from "./Loading.jsx";
 import { AppContext } from "../context/AppContext.jsx";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function OtpInput() {
     const [otp, setOtp] = useState("");

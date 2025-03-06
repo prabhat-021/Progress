@@ -12,8 +12,8 @@ const MyProfile = () => {
     const [image, setImage] = useState(false);
 
     const { backendUrl, userData, loadUserProfileData, token } = useContext(AppContext);
-    // console.log(token);
-    // console.log(userData);
+    console.log(token);
+    console.log(userData);
 
     const [userData1, setUserData] = useState(userData);
 
@@ -26,10 +26,10 @@ const MyProfile = () => {
             if (userData) {
                 setUserData({ ...userData });
             }
-        },1000);
+        }, 1000);
     }, [userData]);
 
-    // console.log(userData1);
+    console.log(userData1);
 
     // Function to update user profile data using API
     const updateUserProfileData = async () => {
@@ -46,9 +46,9 @@ const MyProfile = () => {
 
             image && formData.append("image", image);
 
-            console.log(backendUrl);
+            console.log(token);
 
-            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, { headers: token });
+            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, { headers: { token } });
 
             if (data.success) {
                 toast.success(data.message);
@@ -66,7 +66,7 @@ const MyProfile = () => {
 
     }
 
-    return userData1 ? (
+    return userData1.phone ? (
         <div className="max-w-lg flex flex-col gap-2 text-sm pt-5">
 
             {isEdit

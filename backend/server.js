@@ -26,4 +26,5 @@ app.get("/", (req, res) => {
   res.send("API Working")
 });
 
-app.listen(port, () => console.log(`Server started on PORT:${port}`))
+const server=app.listen(port, () => console.log(`Server started on PORT:${port}`));
+server.timeout=10000;

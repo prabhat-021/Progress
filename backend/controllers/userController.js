@@ -7,6 +7,7 @@ import { generateToken } from "../utils/generateToken.js";
 import { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate } from "../utils/mail.js";
 import VerificationToken from "../models/verificationTokenschema.js";
 import ResetToken from "../models/resetToken.js";
+// import ImageKit from "imagekit";
 
 // import stripe from "stripe";
 // import razorpay from 'razorpay';
@@ -19,6 +20,13 @@ import ResetToken from "../models/resetToken.js";
 // })
 
 // API to register user
+
+// const imagekit = new ImageKit({
+//     publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
+//     privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
+//     urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
+// });
+
 const registerUser = async (req, res) => {
 
     try {
@@ -288,9 +296,23 @@ const updateProfile = async (req, res) => {
             return res.json({ success: false, message: "Data Missing" })
         }
 
+        const streamUpload = (fileBuffer) => {
+            return new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    { resource_type: "image" },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+                stream.end(fileBuffer); // Use buffer instead of pipe()
+            });
+        };
+
         if (imageFile) {
 
-            const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
+            // const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
+            const imageUpload = await streamUpload(req.file.buffer);
             const imageURL = imageUpload.secure_url
 
             await userModel.findByIdAndUpdate(userId, { image: imageURL, name, phone, address: JSON.parse(address), dob, gender });
