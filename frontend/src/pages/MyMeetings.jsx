@@ -1,36 +1,36 @@
-import { useContext, useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { AppContext } from "../context/AppContext"
-import axios from "axios"
-import { toast } from "react-toastify"
-import { assets } from "../assets/assets"
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { assets } from "../assets/assets";
 
 const MyMeetings = () => {
 
-    const { backendUrl, token } = useContext(AppContext)
-    const navigate = useNavigate()
+    const { backendUrl, token } = useContext(AppContext);
+    const navigate = useNavigate();
 
-    const [Meetings, setMeetings] = useState([])
-    const [payment, setPayment] = useState("")
+    const [Meetings, setMeetings] = useState([]);
+    const [payment, setPayment] = useState("");
 
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
     // Function to format the date eg. ( 20_01_2000 => 20 Jan 2000 )
     const slotDateFormat = (slotDate) => {
-        const dateArray = slotDate.split("_")
-        return dateArray[0] + " " + months[Number(dateArray[1])] + " " + dateArray[2]
+        const dateArray = slotDate.split("_");
+        return dateArray[0] + " " + months[Number(dateArray[1])] + " " + dateArray[2];
     }
 
     // Getting User Meetings Data Using API
     const getUserMeetings = async () => {
         try {
 
-            const { data } = await axios.get(backendUrl + "/api/user/Meetings", { headers: { token } })
-            setMeetings(data.Meetings.reverse())
+            const { data } = await axios.get(backendUrl + "/api/user/Meetings", { headers: { token } });
+            setMeetings(data.Meetings.reverse());
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+            console.log(error);
+            toast.error(error.message);
         }
     }
 
@@ -39,18 +39,18 @@ const MyMeetings = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, { headers: { token } })
+            const { data } = await axios.post(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, { headers: { token } });
 
             if (data.success) {
-                toast.success(data.message)
-                getUserMeetings()
+                toast.success(data.message);
+                getUserMeetings();
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+            console.log(error);
+            toast.error(error.message);
         }
 
     }
@@ -71,12 +71,12 @@ const MyMeetings = () => {
                 try {
                     const { data } = await axios.post(backendUrl + "/api/user/verifyRazorpay", response, { headers: { token } });
                     if (data.success) {
-                        navigate("/my-Meetings")
-                        getUserMeetings()
+                        navigate("/my-Meetings");
+                        getUserMeetings();
                     }
                 } catch (error) {
-                    console.log(error)
-                    toast.error(error.message)
+                    console.log(error);
+                    toast.error(error.message);
                 }
             }
         };
@@ -87,31 +87,31 @@ const MyMeetings = () => {
     // Function to make payment using razorpay
     const MeetingRazorpay = async (MeetingId) => {
         try {
-            const { data } = await axios.post(backendUrl + "/api/user/payment-razorpay", { MeetingId }, { headers: { token } })
+            const { data } = await axios.post(backendUrl + "/api/user/payment-razorpay", { MeetingId }, { headers: { token } });
             if (data.success) {
-                initPay(data.order)
-            }else{
-                toast.error(data.message)
+                initPay(data.order);
+            } else {
+                toast.error(data.message);
             }
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+            console.log(error);
+            toast.error(error.message);
         }
     }
 
-    // Function to make payment using stripe
+    // Function to make payment using stripe;
     const MeetingStripe = async (MeetingId) => {
         try {
-            const { data } = await axios.post(backendUrl + "/api/user/payment-stripe", { MeetingId }, { headers: { token } })
+            const { data } = await axios.post(backendUrl + "/api/user/payment-stripe", { MeetingId }, { headers: { token } });
             if (data.success) {
-                const { session_url } = data
-                window.location.replace(session_url)
-            }else{
-                toast.error(data.message)
+                const { session_url } = data;
+                window.location.replace(session_url);
+            } else {
+                toast.error(data.message);
             }
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+            console.log(error);
+            toast.error(error.message);
         }
     }
 
@@ -119,7 +119,7 @@ const MyMeetings = () => {
 
     useEffect(() => {
         if (token) {
-            getUserMeetings()
+            getUserMeetings();
         }
     }, [token])
 
@@ -159,4 +159,4 @@ const MyMeetings = () => {
     )
 }
 
-export default MyMeetings
+export default MyMeetings;

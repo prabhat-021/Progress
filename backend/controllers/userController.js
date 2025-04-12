@@ -7,17 +7,17 @@ import { generateToken } from "../utils/generateToken.js";
 import { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate } from "../utils/mail.js";
 import VerificationToken from "../models/verificationTokenschema.js";
 import ResetToken from "../models/resetToken.js";
+import razorpay from 'razorpay';
 // import ImageKit from "imagekit";
 
 // import stripe from "stripe";
-// import razorpay from 'razorpay';
-
-// // Gateway Initialize
 // const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
-// const razorpayInstance = new razorpay({
-//     key_id: process.env.RAZORPAY_KEY_ID,
-//     key_secret: process.env.RAZORPAY_KEY_SECRET,
-// })
+
+// Gateway Initialize
+const razorpayInstance = new razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 // API to register user
 
@@ -127,6 +127,7 @@ const loginUser = async (req, res) => {
         // else {
         //     res.json({ success: false, message: "Invalid credentials" })
         // }
+        
         if (user && isMatch) {
             res.status(201).json({
                 success: true,
@@ -334,8 +335,8 @@ const bookMeeting = async (req, res) => {
 
     try {
 
-        const { userId, docId, slotDate, slotTime } = req.body
-        const docData = await MentorModel.findById(docId).select("-password")
+        const { userId, menId, slotDate, slotTime } = req.body
+        const docData = await MentorModel.findById(menId).select("-password")
 
         if (!docData.available) {
             return res.json({ success: false, message: 'Mentor Not Available' })
@@ -362,7 +363,7 @@ const bookMeeting = async (req, res) => {
 
         const MeetingData = {
             userId,
-            docId,
+            menId,
             userData,
             docData,
             amount: docData.fees,
@@ -374,8 +375,7 @@ const bookMeeting = async (req, res) => {
         const newMeeting = new MeetingModel(MeetingData)
         await newMeeting.save()
 
-        // save new slots data in docData
-        await MentorModel.findByIdAndUpdate(docId, { slots_booked })
+        await MentorModel.findByIdAndUpdate(menId, { slots_booked })
 
         res.json({ success: true, message: 'Meeting Booked' })
 
@@ -401,15 +401,15 @@ const cancelMeeting = async (req, res) => {
         await MeetingModel.findByIdAndUpdate(MeetingId, { cancelled: true })
 
         // releasing Mentor slot 
-        const { docId, slotDate, slotTime } = MeetingData
+        const { menId, slotDate, slotTime } = MeetingData
 
-        const MentorData = await MentorModel.findById(docId)
+        const MentorData = await MentorModel.findById(menId)
 
         let slots_booked = MentorData.slots_booked
 
         slots_booked[slotDate] = slots_booked[slotDate].filter(e => e !== slotTime)
 
-        await MentorModel.findByIdAndUpdate(docId, { slots_booked })
+        await MentorModel.findByIdAndUpdate(menId, { slots_booked })
 
         res.json({ success: true, message: 'Meeting Cancelled' })
 
@@ -434,7 +434,7 @@ const listMeeting = async (req, res) => {
     }
 }
 
-// // API to make payment of Meeting using razorpay
+// API to make payment of Meeting using razorpay
 // const paymentRazorpay = async (req, res) => {
 //     try {
 

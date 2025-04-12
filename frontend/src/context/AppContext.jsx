@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import {
     USER_LOGIN_FAIL,
@@ -19,6 +20,7 @@ export const AppContext = createContext();
 const initialState = {
     userData: JSON.parse(localStorage.getItem('userInfo')) || null,
     token: JSON.parse(localStorage.getItem('token')) || null,
+    loged: JSON.parse(localStorage.getItem('loged')) || false,
     mentors: [],
     loading: false,
     otpSent: JSON.parse(localStorage.getItem('otpSent')) || false,
@@ -35,12 +37,14 @@ const reducer = (state, action) => {
             // localStorage.setItem("userInfo", JSON.stringify(action.payload));
             localStorage.setItem("token", JSON.stringify(action.payload.token));
             localStorage.setItem('verfied', JSON.stringify(true));
-            return { ...state, loading: false, verfied: true, otpSent: false, token: action.payload.token };
+            localStorage.setItem('loged', JSON.stringify(true));
+            return { ...state, loading: false, verfied: true, otpSent: false, token: action.payload.token, loged: true };
 
         case USER_REGISTER_SUCCESS:
             localStorage.setItem("userInfo", JSON.stringify(action.payload));
             localStorage.setItem("token", JSON.stringify(action.payload.token));
-            return { ...state, loading: false, token: action.payload.token, userData: action.payload };
+            localStorage.setItem('loged', JSON.stringify(true));
+            return { ...state, loading: false, token: action.payload.token, userData: action.payload, loged: true };
 
         case USER_LOGIN_FAIL:
         case USER_REGISTER_FAIL:
@@ -50,7 +54,9 @@ const reducer = (state, action) => {
             localStorage.removeItem('userInfo');
             localStorage.removeItem('verfied');
             localStorage.removeItem('otpSent');
-            return { ...state, userData: null, verfied: false, otpSent: false };
+            localStorage.removeItem('loged');
+            localStorage.removeItem('token');
+            return { ...state, userData: null, verfied: false, otpSent: false, token: null };
 
         case "SET_MENTORS":
             return { ...state, mentors: action.payload };
@@ -76,6 +82,7 @@ const AppContextProvider = (props) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
     const [state, dispatch] = useReducer(reducer, initialState);
     const currencySymbol = '₹';
+    const navigate = useNavigate();
     // console.log(state.token);
 
     // Getting Mentors using API
@@ -99,12 +106,12 @@ const AppContextProvider = (props) => {
 
     // Getting User Profile using API
     const loadUserProfileData = async () => {
-        console.log("fuction called");
+        // console.log("fuction called");
         // console.log(state.userData.token);
         try {
 
             const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token: state.token } });
-            console.log(data);
+            // console.log(data);
 
             if (data.success) {
                 dispatch({ type: "SET_USER", payload: data.userData });
@@ -145,7 +152,7 @@ const AppContextProvider = (props) => {
             if (data.success) {
                 // dispatch({ type: USER_LOGIN_SUCCESS, payload: data.userData });
                 dispatch({ type: USER_REGISTER_OTP_SUCCESS });
-                toast.success("Login successful!");                
+                toast.success("Login successful!");
             } else {
                 dispatch({ type: USER_LOGIN_FAIL });
                 toast.error(data.message);
@@ -188,6 +195,15 @@ const AppContextProvider = (props) => {
             loadUserProfileData();
         }
     }, [state.verfied]);
+
+    useEffect(() => {
+        if (state.loged) {
+            setTimeout(() => {
+                logout();
+                navigate("/");
+            }, 2 * 60 * 60 * 1000);
+        }
+    }, [state.loged]);
 
     return (
         <AppContext.Provider value={{ ...state, login, register, logout, getMentorData, loadUserProfileData, verifyOtp, currencySymbol, backendUrl }}>

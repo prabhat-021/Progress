@@ -1,42 +1,43 @@
-import axios from "axios"
-import { useContext, useState } from "react"
-import { MentorContext } from "../context/MentorContext"
-import { AdminContext } from "../context/AdminContext"
-import { toast } from "react-toastify"
+import axios from "axios";
+import { useContext, useState } from "react";
+import { MentorContext } from "../context/MentorContext";
+import { AdminContext } from "../context/AdminContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
 
-  const [state, setState] = useState("Admin")
+  const [state, setState] = useState("Admin");
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-  const { setDToken } = useContext(MentorContext)
-  const { setAToken } = useContext(AdminContext)
+  const { setDToken } = useContext(MentorContext);
+  const { setAToken } = useContext(AdminContext);
 
   const onSubmitHandler = async (event) => {
+    ;
     event.preventDefault();
 
     if (state === "Admin") {
 
-      const { data } = await axios.post(backendUrl + "/api/admin/login", { email, password })
+      const { data } = await axios.post(backendUrl + "/api/admin/login", { email, password });
       if (data.success) {
-        setAToken(data.token)
-        localStorage.setItem("aToken", data.token)
+        setAToken(data.token);
+        localStorage.setItem("aToken", data.token);
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
 
     } else {
 
-      const { data } = await axios.post(backendUrl + "/api/Mentor/login", { email, password })
+      const { data } = await axios.post(backendUrl + "/api/Mentor/login", { email, password });
       if (data.success) {
-        setDToken(data.token)
-        localStorage.setItem("dToken", data.token)
+        setDToken(data.token);
+        localStorage.setItem("dToken", data.token);
       } else {
-        toast.error(data.message)
+        toast.error(data.message);
       }
 
     }
@@ -66,4 +67,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default Login;

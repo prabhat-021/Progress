@@ -8,25 +8,27 @@ import { toast } from "react-toastify"
 
 const Meeting = () => {
 
-    const { docId } = useParams()
-    const { Mentors, currencySymbol, backendUrl, token, getMentorData } = useContext(AppContext)
-    const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
+    const { menId } = useParams();
+    // console.log(menId);
 
-    const [docInfo, setDocInfo] = useState(false)
-    const [docSlots, setDocSlots] = useState([])
-    const [slotIndex, setSlotIndex] = useState(0)
-    const [slotTime, setSlotTime] = useState("")
+    const { mentors, currencySymbol, backendUrl, token, getMentorData } = useContext(AppContext);
+    const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-    const navigate = useNavigate()
+    const [menInfo, setMenInfo] = useState(false);
+    const [menSlots, setMenSlots] = useState([]);
+    const [slotIndex, setSlotIndex] = useState(0);
+    const [slotTime, setSlotTime] = useState("");
 
-    const fetchDocInfo = async () => {
-        const docInfo = Mentors.find((doc) => doc._id === docId)
-        setDocInfo(docInfo)
+    const navigate = useNavigate();
+
+    const fetchMenInfo = async () => {
+        const menInfo = mentors.find((men) => men._id === menId);
+        setMenInfo(menInfo);
     }
 
     const getAvailableSolts = async () => {
 
-        setDocSlots([])
+        setMenSlots([])
 
         // getting current date
         let today = new Date()
@@ -39,7 +41,7 @@ const Meeting = () => {
 
             // setting end time of the date with index
             let endTime = new Date()
-            endTime.setDate(today.getDate() + i )
+            endTime.setDate(today.getDate() + i)
             endTime.setHours(21, 0, 0, 0)
 
             // setting hours 
@@ -64,7 +66,7 @@ const Meeting = () => {
                 const slotDate = day + "_" + month + "_" + year
                 const slotTime = formattedTime
 
-                const isSlotAvailable = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime) ? false : true
+                const isSlotAvailable = menInfo.slots_booked[slotDate] && menInfo.slots_booked[slotDate].includes(slotTime) ? false : true
 
                 if (isSlotAvailable) {
 
@@ -79,7 +81,7 @@ const Meeting = () => {
                 currentDate.setMinutes(currentDate.getMinutes() + 30);
             }
 
-            setDocSlots(prev => ([...prev, timeSlots]))
+            setMenSlots(prev => ([...prev, timeSlots]))
 
         }
 
@@ -92,7 +94,7 @@ const Meeting = () => {
             return navigate("/login")
         }
 
-        const date = docSlots[slotIndex][0].datetime
+        const date = menSlots[slotIndex][0].datetime
 
         let day = date.getDate()
         let month = date.getMonth() + 1
@@ -102,7 +104,7 @@ const Meeting = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/book-Meeting", { docId, slotDate, slotTime }, { headers: { token } })
+            const { data } = await axios.post(backendUrl + "/api/user/book-Meeting", { menId, slotDate, slotTime }, { headers: { token } })
             if (data.success) {
                 toast.success(data.message)
                 getMentorData()
@@ -119,43 +121,43 @@ const Meeting = () => {
     }
 
     useEffect(() => {
-        if (Mentors.length > 0) {
-            fetchDocInfo()
+        if (mentors.length > 0) {
+            fetchMenInfo()
         }
-    }, [Mentors, docId])
+    }, [mentors, menId])
 
     useEffect(() => {
-        if (docInfo) {
+        if (menInfo) {
             getAvailableSolts()
         }
-    }, [docInfo])
+    }, [menInfo])
 
-    return docInfo ? (
+    return menInfo ? (
         <div>
 
             {/* ---------- Mentor Details ----------- */}
             <div className="flex flex-col sm:flex-row gap-4">
                 <div>
-                    <img className="bg-primary w-full sm:max-w-72 rounded-lg" src={docInfo.image} alt="" />
+                    <img className="bg-primary w-full sm:max-w-72 rounded-lg" src={menInfo.image} alt="" />
                 </div>
 
                 <div className="flex-1 border border-[#ADADAD] rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px] sm:mt-0">
 
                     {/* ----- Doc Info : name, degree, experience ----- */}
 
-                    <p className="flex items-center gap-2 text-3xl font-medium text-gray-700">{docInfo.name} <img className="w-5" src={assets.verified_icon} alt="" /></p>
+                    <p className="flex items-center gap-2 text-3xl font-medium text-gray-700">{menInfo.name} <img className="w-5" src={assets.verified_icon} alt="" /></p>
                     <div className="flex items-center gap-2 mt-1 text-gray-600">
-                        <p>{docInfo.degree} - {docInfo.speciality}</p>
-                        <button className="py-0.5 px-2 border text-xs rounded-full">{docInfo.experience}</button>
+                        <p>{menInfo.degree} - {menInfo.speciality}</p>
+                        <button className="py-0.5 px-2 border text-xs rounded-full">{menInfo.experience}</button>
                     </div>
 
                     {/* ----- Doc About ----- */}
                     <div>
                         <p className="flex items-center gap-1 text-sm font-medium text-[#262626] mt-3">About <img className="w-3" src={assets.info_icon} alt="" /></p>
-                        <p className="text-sm text-gray-600 max-w-[700px] mt-1">{docInfo.about}</p>
+                        <p className="text-sm text-gray-600 max-w-[700px] mt-1">{menInfo.about}</p>
                     </div>
 
-                    <p className="text-gray-600 font-medium mt-4">Meeting fee: <span className="text-gray-800">{currencySymbol}{docInfo.fees}</span> </p>
+                    <p className="text-gray-600 font-medium mt-4">Meeting fee: <span className="text-gray-800">{currencySymbol}{menInfo.fees}</span> </p>
                 </div>
             </div>
 
@@ -163,7 +165,7 @@ const Meeting = () => {
             <div className="sm:ml-72 sm:pl-4 mt-8 font-medium text-[#565656]">
                 <p >Booking slots</p>
                 <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
-                    {docSlots.length && docSlots.map((item, index) => (
+                    {menSlots.length && menSlots.map((item, index) => (
                         <div onClick={() => setSlotIndex(index)} key={index} className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${slotIndex === index ? "bg-primary text-white" : "border border-[#DDDDDD]"}`}>
                             <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
                             <p>{item[0] && item[0].datetime.getDate()}</p>
@@ -172,7 +174,7 @@ const Meeting = () => {
                 </div>
 
                 <div className="flex items-center gap-3 w-full overflow-x-scroll mt-4">
-                    {docSlots.length && docSlots[slotIndex].map((item, index) => (
+                    {menSlots.length && menSlots[slotIndex].map((item, index) => (
                         <p onClick={() => setSlotTime(item.time)} key={index} className={`text-sm font-light  flex-shrink-0 px-5 py-2 rounded-full cursor-pointer ${item.time === slotTime ? "bg-primary text-white" : "text-[#949494] border border-[#B4B4B4]"}`}>{item.time.toLowerCase()}</p>
                     ))}
                 </div>
@@ -181,9 +183,9 @@ const Meeting = () => {
             </div>
 
             {/* Listing Releated Mentors */}
-            <RelatedMentors speciality={docInfo.speciality} docId={docId} />
+            <RelatedMentors speciality={menInfo.speciality} menId={menId} />
         </div>
     ) : null
 }
 
-export default Meeting
+export default Meeting;

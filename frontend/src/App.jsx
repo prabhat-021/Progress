@@ -18,7 +18,7 @@ import OtpInput from "./components/OtpInput.jsx";
 
 const App = () => {
   return (
-    <div className="mx-4 sm:mx-[10%]">
+    <div className="mx-4 sm:mx-[6%]">
       <ToastContainer />
       <Navbar />
       <Routes>
@@ -30,7 +30,7 @@ const App = () => {
         <Route path="/verifyOtp" element={<OtpInput />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/Meeting/:docId" element={<Meeting />} />
+        <Route path="/Meeting/:menId" element={<Meeting />} />
         <Route path="/my-Meetings" element={<MyMeetings />} />
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/verify" element={<Verify />} />
