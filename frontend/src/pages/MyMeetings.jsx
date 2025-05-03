@@ -115,8 +115,6 @@ const MyMeetings = () => {
         }
     }
 
-
-
     useEffect(() => {
         if (token) {
             getUserMeetings();

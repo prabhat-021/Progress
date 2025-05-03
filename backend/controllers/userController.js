@@ -127,7 +127,7 @@ const loginUser = async (req, res) => {
         // else {
         //     res.json({ success: false, message: "Invalid credentials" })
         // }
-        
+
         if (user && isMatch) {
             res.status(201).json({
                 success: true,
@@ -435,52 +435,52 @@ const listMeeting = async (req, res) => {
 }
 
 // API to make payment of Meeting using razorpay
-// const paymentRazorpay = async (req, res) => {
-//     try {
+const paymentRazorpay = async (req, res) => {
+    try {
 
-//         const { MeetingId } = req.body
-//         const MeetingData = await MeetingModel.findById(MeetingId)
+        const { MeetingId } = req.body
+        const MeetingData = await MeetingModel.findById(MeetingId)
 
-//         if (!MeetingData || MeetingData.cancelled) {
-//             return res.json({ success: false, message: 'Meeting Cancelled or not found' })
-//         }
+        if (!MeetingData || MeetingData.cancelled) {
+            return res.json({ success: false, message: 'Meeting Cancelled or not found' })
+        }
 
-//         // creating options for razorpay payment
-//         const options = {
-//             amount: MeetingData.amount * 100,
-//             currency: process.env.CURRENCY,
-//             receipt: MeetingId,
-//         }
+        // creating options for razorpay payment
+        const options = {
+            amount: MeetingData.amount * 100,
+            currency: process.env.CURRENCY,
+            receipt: MeetingId,
+        }
 
-//         // creation of an order
-//         const order = await razorpayInstance.orders.create(options)
+        // creation of an order
+        const order = await razorpayInstance.orders.create(options)
 
-//         res.json({ success: true, order })
+        res.json({ success: true, order })
 
-//     } catch (error) {
-//         console.log(error)
-//         res.json({ success: false, message: error.message })
-//     }
-// }
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
 
 // // API to verify payment of razorpay
-// const verifyRazorpay = async (req, res) => {
-//     try {
-//         const { razorpay_order_id } = req.body
-//         const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
+const verifyRazorpay = async (req, res) => {
+    try {
+        const { razorpay_order_id } = req.body
+        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id)
 
-//         if (orderInfo.status === 'paid') {
-//             await MeetingModel.findByIdAndUpdate(orderInfo.receipt, { payment: true })
-//             res.json({ success: true, message: "Payment Successful" })
-//         }
-//         else {
-//             res.json({ success: false, message: 'Payment Failed' })
-//         }
-//     } catch (error) {
-//         console.log(error)
-//         res.json({ success: false, message: error.message })
-//     }
-// }
+        if (orderInfo.status === 'paid') {
+            await MeetingModel.findByIdAndUpdate(orderInfo.receipt, { payment: true })
+            res.json({ success: true, message: "Payment Successful" })
+        }
+        else {
+            res.json({ success: false, message: 'Payment Failed' })
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+}
 
 // // API to make payment of Meeting using Stripe
 // const paymentStripe = async (req, res) => {
@@ -553,8 +553,8 @@ export {
     forgetPassword,
     verifyEmail,
     resetPassword,
-    // paymentRazorpay,
-    // verifyRazorpay,
+    paymentRazorpay,
+    verifyRazorpay,
     // paymentStripe,
     // verifyStripe
 }
