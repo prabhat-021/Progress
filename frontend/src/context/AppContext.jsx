@@ -22,6 +22,7 @@ const initialState = {
     token: JSON.parse(localStorage.getItem('token')) || null,
     loged: JSON.parse(localStorage.getItem('loged')) || false,
     mentors: [],
+    colleges: [],
     loading: false,
     otpSent: JSON.parse(localStorage.getItem('otpSent')) || false,
     verfied: JSON.parse(localStorage.getItem('verfied')) || false,
@@ -61,6 +62,9 @@ const reducer = (state, action) => {
         case "SET_MENTORS":
             return { ...state, mentors: action.payload };
 
+        case "SET_COLLEGE":
+            return { ...state, colleges: action.payload };
+
         case "SET_USER":
             return { ...state, userData: action.payload };
 
@@ -91,8 +95,29 @@ const AppContextProvider = (props) => {
         try {
 
             const { data } = await axios.get(backendUrl + '/api/Mentor/list');
+            console.log(data);
             if (data.success) {
                 dispatch({ type: "SET_MENTORS", payload: data.Mentors });
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            console.error(error);
+            toast.error(error.message);
+        }
+
+    }
+
+       // Getting Colleges using API
+       const getCollegeData = async () => {
+
+        try {
+
+            const { data } = await axios.get(backendUrl + '/api/Mentor/CollegeList');
+            console.log(data);
+            if (data.success) {
+                dispatch({ type: "SET_COLLEGE", payload: data.Colleges });
             } else {
                 toast.error(data.message);
             }
@@ -191,6 +216,7 @@ const AppContextProvider = (props) => {
 
     useEffect(() => {
         getMentorData();
+        getCollegeData();
         if (state.verfied) {
             loadUserProfileData();
         }

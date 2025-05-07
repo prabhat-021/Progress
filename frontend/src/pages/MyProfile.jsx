@@ -14,9 +14,10 @@ const MyProfile = () => {
     const { backendUrl, userData, loadUserProfileData, token } = useContext(AppContext);
     console.log(token);
     console.log(userData);
+   
 
     const [userData1, setUserData] = useState(userData);
-
+    console.log(userData);
     // useEffect(() => {
     //     loadUserProfileData();
     // }, []);

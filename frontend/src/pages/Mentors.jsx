@@ -6,17 +6,18 @@ const Mentors = () => {
 
   const { speciality } = useParams();
 
-  const [filterDoc, setFilterDoc] = useState([]);
+  const [filterMen, setFilterMen] = useState([]);
   const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
 
   const { mentors } = useContext(AppContext);
+  // console.log(mentors);
 
   const applyFilter = () => {
     if (speciality) {
-      setFilterDoc(mentors.filter(doc => doc.speciality === speciality));
+      setFilterMen(mentors.filter(doc => doc.speciality === speciality));
     } else {
-      setFilterDoc(mentors);
+      setFilterMen(mentors);
     }
   }
 
@@ -24,7 +25,7 @@ const Mentors = () => {
     applyFilter()
   }, [mentors, speciality]);
 
-  // console.log(filterDoc);
+  // console.log(filterMen);
   return (
     <>
       <p className="text-gray-600">Browse through the Mentors specialist.</p>
@@ -39,7 +40,7 @@ const Mentors = () => {
           <p onClick={() => speciality === "MBA" ? navigate("/Mentors") : navigate("/Mentors/MBA")} className={`w-[94vw] md:w-48 sm:w-auto pl-3 py-1.5 pr-8 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "MBA" ? "bg-[#E2E5FF] text-black " : ""}`}>MBA</p>
         </div>
         <div className="w-full grid grid-cols-auto gap-4 gap-y-6">
-          {filterDoc.map((item, index) => (
+          {filterMen.map((item, index) => (
             <div onClick={() => { navigate(`/Meeting/${item._id}`); scrollTo(0, 0) }} className="border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500" key={index}>
               <img className="bg-[#EAEFFF]" src={item.image} alt="" />
               <div className="p-4">
@@ -57,4 +58,4 @@ const Mentors = () => {
   )
 }
 
-export default Mentors
+export default Mentors;

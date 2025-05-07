@@ -15,6 +15,7 @@ import Verify from "./pages/Verify"
 import AllColleges from "./pages/AllColleges";
 import ErrorPage from "./components/ErrorPage.jsx";
 import OtpInput from "./components/OtpInput.jsx";
+import CollegeDetails from "./pages/College.jsx"
 
 const App = () => {
   return (
@@ -26,11 +27,13 @@ const App = () => {
         <Route path="/Mentors" element={<Mentors />} />
         <Route path="/College" element={<AllColleges />} />
         <Route path="/Mentors/:speciality" element={<Mentors />} />
+        <Route path="/College/:speciality" element={<AllColleges />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verifyOtp" element={<OtpInput />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/Meeting/:menId" element={<Meeting />} />
+        <Route path="/CollegeDetails/:colId" element={<CollegeDetails />} />
         <Route path="/my-Meetings" element={<MyMeetings />} />
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/verify" element={<Verify />} />

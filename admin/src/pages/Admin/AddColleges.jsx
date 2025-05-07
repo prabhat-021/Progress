@@ -152,7 +152,7 @@ const AddCollege = () => {
                                 <option value="">Select Speciality</option>
                                 <option value="Engineering">Engineering</option>
                                 <option value="Medical">Medical</option>
-                                <option value="Business/Management">Business/Management</option>
+                                <option value="Business/Management">Business & Management</option>
                                 <option value="Law">Law</option>
                                 <option value="Arts & Humanities">Arts & Humanities</option>
                                 <option value="Science & Technology">Science & Technology</option>

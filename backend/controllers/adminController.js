@@ -27,7 +27,6 @@ const loginAdmin = async (req, res) => {
 
 }
 
-
 // API to get all Meetings list
 const MeetingsAdmin = async (req, res) => {
     try {
@@ -83,8 +82,10 @@ const addMentor = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt)
 
         // upload image to cloudinary
-        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" })
-        const imageUrl = imageUpload.secure_url
+        console.log(imageFile.path)
+        // console.log( await cloudinary.uploader.upload(imageFile.path));
+        const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" } );
+        const imageUrl = imageUpload.secure_url;
         // const imageUrl = "hahuhauah"
 
         const MentorData = {
@@ -232,4 +233,4 @@ export {
     adminDashboard,
     addCollege,
     deleteMentor
-}
+};

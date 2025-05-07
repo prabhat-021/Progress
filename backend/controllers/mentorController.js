@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import MentorModel from "../models/mentorModel.js";
 import MeetingModel from "../models/MeetingModel.js";
+import CollegeModel from "../models/collegeModel.js";
 
 // API for Mentor Login 
 const loginMentor = async (req, res) => {
@@ -92,14 +93,26 @@ const MeetingComplete = async (req, res) => {
 const MentorList = async (req, res) => {
     try {
 
-        const Mentors = await MentorModel.find({}).select(['-password', '-email'])
-        res.json({ success: true, Mentors })
+        const Mentors = await MentorModel.find({}).select(['-password', '-email']);
+        res.json({ success: true, Mentors });
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 
+}
+
+const CollegeList = async (req, res) => {
+    try {
+
+        const Colleges = await CollegeModel.find();
+        res.json({ success: true, Colleges });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
 }
 
 // API to change Mentor availablity for Admin and Mentor Panel
@@ -199,5 +212,6 @@ export {
     MeetingComplete,
     MentorDashboard,
     MentorProfile,
-    updateMentorProfile
-}
+    updateMentorProfile,
+    CollegeList,
+};

@@ -18,7 +18,7 @@ const razorpayInstance = new razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
     key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-
+// console.log(cloudinary.uploader.upload);
 // API to register user
 
 // const imagekit = new ImageKit({
@@ -311,9 +311,9 @@ const updateProfile = async (req, res) => {
         };
 
         if (imageFile) {
-
-            // const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
-            const imageUpload = await streamUpload(req.file.buffer);
+            console.log(imageFile.path);
+            const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
+            // const imageUpload = await streamUpload(req.file.buffer);
             const imageURL = imageUpload.secure_url
 
             await userModel.findByIdAndUpdate(userId, { image: imageURL, name, phone, address: JSON.parse(address), dob, gender });
