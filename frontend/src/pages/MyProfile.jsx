@@ -12,12 +12,12 @@ const MyProfile = () => {
     const [image, setImage] = useState(false);
 
     const { backendUrl, userData, loadUserProfileData, token } = useContext(AppContext);
-    console.log(token);
-    console.log(userData);
+    // console.log(token);
+    // console.log(userData);
    
 
     const [userData1, setUserData] = useState(userData);
-    console.log(userData);
+    // console.log(userData);
     // useEffect(() => {
     //     loadUserProfileData();
     // }, []);
@@ -30,7 +30,7 @@ const MyProfile = () => {
         }, 1000);
     }, [userData]);
 
-    console.log(userData1);
+    // console.log(userData1);
 
     // Function to update user profile data using API
     const updateUserProfileData = async () => {
@@ -67,7 +67,7 @@ const MyProfile = () => {
 
     }
 
-    return userData1.phone ? (
+    return userData1 ? (
         <div className="max-w-lg flex flex-col gap-2 text-sm pt-5">
 
             {isEdit

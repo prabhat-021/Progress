@@ -36,19 +36,22 @@ const loginMentor = async (req, res) => {
 // API to get Mentor Meetings for Mentor panel
 const MeetingsMentor = async (req, res) => {
     try {
+
         const { menId } = req.body;
+        const Meetings = await MeetingModel.find({ menId });
 
-        const Meetings = await MeetingModel.find({ menId })
-            .populate({ path: 'userId', select: '-password -email' });
+        // console.log(Meetings, 'Meetings-1');
 
-        const MeetingsWithUser = Meetings.map(meeting => {
-            const meetingObj = meeting.toObject();
-            meetingObj.userData = meetingObj.userId;
-            delete meetingObj.userId;
-            return meetingObj;
-        });
+        await Promise.all(Meetings.map(async (item, index) => {
+            const userData = await userModel.findById(item.userId).select(['-password', '-email']);
+            Meetings[index].userData = userData;
+        }));        
 
-        res.json({ success: true, Meetings: MeetingsWithUser });
+        // console.log(Meetings, 'Meetings-2');
+
+        res.json({ success: true, Meetings });
+        // console.log(Meetings);
+
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });

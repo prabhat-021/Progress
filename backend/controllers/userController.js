@@ -8,6 +8,7 @@ import { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, ge
 import VerificationToken from "../models/verificationTokenschema.js";
 import ResetToken from "../models/resetToken.js";
 import razorpay from 'razorpay';
+import mongoose from "mongoose";
 // import ImageKit from "imagekit";
 
 // import stripe from "stripe";
@@ -420,9 +421,12 @@ const cancelMeeting = async (req, res) => {
 const listMeeting = async (req, res) => {
     try {
 
-        const { userId } = req.body
-        const Meetings = await MeetingModel.find({ userId })
+        const { userId } = req.body;
+        const Meetings = await MeetingModel.find({
+            userId,
+        });
 
+        console.log(Meetings)
         res.json({ success: true, Meetings })
 
     } catch (error) {

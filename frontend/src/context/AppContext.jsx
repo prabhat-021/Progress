@@ -95,7 +95,7 @@ const AppContextProvider = (props) => {
         try {
 
             const { data } = await axios.get(backendUrl + '/api/Mentor/list');
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 dispatch({ type: "SET_MENTORS", payload: data.Mentors });
             } else {
@@ -115,7 +115,7 @@ const AppContextProvider = (props) => {
         try {
 
             const { data } = await axios.get(backendUrl + '/api/Mentor/CollegeList');
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 dispatch({ type: "SET_COLLEGE", payload: data.Colleges });
             } else {
@@ -169,7 +169,7 @@ const AppContextProvider = (props) => {
     };
 
     const verifyOtp = async (userId, otp) => {
-        console.log("funtion called ");
+        // console.log("funtion called ");
 
         dispatch({ type: USER_LOGIN_REQUEST });
         try {
