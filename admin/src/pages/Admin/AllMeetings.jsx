@@ -18,7 +18,7 @@ const AllMeetings = () => {
   console.log(Meetings);
 
   return (
-    <div className="w-full max-w-6xl m-5 ">
+    <div className="w-full m-5 ">
 
       <p className="mb-3 text-lg font-medium">All Meetings</p>
 
@@ -41,7 +41,7 @@ const AllMeetings = () => {
             <p className="max-sm:hidden">{calculateAge(item.userData.dob)}</p>
             <p>{slotDateFormat(item.slotDate)}, {item.slotTime}</p>
             <div className="flex items-center gap-2">
-              <img src={item.docData.image} className="w-8 rounded-full bg-gray-200" alt="" /> <p>{item.docData.name}</p>
+              <img src={item.menData.image} className="w-8 rounded-full bg-gray-200" alt="" /> <p>{item.menData.name}</p>
             </div>
             <p>{currency}{item.amount}</p>
             {item.cancelled ? <p className="text-red-400 text-xs font-medium">Cancelled</p> : item.isCompleted ? <p className="text-green-500 text-xs font-medium">Completed</p> : <img onClick={() => cancelMeeting(item._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />}

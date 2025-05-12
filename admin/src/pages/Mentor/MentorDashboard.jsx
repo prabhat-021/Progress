@@ -1,26 +1,25 @@
-import { useContext } from "react"
-import { useEffect } from "react"
-import { MentorContext } from "../../context/MentorContext"
-import { assets } from "../../assets/assets"
-import { AppContext } from "../../context/AppContext"
+import { useContext,useEffect } from "react";
+import { MentorContext } from "../../context/MentorContext";
+import { assets } from "../../assets/assets";
+import { AppContext } from "../../context/AppContext";
+import { Link } from "react-router-dom";
 
 const MentorDashboard = () => {
 
-  const { dToken, dashData, getDashData, cancelMeeting, completeMeeting } = useContext(MentorContext)
-  const { slotDateFormat, currency } = useContext(AppContext)
+  const { dToken, dashData, getDashData, cancelMeeting, completeMeeting } = useContext(MentorContext);
+  const { slotDateFormat, currency } = useContext(AppContext);
 
 
   useEffect(() => {
 
     if (dToken) {
-      getDashData()
+      getDashData();
     }
 
-  }, [dToken])
+  }, [dToken]);
 
   return dashData && (
     <div className="m-5">
-
       <div className="flex flex-wrap gap-3">
         <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
           <img className="w-14" src={assets.earning_icon} alt="" />
@@ -29,13 +28,13 @@ const MentorDashboard = () => {
             <p className="text-gray-400">Earnings</p>
           </div>
         </div>
-        <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
+        <Link to={"/Mentor-Meetings"}  className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
           <img className="w-14" src={assets.Meetings_icon} alt="" />
           <div>
             <p className="text-xl font-semibold text-gray-600">{dashData.Meetings}</p>
             <p className="text-gray-400">Meetings</p>
           </div>
-        </div>
+        </Link>
         <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
           <img className="w-14" src={assets.students} alt="" />
           <div>
@@ -71,7 +70,6 @@ const MentorDashboard = () => {
           ))}
         </div>
       </div>
-
     </div>
   )
 }
