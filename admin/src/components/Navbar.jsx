@@ -22,10 +22,10 @@ const Navbar = () => {
   return (
     <div className="flex justify-between items-center px-4 sm:px-10  border-b bg-white">
       <div className="flex items-center text-xs">
-        <img onClick={() => navigate("/")} className="w-14 sm:w-20 h-20 cursor-pointer" src={assets.navIcon} alt="" />
+        <img onClick={() => navigate("/")} className=" w-16 sm:w-20 h-20 cursor-pointer" src={assets.navIcon} alt="" />
         <p className="border px-2.5 py-0.5 rounded-full border-gray-500 text-gray-600">{aToken ? "Admin" : "Mentor"}</p>
       </div>
-      <button onClick={() => logout()} className="bg-primary text-white text-sm px-10 py-2 rounded-full">Logout</button>
+      <button  type="button" onClick={() => logout()} className="bg-primary text-white text-sm px-10 py-2 rounded-full">Logout</button>
     </div>
   )
 }

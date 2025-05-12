@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import MentorModel from "../models/mentorModel.js";
 import MeetingModel from "../models/MeetingModel.js";
 import CollegeModel from "../models/collegeModel.js";
+import userModel from "../models/userModel.js";
 
 // API for Mentor Login 
 const loginMentor = async (req, res) => {
@@ -24,7 +25,7 @@ const loginMentor = async (req, res) => {
         } else {
             res.json({ success: false, message: "Invalid credentials" });
         }
-;
+        ;
 
     } catch (error) {
         console.log(error);
@@ -35,13 +36,19 @@ const loginMentor = async (req, res) => {
 // API to get Mentor Meetings for Mentor panel
 const MeetingsMentor = async (req, res) => {
     try {
-
         const { menId } = req.body;
-        const Meetings = await MeetingModel.find({ menId });
 
-        res.json({ success: true, Meetings });
-        console.log(Meetings);
+        const Meetings = await MeetingModel.find({ menId })
+            .populate({ path: 'userId', select: '-password -email' });
 
+        const MeetingsWithUser = Meetings.map(meeting => {
+            const meetingObj = meeting.toObject();
+            meetingObj.userData = meetingObj.userId;
+            delete meetingObj.userId;
+            return meetingObj;
+        });
+
+        res.json({ success: true, Meetings: MeetingsWithUser });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
@@ -168,9 +175,10 @@ const MentorDashboard = async (req, res) => {
     try {
 
         const { menId } = req.body
+        // console.log(menId);
 
         const Meetings = await MeetingModel.find({ menId });
-        console.log(Meetings);
+        // console.log(Meetings);
 
         let earnings = 0
 

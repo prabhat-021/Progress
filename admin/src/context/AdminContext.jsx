@@ -35,10 +35,10 @@ const AdminContextProvider = (props) => {
     }
 
     // Function to change Mentor availablity using API
-    const changeAvailability = async (docId) => {
+    const changeAvailability = async (menId) => {
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/admin/change-availability', { docId }, { headers: { aToken } });
+            const { data } = await axios.post(backendUrl + '/api/admin/change-availability', { menId }, { headers: { aToken } });
             if (data.success) {
                 toast.success(data.message);
                 getAllMentors();

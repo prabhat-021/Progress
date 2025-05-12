@@ -1,11 +1,13 @@
 import mongoose from "mongoose";
 
 const MeetingSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    },
     menId: { type: String, required: true },
     slotDate: { type: String, required: true },
     slotTime: { type: String, required: true },
-    userData: { type: Object, required: true },
     menData: { type: Object, required: true },
     amount: { type: Number, required: true },
     date: { type: Number, required: true },

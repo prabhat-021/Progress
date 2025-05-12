@@ -357,14 +357,11 @@ const bookMeeting = async (req, res) => {
             slots_booked[slotDate].push(slotTime)
         }
 
-        const userData = await userModel.findById(userId).select("-password")
-
         delete menData.slots_booked
 
         const MeetingData = {
             userId,
             menId,
-            userData,
             menData,
             amount: menData.fees,
             slotTime,

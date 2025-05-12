@@ -87,5 +87,3 @@ const generatePasswordResetTemplate = (url) => {
 };
 
 export { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate };
-
-

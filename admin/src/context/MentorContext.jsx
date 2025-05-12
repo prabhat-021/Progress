@@ -19,7 +19,7 @@ const MentorContextProvider = (props) => {
         try {
 
             const { data } = await axios.get(backendUrl + '/api/Mentor/Meetings', { headers: { dToken } });
-            console.log(data.Meetings);
+            // console.log(data.Meetings);
             if (data.success) {
                 setMeetings(data.Meetings.reverse());
             } else {
