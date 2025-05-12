@@ -3,7 +3,8 @@ import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 
 
-export const AdminContext = createContext()
+export const AdminContext = createContext();
+
 
 const AdminContextProvider = (props) => {
 
@@ -20,15 +21,15 @@ const AdminContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/admin/all-Mentors', { headers: { aToken } })
+            const { data } = await axios.get(backendUrl + '/api/admin/all-Mentors', { headers: { aToken } });
             if (data.success) {
-                setMentors(data.Mentors)
+                setMentors(data.Mentors);
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.message);
         }
 
     }
@@ -37,17 +38,17 @@ const AdminContextProvider = (props) => {
     const changeAvailability = async (docId) => {
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/admin/change-availability', { docId }, { headers: { aToken } })
+            const { data } = await axios.post(backendUrl + '/api/admin/change-availability', { docId }, { headers: { aToken } });
             if (data.success) {
-                toast.success(data.message)
-                getAllMentors()
+                toast.success(data.message);
+                getAllMentors();
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+            console.log(error);
+            toast.error(error.message);
         }
     }
 
@@ -57,16 +58,16 @@ const AdminContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/admin/Meetings', { headers: { aToken } })
+            const { data } = await axios.get(backendUrl + '/api/admin/Meetings', { headers: { aToken } });
             if (data.success) {
-                setMeetings(data.Meetings.reverse())
+                setMeetings(data.Meetings.reverse());
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            toast.error(error.message)
-            console.log(error)
+            toast.error(error.message);
+            console.log(error);
         }
 
     }
@@ -76,18 +77,18 @@ const AdminContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/admin/cancel-Meeting', { MeetingId }, { headers: { aToken } })
+            const { data } = await axios.post(backendUrl + '/api/admin/cancel-Meeting', { MeetingId }, { headers: { aToken } });
 
             if (data.success) {
-                toast.success(data.message)
-                getAllMeetings()
+                toast.success(data.message);
+                getAllMeetings();
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            toast.error(error.message)
-            console.log(error)
+            toast.error(error.message);
+            console.log(error);
         }
 
     }
@@ -96,17 +97,17 @@ const AdminContextProvider = (props) => {
     const getDashData = async () => {
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/admin/dashboard', { headers: { aToken } })
+            const { data } = await axios.get(backendUrl + '/api/admin/dashboard', { headers: { aToken } });
 
             if (data.success) {
-                setDashData(data.dashData)
+                setDashData(data.dashData);
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            console.log(error)
-            toast.error(error.message)
+            console.log(error);
+            toast.error(error.message);
         }
 
     }
@@ -131,4 +132,4 @@ const AdminContextProvider = (props) => {
 
 }
 
-export default AdminContextProvider
+export default AdminContextProvider;

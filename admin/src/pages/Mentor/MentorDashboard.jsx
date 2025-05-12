@@ -76,4 +76,4 @@ const MentorDashboard = () => {
   )
 }
 
-export default MentorDashboard
+export default MentorDashboard;

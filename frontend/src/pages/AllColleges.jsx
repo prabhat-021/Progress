@@ -23,6 +23,8 @@ const Colleges = () => {
     applyFilter();
   }, [colleges, speciality]);
 
+  console.log(filterCollege, "filterCollege");
+
   const filters = [
     "Engineering",
     "Medical",
@@ -86,12 +88,12 @@ const Colleges = () => {
                     item.available ? "text-green-500" : "text-gray-500"
                   }`}
                 >
-                  <p
+                  {/* <p
                     className={`w-2 h-2 rounded-full ${
                       item.available ? "bg-green-500" : "bg-gray-500"
                     }`}
-                  ></p>
-                  <p>{item.available ? "Available" : "Not Available"}</p>
+                  ></p> */}
+                  {/* <p>{item.available ? "Available" : "Not Available"}</p> */}
                 </div>
                 <p className="text-[#262626] text-lg font-medium">{item.name}</p>
                 <p className="text-[#5C5C5C] text-sm">{item.speciality}</p>

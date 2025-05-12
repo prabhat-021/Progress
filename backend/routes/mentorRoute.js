@@ -1,5 +1,5 @@
 import express from 'express';
-import { loginMentor, MeetingsMentor, MeetingCancel, MentorList, changeAvailablity, MeetingComplete, MentorDashboard, MentorProfile, updateMentorProfile, CollegeList } from '../controllers/MentorController.js';
+import { loginMentor, MeetingsMentor, MeetingCancel, MentorList, changeAvailablity, MeetingComplete, MentorDashboard, MentorProfile, updateMentorProfile, CollegeList } from '../controllers/mentorController.js';
 import authMentor from '../middleware/authMentor.js';
 const MentorRouter = express.Router();
 

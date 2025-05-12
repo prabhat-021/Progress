@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react"
-import { MentorContext } from "../../context/MentorContext"
-import { AppContext } from "../../context/AppContext"
-import { toast } from "react-toastify"
-import axios from "axios"
+import { useContext, useEffect, useState } from "react";
+import { MentorContext } from "../../context/MentorContext";
+import { AppContext } from "../../context/AppContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const MentorProfile = () => {
 
-    const { dToken, profileData, setProfileData, getProfileData } = useContext(MentorContext)
-    const { currency, backendUrl } = useContext(AppContext)
-    const [isEdit, setIsEdit] = useState(false)
+    const { dToken, profileData, setProfileData, getProfileData } = useContext(MentorContext);
+    const { currency, backendUrl } = useContext(AppContext);
+    const [isEdit, setIsEdit] = useState(false);
 
     const updateProfile = async () => {
 
@@ -21,30 +21,30 @@ const MentorProfile = () => {
                 available: profileData.available
             }
 
-            const { data } = await axios.post(backendUrl + "/api/Mentor/update-profile", updateData, { headers: { dToken } })
+            const { data } = await axios.post(backendUrl + "/api/Mentor/update-profile", updateData, { headers: { dToken } });
 
             if (data.success) {
-                toast.success(data.message)
-                setIsEdit(false)
-                getProfileData()
+                toast.success(data.message);
+                setIsEdit(false);
+                getProfileData();
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
-            setIsEdit(false)
+            setIsEdit(false);
 
         } catch (error) {
-            toast.error(error.message)
-            console.log(error)
+            toast.error(error.message);
+            console.log(error);
         }
 
     }
 
     useEffect(() => {
         if (dToken) {
-            getProfileData()
+            getProfileData();
         }
-    }, [dToken])
+    }, [dToken]);
 
     return profileData && (
         <div>
@@ -105,4 +105,4 @@ const MentorProfile = () => {
     )
 }
 
-export default MentorProfile
+export default MentorProfile;

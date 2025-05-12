@@ -1,11 +1,11 @@
-import { useContext } from "react"
+import { useContext } from "react";
 import { MentorContext } from "./context/MentorContext";
 import { AdminContext } from "./context/AdminContext";
 import { Route, Routes } from "react-router-dom"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Navbar from "./components/Navbar"
-import Sidebar from "./components/Sidebar"
+import Navbar from "./components/Navbar";
+import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Admin/Dashboard";
 import AllMeetings from "./pages/Admin/AllMeetings";
 import AddMentor from "./pages/Admin/AddMentor";
@@ -18,8 +18,8 @@ import AddCollege from "./pages/Admin/AddColleges";
 
 const App = () => {
 
-  const { dToken } = useContext(MentorContext)
-  const { aToken } = useContext(AdminContext)
+  const { dToken } = useContext(MentorContext);
+  const { aToken } = useContext(AdminContext);
 
   return dToken || aToken ? (
     <div className="bg-[#F8F9FD]">
@@ -48,4 +48,4 @@ const App = () => {
   )
 }
 
-export default App
+export default App;

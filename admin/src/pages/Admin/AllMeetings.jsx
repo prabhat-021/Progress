@@ -13,7 +13,9 @@ const AllMeetings = () => {
     if (aToken) {
       getAllMeetings()
     }
-  }, [aToken])
+  }, [aToken]);
+
+  console.log(Meetings);
 
   return (
     <div className="w-full max-w-6xl m-5 ">
@@ -51,4 +53,4 @@ const AllMeetings = () => {
   )
 }
 
-export default AllMeetings
+export default AllMeetings;

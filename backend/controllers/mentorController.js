@@ -39,7 +39,8 @@ const MeetingsMentor = async (req, res) => {
         const { docId } = req.body
         const Meetings = await MeetingModel.find({ docId })
 
-        res.json({ success: true, Meetings })
+        res.json({ success: true, Meetings });
+        console.log(Meetings);
 
     } catch (error) {
         console.log(error)
@@ -74,13 +75,13 @@ const MeetingComplete = async (req, res) => {
 
         const { docId, MeetingId } = req.body
 
-        const MeetingData = await MeetingModel.findById(MeetingId)
+        const MeetingData = await MeetingModel.findById(MeetingId);
         if (MeetingData && MeetingData.docId === docId) {
-            await MeetingModel.findByIdAndUpdate(MeetingId, { isCompleted: true })
-            return res.json({ success: true, message: 'Meeting Completed' })
+            await MeetingModel.findByIdAndUpdate(MeetingId, { isCompleted: true });
+            return res.json({ success: true, message: 'Meeting Completed' });
         }
 
-        res.json({ success: false, message: 'Meeting Cancelled' })
+        res.json({ success: true, message: 'Meeting Completed' });
 
     } catch (error) {
         console.log(error)

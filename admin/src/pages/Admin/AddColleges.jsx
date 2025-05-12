@@ -1,26 +1,26 @@
-import { useContext, useState } from "react"
-import { assets } from "../../assets/assets"
-import { toast } from "react-toastify"
-import axios from "axios"
-import { AdminContext } from "../../context/AdminContext"
-import { AppContext } from "../../context/AppContext"
+import { useContext, useState } from "react";
+import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { AdminContext } from "../../context/AdminContext";
+import { AppContext } from "../../context/AppContext";
 
 const AddCollege = () => {
 
-    const [docImg, setDocImg] = useState(false)
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [experience, setExperience] = useState("")
-    const [star, setStar] = useState("1 Stars")
-    const [fees, setFees] = useState("")
-    const [appFees, setAppFees] = useState("")
-    const [about, setAbout] = useState("")
-    const [speciality, setSpeciality] = useState("Law")
-    const [state, setState] = useState("Haryana")
-    const [city, setCity] = useState("Gurgaoan")
-    const [studentFacultyRatio, setStudentFacultyRatio] = useState("10")
-    const [address1, setAddress1] = useState("")
-    const [address2, setAddress2] = useState("")
+    const [docImg, setDocImg] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [experience, setExperience] = useState("");
+    const [star, setStar] = useState("1 Stars");
+    const [fees, setFees] = useState("");
+    const [appFees, setAppFees] = useState("");
+    const [about, setAbout] = useState("");
+    const [speciality, setSpeciality] = useState("Law");
+    const [state, setState] = useState("Haryana");
+    const [city, setCity] = useState("Gurgaoan");
+    const [studentFacultyRatio, setStudentFacultyRatio] = useState("10");
+    const [address1, setAddress1] = useState("");
+    const [address2, setAddress2] = useState("");
 
     const { backendUrl } = useContext(AppContext);
     const { aToken } = useContext(AdminContext);
@@ -31,55 +31,55 @@ const AddCollege = () => {
         try {
 
             if (!docImg) {
-                return toast.error("Image Not Selected")
+                return toast.error("Image Not Selected");
             }
 
             const formData = new FormData();
 
             // Appending existing form data
-            formData.append("image", docImg)
-            formData.append("name", name)
-            formData.append("email", email)
-            formData.append("experience", experience)
-            formData.append("fees", Number(fees))
-            formData.append("appFees", Number(appFees))
-            formData.append("about", about)
-            formData.append("speciality", speciality)
-            formData.append("address", JSON.stringify({ line1: address1, line2: address2 }))
-            formData.append("star", star)
-            formData.append("state", state)
-            formData.append("city", city)
-            formData.append("studentFacultyRatio", studentFacultyRatio)
+            formData.append("image", docImg);
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("experience", experience);
+            formData.append("fees", Number(fees));
+            formData.append("appFees", Number(appFees));
+            formData.append("about", about);
+            formData.append("speciality", speciality);
+            formData.append("address", JSON.stringify({ line1: address1, line2: address2 }));
+            formData.append("star", star);
+            formData.append("state", state);
+            formData.append("city", city);
+            formData.append("studentFacultyRatio", studentFacultyRatio);
             // console log formData            
             formData.forEach((value, key) => {
                 console.log(`${key}: ${value}`);
             });
 
             // Sending POST request
-            const { data } = await axios.post(backendUrl + "/api/admin/add-College", formData, { headers: { aToken } })
+            const { data } = await axios.post(backendUrl + "/api/admin/add-College", formData, { headers: { aToken } });
 
             if (data.success) {
-                toast.success(data.message)
-                setDocImg(false)
-                setName("")
-                setEmail("")
-                setStar("1 Stars")
-                setFees("")
-                setAppFees("")
-                setAbout("")
-                setSpeciality("Law")
-                setState("Haryana")
-                setCity("Gurgaon")
-                setStudentFacultyRatio("10")
-                setAddress1("")
-                setAddress2("")
+                toast.success(data.message);
+                setDocImg(false);
+                setName("");
+                setEmail("");
+                setStar("1 Stars");
+                setFees("");
+                setAppFees("");
+                setAbout("");
+                setSpeciality("Law");
+                setState("Haryana");
+                setCity("Gurgaon");
+                setStudentFacultyRatio("10");
+                setAddress1("");
+                setAddress2("");
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            toast.error(error.message)
-            console.log(error)
+            toast.error(error.message);
+            console.log(error);
         }
     }
 

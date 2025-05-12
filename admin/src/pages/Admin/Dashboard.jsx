@@ -6,14 +6,18 @@ import { Link } from "react-router-dom";
 
 const Dashboard = () => {
 
-  const { aToken, getDashData, cancelMeeting, dashData } = useContext(AdminContext)
-  const { slotDateFormat } = useContext(AppContext)
+  const { aToken, getDashData, cancelMeeting, dashData } = useContext(AdminContext);
+  
+  const { slotDateFormat } = useContext(AppContext);
+  
 
   useEffect(() => {
     if (aToken) {
-      getDashData()
+      getDashData();
+      
     }
-  }, [aToken])
+  }, [aToken]);
+  
 
   return dashData && (
     <div className="m-5">
@@ -71,4 +75,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default Dashboard;

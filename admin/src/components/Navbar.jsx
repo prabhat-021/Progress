@@ -1,22 +1,22 @@
-import { useContext } from "react"
-import { assets } from "../assets/assets"
-import { MentorContext } from "../context/MentorContext"
-import { AdminContext } from "../context/AdminContext"
-import { useNavigate } from "react-router-dom"
+import { useContext } from "react";
+import { assets } from "../assets/assets";
+import { MentorContext } from "../context/MentorContext";
+import { AdminContext } from "../context/AdminContext";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
 
-  const { dToken, setDToken } = useContext(MentorContext)
-  const { aToken, setAToken } = useContext(AdminContext)
+  const { dToken, setDToken } = useContext(MentorContext);
+  const { aToken, setAToken } = useContext(AdminContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const logout = () => {
-    navigate("/")
-    dToken && setDToken("")
-    dToken && localStorage.removeItem("dToken")
-    aToken && setAToken("")
-    aToken && localStorage.removeItem("aToken")
+    navigate("/");
+    dToken && setDToken("");
+    dToken && localStorage.removeItem("dToken");
+    aToken && setAToken("");
+    aToken && localStorage.removeItem("aToken");
   }
 
   return (
@@ -30,4 +30,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default Navbar;

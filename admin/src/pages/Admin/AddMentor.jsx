@@ -1,73 +1,73 @@
-import { useContext, useState } from "react"
-import { assets } from "../../assets/assets"
-import { toast } from "react-toastify"
-import axios from "axios"
-import { AdminContext } from "../../context/AdminContext"
-import { AppContext } from "../../context/AppContext"
+import { useContext, useState } from "react";
+import { assets } from "../../assets/assets";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { AdminContext } from "../../context/AdminContext";
+import { AppContext } from "../../context/AppContext";
 
 const AddMentor = () => {
 
-    const [docImg, setDocImg] = useState(false)
-    const [name, setName] = useState("")
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [experience, setExperience] = useState("1 Year")
-    const [fees, setFees] = useState("")
-    const [about, setAbout] = useState("")
-    const [speciality, setSpeciality] = useState("General Mentor")
-    const [degree, setDegree] = useState("")
-    const [address1, setAddress1] = useState("")
-    const [address2, setAddress2] = useState("")
+    const [docImg, setDocImg] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [experience, setExperience] = useState("1 Year");
+    const [fees, setFees] = useState("");
+    const [about, setAbout] = useState("");
+    const [speciality, setSpeciality] = useState("General Mentor");
+    const [degree, setDegree] = useState("");
+    const [address1, setAddress1] = useState("");
+    const [address2, setAddress2] = useState("");
 
-    const { backendUrl } = useContext(AppContext)
-    const { aToken } = useContext(AdminContext)
+    const { backendUrl } = useContext(AppContext);
+    const { aToken } = useContext(AdminContext);
 
     const onSubmitHandler = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         try {
 
             if (!docImg) {
-                return toast.error("Image Not Selected")
+                return toast.error("Image Not Selected");
             }
 
             const formData = new FormData();
 
-            formData.append("image", docImg)
-            formData.append("name", name)
-            formData.append("email", email)
-            formData.append("password", password)
-            formData.append("experience", experience)
-            formData.append("fees", Number(fees))
-            formData.append("about", about)
-            formData.append("speciality", speciality)
-            formData.append("degree", degree)
-            formData.append("address", JSON.stringify({ line1: address1, line2: address2 }))
+            formData.append("image", docImg);
+            formData.append("name", name);
+            formData.append("email", email);
+            formData.append("password", password);
+            formData.append("experience", experience);
+            formData.append("fees", Number(fees));
+            formData.append("about", about);
+            formData.append("speciality", speciality);
+            formData.append("degree", degree);
+            formData.append("address", JSON.stringify({ line1: address1, line2: address2 }));
 
             // console log formdata            
             formData.forEach((value, key) => {
                 console.log(`${key}: ${value}`);
             });
 
-            const { data } = await axios.post(backendUrl + "/api/admin/add-Mentor", formData, { headers: { aToken } })
+            const { data } = await axios.post(backendUrl + "/api/admin/add-Mentor", formData, { headers: { aToken } });
             if (data.success) {
-                toast.success(data.message)
-                setDocImg(false)
-                setName("")
-                setPassword("")
-                setEmail("")
-                setAddress1("")
-                setAddress2("")
-                setDegree("")
-                setAbout("")
-                setFees("")
+                toast.success(data.message);
+                setDocImg(false);
+                setName("");
+                setPassword("");
+                setEmail("");
+                setAddress1("");
+                setAddress2("");
+                setDegree("");
+                setAbout("");
+                setFees("");
             } else {
-                toast.error(data.message)
+                toast.error(data.message);
             }
 
         } catch (error) {
-            toast.error(error.message)
-            console.log(error)
+            toast.error(error.message);
+            console.log(error);
         }
 
     }
@@ -160,7 +160,7 @@ const AddMentor = () => {
 
                 <div>
                     <p className="mt-4 mb-2">About Mentor</p>
-                    <textarea onChange={e => setAbout(e.target.value)} value={about} className="w-full px-4 pt-2 border rounded" rows={5} placeholder="Write About Mentor"></textarea>
+                    <textarea onChange={e => setAbout(e.target.value)} value={about} className="w-full px-4 pt-2 border rounded" rows={5} placeholder="Write A;bout Mentor"></textarea>
                 </div>
 
                 <button type="submit" className="bg-primary px-10 py-3 mt-4 text-white rounded-full">Add Mentor</button>
@@ -172,4 +172,4 @@ const AddMentor = () => {
     )
 }
 
-export default AddMentor
+export default AddMentor;

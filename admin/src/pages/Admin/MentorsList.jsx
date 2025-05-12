@@ -1,15 +1,15 @@
-import { useContext, useEffect } from "react"
-import { AdminContext } from "../../context/AdminContext"
+import { useContext, useEffect } from "react";
+import { AdminContext } from "../../context/AdminContext";
 
 const MentorsList = () => {
 
-  const { Mentors, changeAvailability , aToken , getAllMentors} = useContext(AdminContext)
+  const { Mentors, changeAvailability , aToken , getAllMentors} = useContext(AdminContext);
 
   useEffect(() => {
     if (aToken) {
-        getAllMentors()
+        getAllMentors();
     }
-}, [aToken])
+}, [aToken]);
 
   return (
     <div className="m-5 max-h-[90vh] overflow-y-scroll">
@@ -33,4 +33,4 @@ const MentorsList = () => {
   )
 }
 
-export default MentorsList
+export default MentorsList;

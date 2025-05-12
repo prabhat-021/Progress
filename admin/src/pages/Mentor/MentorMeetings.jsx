@@ -1,18 +1,26 @@
-import { useContext, useEffect } from "react"
-import { MentorContext } from "../../context/MentorContext"
-import { AppContext } from "../../context/AppContext"
-import { assets } from "../../assets/assets"
+import { useContext, useEffect } from "react";
+
+import { MentorContext } from "../../context/MentorContext";
+
+import { AppContext } from "../../context/AppContext";
+
+import { assets } from "../../assets/assets";
+
 
 const MentorMeetings = () => {
 
-  const { dToken, Meetings, getMeetings, cancelMeeting, completeMeeting } = useContext(MentorContext)
-  const { slotDateFormat, calculateAge, currency } = useContext(AppContext)
+  const { dToken, Meetings, getMeetings, cancelMeeting, completeMeeting } = useContext(MentorContext);
+  
+  const { slotDateFormat, calculateAge, currency } = useContext(AppContext);
+  
 
   useEffect(() => {
     if (dToken) {
-      getMeetings()
+      getMeetings();
+      
     }
-  }, [dToken])
+  }, [dToken]);
+  
 
   return (
     <div className="w-full max-w-6xl m-5 ">
@@ -26,7 +34,8 @@ const MentorMeetings = () => {
           <p>Payment</p>
           <p>Age</p>
           <p>Date & Time</p>
-          <p>Fees</p>
+          <p>Fees</p>;
+          
           <p>Action</p>
         </div>
         {Meetings.map((item, index) => (
@@ -60,4 +69,4 @@ const MentorMeetings = () => {
   )
 }
 
-export default MentorMeetings
+export default MentorMeetings;

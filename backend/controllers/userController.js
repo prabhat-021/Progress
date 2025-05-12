@@ -372,8 +372,8 @@ const bookMeeting = async (req, res) => {
             date: Date.now()
         }
 
-        const newMeeting = new MeetingModel(MeetingData)
-        await newMeeting.save()
+        const newMeeting = new MeetingModel(MeetingData);
+        await newMeeting.save();
 
         await MentorModel.findByIdAndUpdate(menId, { slots_booked })
 
