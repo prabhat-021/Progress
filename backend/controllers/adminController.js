@@ -207,7 +207,7 @@ const deleteMentor = async (req, res) => {
             return res.json({ success: false, message: "Mentor does't exist" });
         }
 
-        const leftMeetings = await MeetingModel.find({ docId: menti._id, isCompleted: false, cancelled: false });
+        const leftMeetings = await MeetingModel.find({ menId: menti._id, isCompleted: false, cancelled: false });
 
         if (leftMeetings.length !== 0) {
             return res.json({ success: false, message: "Mentor has existing Meetings left" });

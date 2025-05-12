@@ -9,26 +9,26 @@ const loginMentor = async (req, res) => {
 
     try {
 
-        const { email, password } = req.body
-        const user = await MentorModel.findOne({ email })
+        const { email, password } = req.body;
+        const user = await MentorModel.findOne({ email });
 
         if (!user) {
-            return res.json({ success: false, message: "Invalid credentials" })
+            return res.json({ success: false, message: "Invalid credentials" });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password)
+        const isMatch = await bcrypt.compare(password, user.password);
 
         if (isMatch) {
-            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-            res.json({ success: true, token })
+            const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+            res.json({ success: true, token });
         } else {
-            res.json({ success: false, message: "Invalid credentials" })
+            res.json({ success: false, message: "Invalid credentials" });
         }
-
+;
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 }
 
@@ -36,15 +36,15 @@ const loginMentor = async (req, res) => {
 const MeetingsMentor = async (req, res) => {
     try {
 
-        const { docId } = req.body
-        const Meetings = await MeetingModel.find({ docId })
+        const { menId } = req.body;
+        const Meetings = await MeetingModel.find({ menId });
 
         res.json({ success: true, Meetings });
         console.log(Meetings);
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 }
 
@@ -52,19 +52,19 @@ const MeetingsMentor = async (req, res) => {
 const MeetingCancel = async (req, res) => {
     try {
 
-        const { docId, MeetingId } = req.body
+        const { menId, MeetingId } = req.body;
 
-        const MeetingData = await MeetingModel.findById(MeetingId)
-        if (MeetingData && MeetingData.docId === docId) {
-            await MeetingModel.findByIdAndUpdate(MeetingId, { cancelled: true })
-            return res.json({ success: true, message: 'Meeting Cancelled' })
+        const MeetingData = await MeetingModel.findById(MeetingId);
+        if (MeetingData && MeetingData.menId === menId) {
+            await MeetingModel.findByIdAndUpdate(MeetingId, { cancelled: true });
+            return res.json({ success: true, message: 'Meeting Cancelled' });
         }
 
-        res.json({ success: false, message: 'Meeting Cancelled' })
+        res.json({ success: false, message: 'Meeting Cancelled' });
 
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 
 }
@@ -73,10 +73,10 @@ const MeetingCancel = async (req, res) => {
 const MeetingComplete = async (req, res) => {
     try {
 
-        const { docId, MeetingId } = req.body
+        const { menId, MeetingId } = req.body;
 
         const MeetingData = await MeetingModel.findById(MeetingId);
-        if (MeetingData && MeetingData.docId === docId) {
+        if (MeetingData && MeetingData.menId === menId) {
             await MeetingModel.findByIdAndUpdate(MeetingId, { isCompleted: true });
             return res.json({ success: true, message: 'Meeting Completed' });
         }
@@ -84,7 +84,7 @@ const MeetingComplete = async (req, res) => {
         res.json({ success: true, message: 'Meeting Completed' });
 
     } catch (error) {
-        console.log(error)
+        console.log(error);
         res.json({ success: false, message: error.message })
     }
 
@@ -120,10 +120,10 @@ const CollegeList = async (req, res) => {
 const changeAvailablity = async (req, res) => {
     try {
 
-        const { docId } = req.body
+        const { menId } = req.body
 
-        const docData = await MentorModel.findById(docId)
-        await MentorModel.findByIdAndUpdate(docId, { available: !docData.available })
+        const menData = await MentorModel.findById(menId)
+        await MentorModel.findByIdAndUpdate(menId, { available: !menData.available })
         res.json({ success: true, message: 'Availablity Changed' })
 
     } catch (error) {
@@ -136,8 +136,8 @@ const changeAvailablity = async (req, res) => {
 const MentorProfile = async (req, res) => {
     try {
 
-        const { docId } = req.body
-        const profileData = await MentorModel.findById(docId).select('-password')
+        const { menId } = req.body
+        const profileData = await MentorModel.findById(menId).select('-password')
 
         res.json({ success: true, profileData })
 
@@ -151,9 +151,9 @@ const MentorProfile = async (req, res) => {
 const updateMentorProfile = async (req, res) => {
     try {
 
-        const { docId, fees, address, available } = req.body
+        const { menId, fees, address, available } = req.body
 
-        await MentorModel.findByIdAndUpdate(docId, { fees, address, available })
+        await MentorModel.findByIdAndUpdate(menId, { fees, address, available })
 
         res.json({ success: true, message: 'Profile Updated' })
 
@@ -167,9 +167,10 @@ const updateMentorProfile = async (req, res) => {
 const MentorDashboard = async (req, res) => {
     try {
 
-        const { docId } = req.body
+        const { menId } = req.body
 
-        const Meetings = await MeetingModel.find({ docId })
+        const Meetings = await MeetingModel.find({ menId });
+        console.log(Meetings);
 
         let earnings = 0
 
@@ -179,15 +180,13 @@ const MentorDashboard = async (req, res) => {
             }
         })
 
-        let patients = []
+        let patients = [];
 
         Meetings.map((item) => {
             if (!patients.includes(item.userId)) {
                 patients.push(item.userId)
             }
         })
-
-
 
         const dashData = {
             earnings,

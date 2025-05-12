@@ -336,13 +336,13 @@ const bookMeeting = async (req, res) => {
     try {
 
         const { userId, menId, slotDate, slotTime } = req.body
-        const docData = await MentorModel.findById(menId).select("-password")
+        const menData = await MentorModel.findById(menId).select("-password")
 
-        if (!docData.available) {
+        if (!menData.available) {
             return res.json({ success: false, message: 'Mentor Not Available' })
         }
 
-        let slots_booked = docData.slots_booked
+        let slots_booked = menData.slots_booked
 
         // checking for slot availablity 
         if (slots_booked[slotDate]) {
@@ -359,14 +359,14 @@ const bookMeeting = async (req, res) => {
 
         const userData = await userModel.findById(userId).select("-password")
 
-        delete docData.slots_booked
+        delete menData.slots_booked
 
         const MeetingData = {
             userId,
             menId,
             userData,
-            docData,
-            amount: docData.fees,
+            menData,
+            amount: menData.fees,
             slotTime,
             slotDate,
             date: Date.now()
