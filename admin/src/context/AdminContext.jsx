@@ -67,7 +67,6 @@ const AdminContextProvider = (props) => {
         }
     }
 
-
     // Getting all Meeting data from Database using API
     const getAllMeetings = async () => {
 
@@ -127,6 +126,24 @@ const AdminContextProvider = (props) => {
 
     }
 
+    const deleteMentor = async (email) => {
+
+        try {
+
+            const { data } = await axios.post(backendUrl + '/api/admin/deleteMentor', { email }, { headers: { aToken } });
+            if (data.success) {
+                toast.success(data.message);
+                getAllMentors();
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            console.log(error);
+            toast.error(error.message);
+        }
+    }
+
     const value = {
         aToken, setAToken,
         Mentors,
@@ -138,7 +155,8 @@ const AdminContextProvider = (props) => {
         cancelMeeting,
         dashData,
         getAllUsers,
-        Users
+        Users,
+        deleteMentor
     }
 
     return (

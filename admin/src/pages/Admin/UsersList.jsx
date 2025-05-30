@@ -12,9 +12,6 @@ const UsersList = () => {
         }
     }, [aToken]);
 
-    console.log("UsersList", Users);
-
-
     return (
         Users ?
             <div className="m-5 max-h-[90vh] overflow-y-scroll">
