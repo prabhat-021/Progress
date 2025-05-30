@@ -30,16 +30,22 @@ const loginAdmin = async (req, res) => {
 // API to get all Meetings list
 const MeetingsAdmin = async (req, res) => {
     try {
+        const meetings = await MeetingModel.find({});
+        
+        const Meetings = await Promise.all(meetings.map(async (item) => {
+            const userData = await userModel.findById(item.userId).select(['-password', '-email']);
+            const meetingObj = item.toObject(); 
+            meetingObj.userData = userData || null;
+            return meetingObj;
+        }));
 
-        const Meetings = await MeetingModel.find({})
-        res.json({ success: true, Meetings })
-
+        res.json({ success: true, Meetings});
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
-
 }
+
 
 const MeetingCancel = async (req, res) => {
     try {
@@ -168,6 +174,19 @@ const allMentors = async (req, res) => {
     }
 };
 
+// API to get all Mentors list for admin panel
+const allUsers = async (req, res) => {
+    try {
+
+        const Users = await userModel.find({}).select('-password')
+        res.json({ success: true, Users })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ success: false, message: error.message })
+    }
+};
+
 // API to get dashboard data for admin panel
 const adminDashboard = async (req, res) => {
     try {
@@ -232,5 +251,6 @@ export {
     allMentors,
     adminDashboard,
     addCollege,
-    deleteMentor
+    deleteMentor,
+    allUsers
 };

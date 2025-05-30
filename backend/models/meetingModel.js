@@ -5,7 +5,7 @@ const MeetingSchema = new mongoose.Schema({
     menId: { type: String, required: true },
     slotDate: { type: String, required: true },
     slotTime: { type: String, required: true },
-    userData: { type: Object, required: true },
+    // userData: { type: Object, required: true },
     menData: { type: Object, required: true },
     amount: { type: Number, required: true },
     date: { type: Number, required: true },

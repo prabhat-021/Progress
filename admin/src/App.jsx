@@ -15,6 +15,7 @@ import MentorMeetings from "./pages/Mentor/MentorMeetings";
 import MentorDashboard from "./pages/Mentor/MentorDashboard";
 import MentorProfile from "./pages/Mentor/MentorProfile";
 import AddCollege from "./pages/Admin/AddColleges";
+import UsersList from "./pages/Admin/UsersList";
 
 const App = () => {
 
@@ -34,6 +35,7 @@ const App = () => {
           <Route path="/add-Mentor" element={<AddMentor />} />
           <Route path="/add-College" element={<AddCollege />} />
           <Route path="/Mentor-list" element={<MentorsList />} />
+          <Route path="/User-list" element={<UsersList />} />
           <Route path="/Mentor-dashboard" element={<MentorDashboard />} />
           <Route path="/Mentor-Meetings" element={<MentorMeetings />} />
           <Route path="/Mentor-profile" element={<MentorProfile />} />

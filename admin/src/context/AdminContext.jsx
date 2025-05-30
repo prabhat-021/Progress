@@ -1,20 +1,18 @@
 import axios from "axios";
 import { createContext, useState } from "react";
 import { toast } from "react-toastify";
-
-
 export const AdminContext = createContext();
-
 
 const AdminContextProvider = (props) => {
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    const [aToken, setAToken] = useState(localStorage.getItem('aToken') ? localStorage.getItem('aToken') : '')
+    const [aToken, setAToken] = useState(localStorage.getItem('aToken') ? localStorage.getItem('aToken') : '');
 
-    const [Meetings, setMeetings] = useState([])
-    const [Mentors, setMentors] = useState([])
-    const [dashData, setDashData] = useState(false)
+    const [Meetings, setMeetings] = useState([]);
+    const [Mentors, setMentors] = useState([]);
+    const [Users, setUsers] = useState([]);
+    const [dashData, setDashData] = useState(false);
 
     // Getting all Mentors data from Database using API
     const getAllMentors = async () => {
@@ -24,6 +22,23 @@ const AdminContextProvider = (props) => {
             const { data } = await axios.get(backendUrl + '/api/admin/all-Mentors', { headers: { aToken } });
             if (data.success) {
                 setMentors(data.Mentors);
+            } else {
+                toast.error(data.message);
+            }
+
+        } catch (error) {
+            toast.error(error.message);
+        }
+
+    }
+
+    const getAllUsers = async () => {
+
+        try {
+
+            const { data } = await axios.get(backendUrl + '/api/admin/all-Users', { headers: { aToken } });
+            if (data.success) {
+                setUsers(data.Users);
             } else {
                 toast.error(data.message);
             }
@@ -121,7 +136,9 @@ const AdminContextProvider = (props) => {
         getAllMeetings,
         getDashData,
         cancelMeeting,
-        dashData
+        dashData,
+        getAllUsers,
+        Users
     }
 
     return (

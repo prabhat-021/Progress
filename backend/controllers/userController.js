@@ -1,7 +1,7 @@
 import validator from "validator";
 import userModel from "../models/userModel.js";
 import MentorModel from "../models/mentorModel.js";
-import MeetingModel from "../models/MeetingModel.js";
+import MeetingModel from "../models/meetingModel.js";
 import { v2 as cloudinary } from 'cloudinary';
 import { generateToken } from "../utils/generateToken.js";
 import { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, generatePasswordResetTemplate } from "../utils/mail.js";

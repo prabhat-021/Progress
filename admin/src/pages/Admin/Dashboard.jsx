@@ -36,12 +36,12 @@ const Dashboard = () => {
             <p className="text-gray-400">Meetings</p>
           </div>
         </Link>
-        <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
+        <Link to="/User-List" className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
           <img className="w-14" src={assets.User_icon} alt="" />
           <div>
             <p className="text-xl font-semibold text-gray-600">{dashData.user}</p>
             <p className="text-gray-400">Users</p></div>
-        </div>
+        </Link>
         <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
           <img className="w-14" src={assets.College_icon} alt="" />
           <div>
