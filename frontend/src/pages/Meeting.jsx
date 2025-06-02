@@ -104,7 +104,7 @@ const Meeting = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/book-Meeting", { menId, slotDate, slotTime }, { headers: { token } })
+            const { data } = await axios.post(backendUrl + "/api/user/book-Meeting", { menId, slotDate, slotTime }, withCredentials = true);
             if (data.success) {
                 toast.success(data.message)
                 getMentorData()

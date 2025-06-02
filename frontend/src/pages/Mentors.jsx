@@ -15,7 +15,7 @@ const Mentors = () => {
 
   const applyFilter = () => {
     if (speciality) {
-      setFilterMen(mentors.filter(doc => doc.speciality === speciality));
+      setFilterMen(mentors.filter(men => men.speciality === speciality));
     } else {
       setFilterMen(mentors);
     }

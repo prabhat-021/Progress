@@ -6,6 +6,7 @@ import connectCloudinary from "./config/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
 import MentorRouter from "./routes/mentorRoute.js";
 import adminRouter from "./routes/adminRoute.js";
+import cookieParser from 'cookie-parser';
 
 // app config
 const app = express();
@@ -16,6 +17,7 @@ connectCloudinary();
 // middlewares
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 
 // api endpoints
 app.use("/api/user", userRouter);

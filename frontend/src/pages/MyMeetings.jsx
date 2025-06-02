@@ -25,7 +25,7 @@ const MyMeetings = () => {
     const getUserMeetings = async () => {
         try {
 
-            const { data } = await axios.get(backendUrl + "/api/user/Meetings", { headers: { token } });
+            const { data } = await axios.get(backendUrl + "/api/user/Meetings", withCredentials = true);
             console.log(data);
             setMeetings(data.Meetings.reverse());
 
@@ -40,7 +40,7 @@ const MyMeetings = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, { headers: { token } });
+            const { data } = await axios.post(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, withCredentials = true);
 
             if (data.success) {
                 toast.success(data.message);
@@ -70,7 +70,7 @@ const MyMeetings = () => {
                 console.log(response)
 
                 try {
-                    const { data } = await axios.post(backendUrl + "/api/user/verifyRazorpay", response, { headers: { token } });
+                    const { data } = await axios.post(backendUrl + "/api/user/verifyRazorpay", response, withCredentials = true);
                     if (data.success) {
                         navigate("/my-Meetings");
                         getUserMeetings();
@@ -88,7 +88,8 @@ const MyMeetings = () => {
     // Function to make payment using razorpay
     const MeetingRazorpay = async (MeetingId) => {
         try {
-            const { data } = await axios.post(backendUrl + "/api/user/payment-razorpay", { MeetingId }, { headers: { token } });
+            const { data } = await axios.post(backendUrl + "/api/user/payment-razorpay", { MeetingId }, withCredentials = true);
+
             if (data.success) {
                 initPay(data.order);
             } else {
@@ -103,7 +104,8 @@ const MyMeetings = () => {
     // Function to make payment using stripe;
     const MeetingStripe = async (MeetingId) => {
         try {
-            const { data } = await axios.post(backendUrl + "/api/user/payment-stripe", { MeetingId }, { headers: { token } });
+            const { data } = await axios.post(backendUrl + "/api/user/payment-stripe", { MeetingId }, withCredentials = true);
+
             if (data.success) {
                 const { session_url } = data;
                 window.location.replace(session_url);

@@ -109,8 +109,8 @@ const AppContextProvider = (props) => {
 
     }
 
-       // Getting Colleges using API
-       const getCollegeData = async () => {
+    // Getting Colleges using API
+    const getCollegeData = async () => {
 
         try {
 
@@ -135,7 +135,7 @@ const AppContextProvider = (props) => {
         // console.log(state.userData.token);
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token: state.token } });
+            const { data } = await axios.get(backendUrl + '/api/user/get-profile', withCredentials = true);
             // console.log(data);
 
             if (data.success) {

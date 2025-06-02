@@ -55,15 +55,15 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ success: false, message: "Password must be 8 to 20 characters long!" })
         }
 
-        const newUser = new userModel({
-            name,
-            email,
-            password,
-        });
+        // const newUser = new userModel({
+        //     name,
+        //     email,
+        //     password,
+        // });
 
         const OTP = generateOTP();
         const verificationToken = new VerificationToken({
-            owner: newUser._id,
+            email,
             token: OTP,
         })
 
@@ -81,17 +81,23 @@ const registerUser = async (req, res) => {
 
         // res.json({ success: true, token })
 
-        if (newUser) {
-            res.status(201).json({
-                success: true,
-                _id: newUser._id,
-                name: newUser.name,
-                email: newUser.email,
-                token: generateToken(newUser._id)
-            });
-        } else {
-            res.status(400).json({ success: false, message: "Error occoured" })
-        }
+        // if (newUser) {
+        //     res.status(201).json({
+        //         success: true,
+        //         _id: newUser._id,
+        //         name: newUser.name,
+        //         email: newUser.email,
+        //         token: generateToken(newUser._id)
+        //     });
+        // } else {
+        //     res.status(400).json({ success: false, message: "Error occoured" })
+        // }
+
+        res.status(200).json({
+            success: true,
+            message: "Please verify your email to login",
+            email
+        });
 
     } catch (error) {
         console.log(error)
@@ -115,6 +121,13 @@ const loginUser = async (req, res) => {
             return res.json({ success: false, message: "User does not exist" })
         }
 
+        if (!user.verified) {
+            return res.status(403).json({ 
+                success: false, 
+                message: "Account not verified. Please verify your email first." 
+            });
+        }
+
         const isMatch = await user.matchPassword(password);
 
         if (!isMatch) {
@@ -129,15 +142,34 @@ const loginUser = async (req, res) => {
         //     res.json({ success: false, message: "Invalid credentials" })
         // }
 
-        if (user && isMatch) {
-            res.status(201).json({
-                success: true,
+        // if (user && isMatch) {
+        //     res.status(201).json({
+        //         success: true,
+        //         _id: user._id,
+        //         name: user.name,
+        //         email: user.email,
+        //         token: generateToken(user._id)
+        //     });
+        // }
+
+        const authToken = generateToken(user._id);
+
+        res.cookie('token', authToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000,
+            sameSite: 'strict'
+        });
+
+        res.status(200).json({
+            success: true,
+            user: {
                 _id: user._id,
                 name: user.name,
-                email: user.email,
-                token: generateToken(user._id)
-            });
-        }
+                email: user.email
+            }
+        });
+
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
@@ -160,23 +192,23 @@ const getProfile = async (req, res) => {
 };
 
 const verifyEmail = async (req, res) => {
-    const { userId, otp } = req.body;
+    const { email, otp, name, password } = req.body;
 
-    if (!userId || !otp.trim()) {
+    if (!email || !otp.trim() || !name || !password) {
         return res.status(400).json({ message: "Invalid request, missing parameters!" });
     };
 
-    const user = await userModel.findById(userId).select('-password');
+    const user = await userModel.findById({ email });
 
     if (!user) {
         return res.status(404).json({ success: false, message: "User Not Found" });
     }
 
-    if (user.verified) {
-        return res.status(400).json({ message: "This Account is Already verified" });
-    }
+    // if (user.verified) {
+    //     return res.status(400).json({ message: "This Account is Already verified" });
+    // }
 
-    const token = await VerificationToken.findOne({ owner: user._id });
+    const token = await VerificationToken.findOne({ email, token: otp });
 
     if (!token) {
         return res.status(404).json({ success: false, message: "User Not Found" });
@@ -188,11 +220,25 @@ const verifyEmail = async (req, res) => {
         return res.status(404).json({ success: false, message: "OTP Is Wrong" });
     }
 
-    user.verified = true;
+    // user.verified = true;
+
+    const newUser = new userModel({
+        name,
+        email,
+        password,
+        verified: true
+    });
 
     await VerificationToken.findByIdAndDelete(token._id);
 
-    await user.save();
+    await newUser.save();
+
+    res.cookie('token', authToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        maxAge: 24 * 60 * 60 * 1000, // 1 days
+        sameSite: 'strict'
+    });
 
     transporter().sendMail({
         from: 'prabhatsahrawat010203@gmail.com',
@@ -201,7 +247,16 @@ const verifyEmail = async (req, res) => {
         html: plainEmailTemplate("Email Verified Succesfully", "Thanks for connecting with us "),
     });
 
-    res.status(201).json({ success: true, message: "Your Email is Verified" })
+    // res.status(201).json({ success: true, message: "Your Email is Verified" })
+    res.status(201).json({
+        success: true,
+        message: "Registration successful , Your Email is Verified",
+        user: {
+            _id: newUser._id,
+            name: newUser.name,
+            email: newUser.email
+        }
+    });
 
 };
 

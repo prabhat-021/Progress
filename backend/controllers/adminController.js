@@ -217,7 +217,7 @@ const deleteMentor = async (req, res) => {
     try {
 
         const { email } = req.body;
-console.log(email);
+
         const menti = await MentorModel.findOne({ email });
 
         // res.json({menti});

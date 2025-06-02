@@ -14,7 +14,7 @@ const MyProfile = () => {
     const { backendUrl, userData, loadUserProfileData, token } = useContext(AppContext);
     // console.log(token);
     // console.log(userData);
-   
+
 
     const [userData1, setUserData] = useState(userData);
     // console.log(userData);
@@ -49,7 +49,7 @@ const MyProfile = () => {
 
             console.log(token);
 
-            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, { headers: { token } });
+            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, withCredentials = true);
 
             if (data.success) {
                 toast.success(data.message);
