@@ -45,7 +45,7 @@ export default function OtpInput() {
         if (otp.length !== 4) {
             toast.error("Invalid request, missing parameters!");
         } else {
-            await verifyOtp(userData._id, otp);
+            await verifyOtp(userData.email, otp , userData.name, userData.password);
         }
     };
 

@@ -11,7 +11,7 @@ const MyProfile = () => {
 
     const [image, setImage] = useState(false);
 
-    const { backendUrl, userData, loadUserProfileData, token } = useContext(AppContext);
+    const { backendUrl, userData, loadUserProfileData } = useContext(AppContext);
     // console.log(token);
     // console.log(userData);
 
@@ -47,9 +47,7 @@ const MyProfile = () => {
 
             image && formData.append("image", image);
 
-            console.log(token);
-
-            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, withCredentials = true);
+            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, { withCredentials: true });
 
             if (data.success) {
                 toast.success(data.message);

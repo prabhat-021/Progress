@@ -10,7 +10,7 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { verfied, userData, logout } = useContext(AppContext);
 
-  // console.log(userData);
+  console.log(userData);
 
   const handleLogOut = () => {
     logout();

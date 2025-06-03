@@ -7,7 +7,7 @@ import { assets } from "../assets/assets";
 
 const MyMeetings = () => {
 
-    const { backendUrl, token } = useContext(AppContext);
+    const { backendUrl, loged } = useContext(AppContext);
     const navigate = useNavigate();
 
     const [Meetings, setMeetings] = useState([]);
@@ -25,7 +25,7 @@ const MyMeetings = () => {
     const getUserMeetings = async () => {
         try {
 
-            const { data } = await axios.get(backendUrl + "/api/user/Meetings", withCredentials = true);
+            const { data } = await axios.get(backendUrl + "/api/user/Meetings", { withCredentials: true });
             console.log(data);
             setMeetings(data.Meetings.reverse());
 
@@ -40,7 +40,7 @@ const MyMeetings = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, withCredentials = true);
+            const { data } = await axios.post(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, { withCredentials: true });
 
             if (data.success) {
                 toast.success(data.message);
@@ -70,7 +70,7 @@ const MyMeetings = () => {
                 console.log(response)
 
                 try {
-                    const { data } = await axios.post(backendUrl + "/api/user/verifyRazorpay", response, withCredentials = true);
+                    const { data } = await axios.post(backendUrl + "/api/user/verifyRazorpay", response, { withCredentials: true });
                     if (data.success) {
                         navigate("/my-Meetings");
                         getUserMeetings();
@@ -88,7 +88,7 @@ const MyMeetings = () => {
     // Function to make payment using razorpay
     const MeetingRazorpay = async (MeetingId) => {
         try {
-            const { data } = await axios.post(backendUrl + "/api/user/payment-razorpay", { MeetingId }, withCredentials = true);
+            const { data } = await axios.post(backendUrl + "/api/user/payment-razorpay", { MeetingId }, { withCredentials: true });
 
             if (data.success) {
                 initPay(data.order);
@@ -104,7 +104,7 @@ const MyMeetings = () => {
     // Function to make payment using stripe;
     const MeetingStripe = async (MeetingId) => {
         try {
-            const { data } = await axios.post(backendUrl + "/api/user/payment-stripe", { MeetingId }, withCredentials = true);
+            const { data } = await axios.post(backendUrl + "/api/user/payment-stripe", { MeetingId }, { withCredentials: true });
 
             if (data.success) {
                 const { session_url } = data;
@@ -119,10 +119,10 @@ const MyMeetings = () => {
     }
 
     useEffect(() => {
-        if (token) {
+        if (loged) {
             getUserMeetings();
         }
-    }, [token])
+    }, [loged])
 
     return (
         <div>

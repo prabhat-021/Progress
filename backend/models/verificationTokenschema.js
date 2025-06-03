@@ -4,8 +4,7 @@ import bcrypt  from "bcrypt";
 const verificationTokenSchema = mongoose.Schema(
     {
         owner: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
+            type: String,
             required: true,
         },
         token: {

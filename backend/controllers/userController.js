@@ -63,16 +63,15 @@ const registerUser = async (req, res) => {
 
         const OTP = generateOTP();
         const verificationToken = new VerificationToken({
-            email,
+            owner: email,
             token: OTP,
         })
 
         await verificationToken.save();
-        await newUser.save();
 
         transporter().sendMail({
             from: 'prabhatsahrawat010203@gmail.com',
-            to: newUser.email,
+            to: email,
             subject: "Verify your email account",
             html: generateEmailTemplate(OTP),
         });
@@ -96,7 +95,9 @@ const registerUser = async (req, res) => {
         res.status(200).json({
             success: true,
             message: "Please verify your email to login",
-            email
+            email,
+            name,
+            password
         });
 
     } catch (error) {
@@ -122,9 +123,9 @@ const loginUser = async (req, res) => {
         }
 
         if (!user.verified) {
-            return res.status(403).json({ 
-                success: false, 
-                message: "Account not verified. Please verify your email first." 
+            return res.status(403).json({
+                success: false,
+                message: "Account not verified. Please verify your email first."
             });
         }
 
@@ -181,8 +182,9 @@ const getProfile = async (req, res) => {
 
     try {
         const { userId } = req.body;
+        // console.log(userId);
         const userData = await userModel.findById(userId).select('-password');
-
+        // console.log(userData);
         res.json({ success: true, userData });
 
     } catch (error) {
@@ -192,71 +194,86 @@ const getProfile = async (req, res) => {
 };
 
 const verifyEmail = async (req, res) => {
-    const { email, otp, name, password } = req.body;
 
-    if (!email || !otp.trim() || !name || !password) {
-        return res.status(400).json({ message: "Invalid request, missing parameters!" });
-    };
+    try {
 
-    const user = await userModel.findById({ email });
+        const { email, otp, name, password } = req.body;
 
-    if (!user) {
-        return res.status(404).json({ success: false, message: "User Not Found" });
-    }
+        if (!email || !otp.trim() || !name || !password) {
+            return res.status(400).json({ message: "Invalid request, missing parameters!" });
+        };
+        // console.log(email);
 
-    // if (user.verified) {
-    //     return res.status(400).json({ message: "This Account is Already verified" });
-    // }
+        const user = await userModel.findOne({ email });
 
-    const token = await VerificationToken.findOne({ email, token: otp });
+        // console.log(user);
 
-    if (!token) {
-        return res.status(404).json({ success: false, message: "User Not Found" });
-    }
-
-    const isMatched = await token.matchToken(otp);
-
-    if (!isMatched) {
-        return res.status(404).json({ success: false, message: "OTP Is Wrong" });
-    }
-
-    // user.verified = true;
-
-    const newUser = new userModel({
-        name,
-        email,
-        password,
-        verified: true
-    });
-
-    await VerificationToken.findByIdAndDelete(token._id);
-
-    await newUser.save();
-
-    res.cookie('token', authToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 24 * 60 * 60 * 1000, // 1 days
-        sameSite: 'strict'
-    });
-
-    transporter().sendMail({
-        from: 'prabhatsahrawat010203@gmail.com',
-        to: user.email,
-        subject: "Verify your email account",
-        html: plainEmailTemplate("Email Verified Succesfully", "Thanks for connecting with us "),
-    });
-
-    // res.status(201).json({ success: true, message: "Your Email is Verified" })
-    res.status(201).json({
-        success: true,
-        message: "Registration successful , Your Email is Verified",
-        user: {
-            _id: newUser._id,
-            name: newUser.name,
-            email: newUser.email
+        if (user) {
+            return res.status(404).json({ success: false, message: "User Already Found" });
         }
-    });
+
+        // if (user.verified) {
+        //     return res.status(400).json({ message: "This Account is Already verified" });
+        // }
+
+        const token = await VerificationToken.findOne({ owner: email });
+        // console.log(token);
+        if (!token) {
+            return res.status(404).json({ success: false, message: "User Not Found" });
+        }
+
+        const isMatched = await token.matchToken(otp);
+
+        if (!isMatched) {
+            return res.status(404).json({ success: false, message: "OTP Is Wrong" });
+        }
+
+        // user.verified = true;
+
+        const newUser = new userModel({
+            name,
+            email,
+            password,
+            verified: true
+        });
+
+        await VerificationToken.findByIdAndDelete(token._id);
+
+        await newUser.save();
+
+        console.log(newUser);
+        
+        const authToken = generateToken(newUser._id);
+
+        res.cookie('token', authToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 24 * 60 * 60 * 1000, // 1 days
+            sameSite: 'strict'
+        });
+
+        transporter().sendMail({
+            from: 'prabhatsahrawat010203@gmail.com',
+            to: email,
+            subject: "Verify your email account",
+            html: plainEmailTemplate("Email Verified Succesfully", "Thanks for connecting with us "),
+        });
+
+        // res.status(201).json({ success: true, message: "Your Email is Verified" })
+        res.status(201).json({
+            success: true,
+            message: "Registration successful , Your Email is Verified",
+            user: {
+                _id: newUser._id,
+                name: newUser.name,
+                email: newUser.email
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
 
 };
 

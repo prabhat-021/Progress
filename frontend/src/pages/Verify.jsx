@@ -11,7 +11,7 @@ const Verify = () => {
     const success = searchParams.get("success")
     const MeetingId = searchParams.get("MeetingId")
 
-    const { backendUrl, token } = useContext(AppContext)
+    const { backendUrl, loged } = useContext(AppContext)
 
     const navigate = useNavigate()
 
@@ -20,7 +20,7 @@ const Verify = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/verifyStripe", { success, MeetingId }, withCredentials = true);
+            const { data } = await axios.post(backendUrl + "/api/user/verifyStripe", { success, MeetingId }, { withCredentials: true });
 
             if (data.success) {
                 toast.success(data.message)
@@ -38,10 +38,10 @@ const Verify = () => {
     }
 
     useEffect(() => {
-        if (token, MeetingId, success) {
+        if (loged, MeetingId, success) {
             verifyStripe()
         }
-    }, [token])
+    }, [loged])
 
     return (
         <div className="min-h-[60vh] flex items-center justify-center">

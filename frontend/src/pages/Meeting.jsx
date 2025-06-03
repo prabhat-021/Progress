@@ -11,7 +11,7 @@ const Meeting = () => {
     const { menId } = useParams();
     // console.log(menId);
 
-    const { mentors, currencySymbol, backendUrl, token, getMentorData } = useContext(AppContext);
+    const { mentors, currencySymbol, backendUrl, loged, getMentorData } = useContext(AppContext);
     const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
     const [menInfo, setMenInfo] = useState(false);
@@ -89,7 +89,7 @@ const Meeting = () => {
 
     const bookMeeting = async () => {
 
-        if (!token) {
+        if (!loged) {
             toast.warning("Login to book Meeting")
             return navigate("/login")
         }
@@ -104,7 +104,7 @@ const Meeting = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/book-Meeting", { menId, slotDate, slotTime }, withCredentials = true);
+            const { data } = await axios.post(backendUrl + "/api/user/book-Meeting", { menId, slotDate, slotTime }, { withCredentials: true });
             if (data.success) {
                 toast.success(data.message)
                 getMentorData()
