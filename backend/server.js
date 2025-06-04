@@ -24,7 +24,9 @@ app.use(express.json());
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://progress-b8v3.vercel.app'
+  'https://progress-b8v3.vercel.app',
+  "https://progress-8ffa.vercel.app/",
+  "http://localhost:5174/"
 ];
 
 app.use(cors({

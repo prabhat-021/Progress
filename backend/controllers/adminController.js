@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import MeetingModel from "../models/MeetingModel.js";
+import MeetingModel from "../models/meetingModel.js";
 import MentorModel from "../models/mentorModel.js";
 import CollegeModel from "../models/collegeModel.js";
 import bcrypt from "bcrypt";
