@@ -30,9 +30,10 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin: true,
+  origin: (origin, callback) => {
+    callback(null, true); 
+  },
   credentials: true,
-  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
