@@ -15,20 +15,19 @@ connectDB();
 connectCloudinary();
 
 // middlewares
-app.use(express.json());
 
 // app.use(cors({
-//   origin: 'http://localhost:5173',
-//   credentials: true
-// }));
-
-const allowedOrigins = [
-  'http://localhost:5173',
-  'https://progress-b8v3.vercel.app',
-  "https://progress-8ffa.vercel.app",
-  "http://localhost:5174"
-];
-
+  //   origin: 'http://localhost:5173',
+  //   credentials: true
+  // }));
+  
+  const allowedOrigins = [
+    'http://localhost:5173',
+    'https://progress-b8v3.vercel.app',
+    "https://progress-8ffa.vercel.app",
+    "http://localhost:5174"
+  ];
+  
 const corsOptions = {
   origin: (origin, callback) => {
     callback(null, true); 
@@ -36,11 +35,9 @@ const corsOptions = {
   credentials: true,
 };
 
-app.use(cors(corsOptions));
-
-
 app.use(cookieParser());
-
+app.use(cors(corsOptions));
+app.use(express.json());
 // api endpoints
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
