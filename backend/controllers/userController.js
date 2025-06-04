@@ -159,7 +159,7 @@ const loginUser = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 24 * 60 * 60 * 1000,
-            sameSite: 'none'
+            sameSite: 'None'
         });
 
         res.status(200).json({
@@ -249,7 +249,7 @@ const verifyEmail = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 24 * 60 * 60 * 1000, // 1 days
-            sameSite: 'none'
+            sameSite: 'None'
         });
 
         transporter().sendMail({
