@@ -251,7 +251,7 @@ const verifyEmail = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000, // 1 days
             sameSite: 'None'
         });
-
+            
         transporter().sendMail({
             from: 'prabhatsahrawat010203@gmail.com',
             to: email,
