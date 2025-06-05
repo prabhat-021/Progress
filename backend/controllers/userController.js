@@ -370,6 +370,10 @@ const updateProfile = async (req, res) => {
             return res.json({ success: false, message: "Data Missing" })
         }
 
+        if(phone.length < 10 || phone.length > 10) {
+            return res.json({ success: false, message: "Phone number must be 10 digits long" });
+        }
+
         const streamUpload = (fileBuffer) => {
             return new Promise((resolve, reject) => {
                 const stream = cloudinary.uploader.upload_stream(
@@ -379,7 +383,7 @@ const updateProfile = async (req, res) => {
                         else resolve(result);
                     }
                 );
-                stream.end(fileBuffer); // Use buffer instead of pipe()
+                stream.end(fileBuffer);
             });
         };
 

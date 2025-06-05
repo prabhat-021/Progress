@@ -1,5 +1,3 @@
-
-```markdown
 # Progress
 
 **Progress** is a MERN-stack based full-stack web application that helps users track goals, share progress updates, and book mentorship sessions. It features OTP-based authentication, secure session handling using cookies, and integrated payment systems like Razorpay and Stripe. The platform also includes an Admin Panel for managing colleges, sessions, users, and transactions.
@@ -40,9 +38,10 @@ Progress/
 ├── backend/ # API and server
 ├── frontend/ # User interface
 ├── admin/ # Admin dashboard
+
 ```
 
----
+```
 
 ## 📄 Environment Variables
 
@@ -50,7 +49,6 @@ Progress/
 
 ### 🔧 Backend `.env`
 
-```env
 CURRENCY="INR"
 JWT_SECRET="your_jwt_secret"
 
@@ -81,23 +79,16 @@ GMAIL_PASSWORD="your_gmail_app_password"
 IMAGEKIT_URL_ENDPOINT="your_imagekit_endpoint"
 
 NODE_ENV="production"
-```
 
 ### 🔧 Frontend `.env`
 
-```env
 VITE_BACKEND_URL="http://localhost:4000"
 VITE_RAZORPAY_KEY_ID="your_razorpay_key_id"
-```
 
 ### 🔧 Admin `.env`
 
-```env
 VITE_CURRENCY="₹"
 VITE_BACKEND_URL="http://localhost:4000"
-```
-
----
 
 ## 🧪 Getting Started
 
