@@ -41,8 +41,6 @@ Progress/
 
 ```
 
-```
-
 ## 📄 Environment Variables
 
 > **Note:** All environment variables are stored securely and not included in this repository. Below is a reference format you can use to create your `.env` files.
