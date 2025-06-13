@@ -1,4 +1,4 @@
-import { useContext,useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { MentorContext } from "../../context/MentorContext";
 import { assets } from "../../assets/assets";
 import { AppContext } from "../../context/AppContext";
@@ -18,6 +18,8 @@ const MentorDashboard = () => {
 
   }, [dToken]);
 
+  console.log(dashData);
+
   return dashData && (
     <div className="m-5">
       <div className="flex flex-wrap gap-3">
@@ -28,7 +30,7 @@ const MentorDashboard = () => {
             <p className="text-gray-400">Earnings</p>
           </div>
         </div>
-        <Link to={"/Mentor-Meetings"}  className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
+        <Link to={"/Mentor-Meetings"} className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
           <img className="w-14" src={assets.Meetings_icon} alt="" />
           <div>
             <p className="text-xl font-semibold text-gray-600">{dashData.Meetings}</p>
@@ -51,6 +53,7 @@ const MentorDashboard = () => {
 
         <div className="pt-4 border border-t-0">
           {dashData.latestMeetings.slice(0, 5).map((item, index) => (
+            item && item.userData &&
             <div className="flex items-center px-6 py-3 gap-3 hover:bg-gray-100" key={index}>
               <img className="rounded-full w-10" src={item.userData.image} alt="" />
               <div className="flex-1 text-sm">

@@ -1,8 +1,9 @@
-import { useEffect } from "react"
-import { assets } from "../../assets/assets"
-import { useContext } from "react"
-import { AdminContext } from "../../context/AdminContext"
-import { AppContext } from "../../context/AppContext"
+import { useEffect } from "react";
+import { assets } from "../../assets/assets";
+import { useContext } from "react";
+import { AdminContext } from "../../context/AdminContext";
+import { AppContext } from "../../context/AppContext";
+import Loading from "../../components/Loading";
 
 const AllMeetings = () => {
 
@@ -15,9 +16,10 @@ const AllMeetings = () => {
     }
   }, [aToken]);
 
-  console.log(Meetings);
+  console.log(Meetings.length);
 
-  return (
+  return (Meetings.length > 0 ?
+
     <div className="w-full m-5 ">
 
       <p className="mb-3 text-lg font-medium">All Meetings</p>
@@ -33,8 +35,9 @@ const AllMeetings = () => {
           <p>Action</p>
         </div>
         {Meetings.map((item, index) => (
+          item && item.userData && item.menData &&
           <div className="flex flex-wrap justify-between max-sm:gap-2 sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50" key={index}>
-            <p className="max-sm:hidden">{index+1}</p>
+            <p className="max-sm:hidden">{index + 1}</p>
             <div className="flex items-center gap-2">
               <img src={item.userData.image} className="w-8 rounded-full" alt="" /> <p>{item.userData.name}</p>
             </div>
@@ -49,6 +52,10 @@ const AllMeetings = () => {
         ))}
       </div>
 
+    </div>
+    :
+    <div className="w-full m-5 flex justify-center items-center">
+      <Loading />
     </div>
   )
 }

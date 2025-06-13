@@ -39,9 +39,13 @@ const registerUser = async (req, res) => {
 
         const userExist = await userModel.findOne({ email });
 
+        console.log("function called ")
+
         if (userExist) {
             return res.status(400).json({ success: false, message: "User already exists" });
         };
+
+        console.log(userExist);
 
         if (name.length < 3 || name.length > 20) {
             return res.status(400).json({ success: false, message: "Name must be 3 to 20 characters long!" })
@@ -360,7 +364,7 @@ const resetPassword = async (req, res) => {
 
 // API to update user profile
 const updateProfile = async (req, res) => {
-
+console.log(req.body);
     try {
 
         const { userId, name, phone, address, dob, gender } = req.body

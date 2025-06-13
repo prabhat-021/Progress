@@ -38,14 +38,16 @@ const MeetingsMentor = async (req, res) => {
     try {
 
         const { menId } = req.body;
-        const Meetings = await MeetingModel.find({ menId });
+        const meetings = await MeetingModel.find({ menId });
 
         // console.log(Meetings, 'Meetings-1');
 
-        await Promise.all(Meetings.map(async (item, index) => {
+        const Meetings = await Promise.all(meetings.map(async (item) => {
             const userData = await userModel.findById(item.userId).select(['-password', '-email']);
-            Meetings[index].userData = userData;
-        }));        
+            const meetingObj = item.toObject();
+            meetingObj.userData = userData || null;
+            return meetingObj;
+        }));
 
         // console.log(Meetings, 'Meetings-2');
 

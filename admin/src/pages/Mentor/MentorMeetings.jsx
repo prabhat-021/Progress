@@ -5,23 +5,24 @@ import { MentorContext } from "../../context/MentorContext";
 import { AppContext } from "../../context/AppContext";
 
 import { assets } from "../../assets/assets";
+import Loading from "../../components/Loading";
 
 
 const MentorMeetings = () => {
 
   const { dToken, Meetings, getMeetings, cancelMeeting, completeMeeting } = useContext(MentorContext);
-  
+
   const { slotDateFormat, calculateAge, currency } = useContext(AppContext);
-  
+
 
   useEffect(() => {
     if (dToken) {
       getMeetings();
     }
   }, [dToken]);
-  
 
-  return (
+
+  return (Meetings.length > 0 ?
     <div className="w-full max-w-6xl m-5 ">
 
       <p className="mb-3 text-lg font-medium">All Meetings</p>
@@ -37,14 +38,15 @@ const MentorMeetings = () => {
           <p>Action</p>
         </div>
         {Meetings.map((item, index) => (
+          item && item.userData &&
           <div className="flex flex-wrap justify-between max-sm:gap-5 max-sm:text-base sm:grid grid-cols-[0.5fr_2fr_1fr_1fr_3fr_1fr_1fr] gap-1 items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50" key={index}>
-            <p className="max-sm:hidden">{index+1}</p>
+            <p className="max-sm:hidden">{index + 1}</p>
             <div className="flex items-center gap-2">
               <img src={item.userData.image} className="w-8 rounded-full" alt="" /> <p>{item.userData.name}</p>
             </div>
             <div>
               <p className="text-xs inline border border-primary px-2 rounded-full">
-                {item.payment?"Online":"CASH"}
+                {item.payment ? "Online" : "CASH"}
               </p>
             </div>
             <p className="max-sm:hidden">{calculateAge(item.userData.dob)}</p>
@@ -62,7 +64,8 @@ const MentorMeetings = () => {
           </div>
         ))}
       </div>
-
+    </div> : <div className="w-full m-5 flex justify-center items-center">
+      <Loading />
     </div>
   )
 }
