@@ -28,10 +28,10 @@ const Meeting = () => {
 
     const getAvailableSolts = async () => {
 
-        setMenSlots([])
+        setMenSlots([]);
 
         // getting current date
-        let today = new Date()
+        let today = new Date();
 
         for (let i = 0; i < 7; i++) {
 
@@ -40,9 +40,9 @@ const Meeting = () => {
             currentDate.setDate(today.getDate() + i)
 
             // setting end time of the date with index
-            let endTime = new Date()
-            endTime.setDate(today.getDate() + i)
-            endTime.setHours(21, 0, 0, 0)
+            let endTime = new Date();
+            endTime.setDate(today.getDate() + i);
+            endTime.setHours(21, 0, 0, 0);
 
             // setting hours 
             if (today.getDate() === currentDate.getDate()) {
@@ -55,7 +55,6 @@ const Meeting = () => {
 
             let timeSlots = [];
 
-
             while (currentDate < endTime) {
                 let formattedTime = currentDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
@@ -66,7 +65,7 @@ const Meeting = () => {
                 const slotDate = day + "_" + month + "_" + year
                 const slotTime = formattedTime
 
-                const isSlotAvailable = menInfo.slots_booked[slotDate] && menInfo.slots_booked[slotDate].includes(slotTime) ? false : true
+                const isSlotAvailable = menInfo.slots_booked[slotDate] && menInfo.slots_booked[slotDate].includes(slotTime) ? false : true;
 
                 if (isSlotAvailable) {
 

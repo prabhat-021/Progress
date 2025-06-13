@@ -46,7 +46,6 @@ const MeetingsAdmin = async (req, res) => {
     }
 }
 
-
 const MeetingCancel = async (req, res) => {
     try {
 
