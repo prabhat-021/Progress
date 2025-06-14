@@ -24,13 +24,13 @@ const MentorContextProvider = (props) => {
                 setMeetings(data.Meetings.reverse());
             } else {
                 toast.error(data.message);
-            };
+            }
 
         } catch (error) {
             console.log(error);
             toast.error(error.message);
         }
-    }
+    };
 
     // Getting Mentor profile data from Database using API;
     const getProfileData = async () => {
@@ -44,7 +44,7 @@ const MentorContextProvider = (props) => {
             console.log(error);
             toast.error(error.message);
         }
-    }
+    };
 
     // Function to cancel Mentor Meeting using API
     const cancelMeeting = async (MeetingId) => {
@@ -61,20 +61,20 @@ const MentorContextProvider = (props) => {
             } else {
                 toast.error(data.message);
             }
-            ;
+            
         } catch (error) {
             toast.error(error.message);
             console.log(error);
         }
 
-    }
+    };
 
     // Function to Mark Meeting completed using API
     const completeMeeting = async (MeetingId) => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/Mentor/complete-Meeting', { MeetingId }, { headers: { dToken } });;
+            const { data } = await axios.post(backendUrl + '/api/Mentor/complete-Meeting', { MeetingId }, { headers: { dToken } });
 
             if (data.success) {
                 toast.success(data.message);
@@ -90,7 +90,7 @@ const MentorContextProvider = (props) => {
             console.log(error);
         }
 
-    }
+    };
 
     // Getting Mentor dashboard data using API
     const getDashData = async () => {
@@ -109,7 +109,7 @@ const MentorContextProvider = (props) => {
             toast.error(error.message);
         }
 
-    }
+    };
 
     const value = {
         dToken, setDToken, backendUrl,
@@ -120,15 +120,15 @@ const MentorContextProvider = (props) => {
         dashData, getDashData,
         profileData, setProfileData,
         getProfileData,
-    }
+    };
 
     return (
         <MentorContext.Provider value={value}>
             {props.children}
         </MentorContext.Provider>
-    )
+    );
 
 
-}
+};
 
 export default MentorContextProvider;

@@ -7,12 +7,12 @@ import Loading from "../../components/Loading";
 
 const AllMeetings = () => {
 
-  const { aToken, Meetings, cancelMeeting, getAllMeetings } = useContext(AdminContext)
-  const { slotDateFormat, calculateAge, currency } = useContext(AppContext)
+  const { aToken, Meetings, cancelMeeting, getAllMeetings } = useContext(AdminContext);
+  const { slotDateFormat, calculateAge, currency } = useContext(AppContext);
 
   useEffect(() => {
     if (aToken) {
-      getAllMeetings()
+      getAllMeetings();
     }
   }, [aToken]);
 
@@ -57,7 +57,7 @@ const AllMeetings = () => {
     <div className="w-full m-5 flex justify-center items-center">
       <Loading />
     </div>
-  )
-}
+  );
+};
 
 export default AllMeetings;

@@ -17,7 +17,7 @@ const Navbar = () => {
     dToken && localStorage.removeItem("dToken");
     aToken && setAToken("");
     aToken && localStorage.removeItem("aToken");
-  }
+  };
 
   return (
     <div className="flex justify-between items-center px-4 sm:px-10  border-b bg-white">
@@ -27,7 +27,7 @@ const Navbar = () => {
       </div>
       <button  type="button" onClick={() => logout()} className="bg-primary text-white text-sm px-10 py-2 rounded-full">Logout</button>
     </div>
-  )
-}
+  );
+};
 
 export default Navbar;

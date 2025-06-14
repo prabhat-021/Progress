@@ -32,4 +32,4 @@ export const assets = {
     Meetings_icon,
     earning_icon,
     College_icon
-}
+};

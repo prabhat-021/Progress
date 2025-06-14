@@ -67,7 +67,7 @@ const MentorMeetings = () => {
     </div> : <div className="w-full m-5 flex justify-center items-center">
       <Loading />
     </div>
-  )
-}
+  );
+};
 
 export default MentorMeetings;

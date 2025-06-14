@@ -19,7 +19,7 @@ const MentorProfile = () => {
                 fees: profileData.fees,
                 about: profileData.about,
                 available: profileData.available
-            }
+            };
 
             const { data } = await axios.post(backendUrl + "/api/Mentor/update-profile", updateData, { headers: { dToken } });
 
@@ -38,7 +38,7 @@ const MentorProfile = () => {
             console.log(error);
         }
 
-    }
+    };
 
     useEffect(() => {
         if (dToken) {
@@ -100,7 +100,7 @@ const MentorProfile = () => {
 
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default MentorProfile;

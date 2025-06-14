@@ -17,7 +17,7 @@ const Login = () => {
   const { setAToken } = useContext(AdminContext);
 
   const onSubmitHandler = async (event) => {
-    ;
+    
     event.preventDefault();
 
     if (state === "Admin") {
@@ -42,7 +42,7 @@ const Login = () => {
 
     }
 
-  }
+  };
 
   return (
     <form onSubmit={onSubmitHandler} className="min-h-[80vh] flex items-center">
@@ -64,7 +64,7 @@ const Login = () => {
         }
       </div>
     </form>
-  )
-}
+  );
+};
 
 export default Login;

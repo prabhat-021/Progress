@@ -13,7 +13,7 @@ const collegeSchema = new mongoose.Schema({
     state: { type: String, required: true },
     city: { type: String, required: true },
     studentFacultyRatio: { type: String, required: true },
-    image: { type: String, required: true } 
+    image: { type: String, required: true, default: "https://res.cloudinary.com/prabhat021/image/upload/v1749916864/OIP_uu8lcl.jpg" }
 });
 
 const CollegeModel = mongoose.model("NewCollege", collegeSchema);

@@ -18,7 +18,7 @@ const MentorDashboard = () => {
 
   }, [dToken]);
 
-  console.log(dashData);
+  // console.log(dashData);
 
   return dashData && (
     <div className="m-5">
@@ -74,7 +74,7 @@ const MentorDashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default MentorDashboard;

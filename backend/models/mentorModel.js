@@ -4,7 +4,7 @@ const MentorSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String, required: true, default: "https://res.cloudinary.com/prabhat021/image/upload/v1749916864/OIP_uu8lcl.jpg" },
     speciality: { type: String, required: true },
     degree: { type: String, required: true },
     experience: { type: String, required: true },

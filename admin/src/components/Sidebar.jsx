@@ -54,7 +54,7 @@ const Sidebar = () => {
         </NavLink>
       </ul>}
     </div>
-  )
-}
+  );
+};
 
 export default Sidebar;

@@ -30,7 +30,7 @@ const AdminContextProvider = (props) => {
             toast.error(error.message);
         }
 
-    }
+    };
 
     const getAllUsers = async () => {
 
@@ -47,7 +47,7 @@ const AdminContextProvider = (props) => {
             toast.error(error.message);
         }
 
-    }
+    };
 
     // Function to change Mentor availablity using API
     const changeAvailability = async (menId) => {
@@ -65,7 +65,7 @@ const AdminContextProvider = (props) => {
             console.log(error);
             toast.error(error.message);
         }
-    }
+    };
 
     // Getting all Meeting data from Database using API
     const getAllMeetings = async () => {
@@ -84,7 +84,7 @@ const AdminContextProvider = (props) => {
             console.log(error);
         }
 
-    }
+    };
 
     // Function to cancel Meeting using API
     const cancelMeeting = async (MeetingId) => {
@@ -105,7 +105,7 @@ const AdminContextProvider = (props) => {
             console.log(error);
         }
 
-    }
+    };
 
     // Getting Admin Dashboard data from Database using API
     const getDashData = async () => {
@@ -124,7 +124,7 @@ const AdminContextProvider = (props) => {
             toast.error(error.message);
         }
 
-    }
+    };
 
     const deleteMentor = async (email) => {
 
@@ -142,7 +142,7 @@ const AdminContextProvider = (props) => {
             console.log(error);
             toast.error(error.message);
         }
-    }
+    };
 
     const value = {
         aToken, setAToken,
@@ -157,14 +157,14 @@ const AdminContextProvider = (props) => {
         getAllUsers,
         Users,
         deleteMentor
-    }
+    };
 
     return (
         <AdminContext.Provider value={value}>
             {props.children}
         </AdminContext.Provider>
-    )
+    );
 
-}
+};
 
 export default AdminContextProvider;

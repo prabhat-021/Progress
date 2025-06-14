@@ -32,7 +32,7 @@ const UsersList = () => {
                     ))}
                 </div>
             </div> : <Loading />
-    )
-}
+    );
+};
 
 export default UsersList;

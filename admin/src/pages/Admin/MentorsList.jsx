@@ -25,13 +25,13 @@ const MentorsList = () => {
                 <input onChange={() => changeAvailability(item._id)} type="checkbox" checked={item.available} />
                 <p>Available</p>
               </div>
-              <button onClick={() => deleteMentor(item.email)} type="button" class="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Mentor</button>
+              <button onClick={() => deleteMentor(item.email)} type="button" className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-md text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Mentor</button>
             </div>
           </div>
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default MentorsList;

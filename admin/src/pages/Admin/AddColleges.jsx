@@ -26,7 +26,7 @@ const AddCollege = () => {
     const { aToken } = useContext(AdminContext);
 
     const onSubmitHandler = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
 
         try {
 
@@ -81,7 +81,7 @@ const AddCollege = () => {
             toast.error(error.message);
             console.log(error);
         }
-    }
+    };
 
     return (
         <form onSubmit={onSubmitHandler} className="m-5 w-full">
@@ -244,7 +244,7 @@ const AddCollege = () => {
 
 
         </form>
-    )
-}
+    );
+};
 
 export default AddCollege;

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { MentorContext } from "./context/MentorContext";
 import { AdminContext } from "./context/AdminContext";
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "./components/Navbar";
@@ -47,7 +47,7 @@ const App = () => {
       <ToastContainer />
       <Login />
     </>
-  )
-}
+  );
+};
 
 export default App;

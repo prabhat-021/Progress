@@ -70,7 +70,7 @@ const AddMentor = () => {
             console.log(error);
         }
 
-    }
+    };
 
     return (
         <form onSubmit={onSubmitHandler} className="m-5 w-full">
@@ -169,7 +169,7 @@ const AddMentor = () => {
 
 
         </form>
-    )
-}
+    );
+};
 
 export default AddMentor;
