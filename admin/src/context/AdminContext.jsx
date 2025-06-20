@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axiosInstance.js";
 import { createContext, useState } from "react";
 import { toast } from "react-toastify";
 export const AdminContext = createContext();

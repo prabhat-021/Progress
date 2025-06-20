@@ -1,7 +1,7 @@
 import { createContext, useEffect, useReducer } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "../axiosInstance.js";
 import {
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
@@ -72,7 +72,7 @@ const reducer = (state, action) => {
         case USER_REGISTER_OTP_SUCCESS:
             localStorage.setItem("userInfo", JSON.stringify(action.payload));
             localStorage.setItem('verfied', JSON.stringify(true));
-            return { ...state, verfied: true, otpSent: false , userData: action.payload};
+            return { ...state, verfied: true, otpSent: false, userData: action.payload };
 
         default:
             return state;
@@ -176,7 +176,7 @@ const AppContextProvider = (props) => {
 
             if (data.success) {
                 // dispatch({ type: USER_LOGIN_SUCCESS, payload: data.userData });
-                dispatch({ type: USER_REGISTER_OTP_SUCCESS , payload: data});
+                dispatch({ type: USER_REGISTER_OTP_SUCCESS, payload: data });
                 toast.success("Login successful!");
             } else {
                 dispatch({ type: USER_LOGIN_FAIL });

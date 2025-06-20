@@ -2,8 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/assets";
-import RelatedMentors from "../components/RelatedMentors"; // You can rename this if needed
-import axios from "axios";
+import RelatedMentors from "../components/RelatedMentors"; 
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 
@@ -13,7 +12,7 @@ const CollegeDetails = () => {
   const { colleges, currencySymbol } = useContext(AppContext); 
   const [collegeInfo, setCollegeInfo] = useState(null);
 
-  console.log(collegeInfo);
+  // console.log(collegeInfo);
 
   const fetchCollegeInfo = async () => {
     const college = colleges.find((item) => item._id === colId); 

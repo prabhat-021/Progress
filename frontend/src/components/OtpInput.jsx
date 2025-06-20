@@ -10,8 +10,8 @@ export default function OtpInput() {
     const navigate = useNavigate();
 
     const { otpSent, loading, userData, verifyOtp, verfied } = useContext(AppContext);
-    console.log(userData);
-    console.log(otpSent);
+    // console.log(userData);
+    // console.log(otpSent);
 
     const inputRefs = useRef([]);
 

@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom"
-import { AppContext } from "../context/AppContext"
-import { assets } from "../assets/assets"
-import RelatedMentors from "../components/RelatedMentors"
-import axios from "axios"
-import { toast } from "react-toastify"
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
+import { assets } from "../assets/assets";
+import RelatedMentors from "../components/RelatedMentors";
+import axios from "../axiosInstance.js";
+import { toast } from "react-toastify";
 
 const Meeting = () => {
 

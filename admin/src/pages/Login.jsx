@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../axiosInstance.js";
 import { useContext, useState } from "react";
 import { MentorContext } from "../context/MentorContext";
 import { AdminContext } from "../context/AdminContext";

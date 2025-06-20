@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
-import axios from "axios";
+import axios from "../axiosInstance.js";
 import { toast } from "react-toastify";
 import { assets } from "../assets/assets";
 
@@ -26,7 +26,7 @@ const MyMeetings = () => {
         try {
 
             const { data } = await axios.get(backendUrl + "/api/user/Meetings", { withCredentials: true });
-            console.log(data);
+            // console.log(data);
             setMeetings(data.Meetings.reverse());
 
         } catch (error) {
@@ -67,7 +67,7 @@ const MyMeetings = () => {
             receipt: order.receipt,
             handler: async (response) => {
 
-                console.log(response)
+                // console.log(response)
 
                 try {
                     const { data } = await axios.post(backendUrl + "/api/user/verifyRazorpay", response, { withCredentials: true });

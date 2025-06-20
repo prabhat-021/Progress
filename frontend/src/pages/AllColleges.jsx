@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -23,7 +23,7 @@ const Colleges = () => {
     applyFilter();
   }, [colleges, speciality]);
 
-  console.log(filterCollege, "filterCollege");
+  // console.log(filterCollege, "filterCollege");
 
   const filters = [
     "Engineering",

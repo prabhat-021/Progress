@@ -60,7 +60,7 @@ export default function ResetForm() {
             setBusy(true);
             const { data } = await axios.post(`${baseUrl}/resetPassword?token=${token}&id=${id}`, { password });
             setBusy(false);
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 setSuccess(true);
                 navigate("/resetPassword");

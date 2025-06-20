@@ -7,6 +7,9 @@ import userRouter from "./routes/userRoute.js";
 import MentorRouter from "./routes/mentorRoute.js";
 import adminRouter from "./routes/adminRoute.js";
 import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
+import csrf from 'csurf';
 
 // app config
 const app = express();
@@ -39,9 +42,38 @@ const corsOptions = {
   credentials: true,
 };
 
+const limiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 100,
+    message: {
+        status: 429,
+        error: "Too many requests. Please try again later.",
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
+app.use(limiter);
+app.use(helmet());
+
+const csrfProtection = csrf({
+    cookie: {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None"
+    }
+});
+
 app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
+
+app.use(csrfProtection);
+
+app.get("/csrf-token", (req, res) => {
+    res.json({ csrfToken: req.csrfToken() });
+});
+
 // api endpoints
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);

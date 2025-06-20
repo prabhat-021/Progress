@@ -39,13 +39,13 @@ const registerUser = async (req, res) => {
 
         const userExist = await userModel.findOne({ email });
 
-        console.log("function called ")
+        // console.log("function called ")
 
         if (userExist) {
             return res.status(400).json({ success: false, message: "User already exists" });
         };
 
-        console.log(userExist);
+        // console.log(userExist);
 
         if (name.length < 3 || name.length > 20) {
             return res.status(400).json({ success: false, message: "Name must be 3 to 20 characters long!" })
@@ -245,7 +245,7 @@ const verifyEmail = async (req, res) => {
 
         await newUser.save();
 
-        console.log(newUser);
+        // console.log(newUser);
         
         const authToken = generateToken(newUser._id);
 
@@ -364,7 +364,7 @@ const resetPassword = async (req, res) => {
 
 // API to update user profile
 const updateProfile = async (req, res) => {
-console.log(req.body);
+// console.log(req.body);
     try {
 
         const { userId, name, phone, address, dob, gender } = req.body
@@ -392,7 +392,7 @@ console.log(req.body);
         };
 
         if (imageFile) {
-            console.log(imageFile.path);
+            // console.log(imageFile.path);
             const imageUpload = await cloudinary.uploader.upload(imageFile.path, { resource_type: "image" });
             // const imageUpload = await streamUpload(req.file.buffer);
             const imageURL = imageUpload.secure_url
@@ -506,7 +506,7 @@ const listMeeting = async (req, res) => {
             userId,
         });
 
-        console.log(Meetings)
+        // console.log(Meetings)
         res.json({ success: true, Meetings })
 
     } catch (error) {
