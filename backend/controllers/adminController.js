@@ -30,15 +30,22 @@ const loginAdmin = async (req, res) => {
 // API to get all Meetings list
 const MeetingsAdmin = async (req, res) => {
     try {
+        const now = Date.now();
         const meetings = await MeetingModel.find({});
-        
-        const Meetings = await Promise.all(meetings.map(async (item) => {
+        // Mark expired meetings
+        await Promise.all(meetings.map(async (meeting) => {
+            if (!meeting.isCompleted && !meeting.cancelled && !meeting.expired && meeting.date < now) {
+                meeting.expired = true;
+                await meeting.save();
+            }
+        }));
+        const updatedMeetings = await MeetingModel.find({});
+        const Meetings = await Promise.all(updatedMeetings.map(async (item) => {
             const userData = await userModel.findById(item.userId).select(['-password', '-email']);
             const meetingObj = item.toObject(); 
             meetingObj.userData = userData || null;
             return meetingObj;
         }));
-
         res.json({ success: true, Meetings});
     } catch (error) {
         console.log(error);

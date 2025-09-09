@@ -11,7 +11,8 @@ const MeetingSchema = new mongoose.Schema({
     date: { type: Number, required: true },
     cancelled: { type: Boolean, default: false },
     payment: { type: Boolean, default: false },
-    isCompleted: { type: Boolean, default: false }
+    isCompleted: { type: Boolean, default: false },
+    expired: { type: Boolean, default: false }
 })
 
 const MeetingModel = mongoose.models.Meeting || mongoose.model("Meeting", MeetingSchema);

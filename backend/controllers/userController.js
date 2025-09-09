@@ -500,15 +500,19 @@ const cancelMeeting = async (req, res) => {
 // API to get user Meetings for frontend my-Meetings page
 const listMeeting = async (req, res) => {
     try {
-
         const { userId } = req.body;
-        const Meetings = await MeetingModel.find({
-            userId,
-        });
-
+        const now = Date.now();
+        const meetings = await MeetingModel.find({ userId });
+        // Mark expired meetings
+        await Promise.all(meetings.map(async (meeting) => {
+            if (!meeting.isCompleted && !meeting.cancelled && !meeting.expired && meeting.date < now) {
+                meeting.expired = true;
+                await meeting.save();
+            }
+        }));
+        const updatedMeetings = await MeetingModel.find({ userId });
         // console.log(Meetings)
-        res.json({ success: true, Meetings })
-
+        res.json({ success: true, Meetings: updatedMeetings })
     } catch (error) {
         console.log(error)
         res.json({ success: false, message: error.message })
