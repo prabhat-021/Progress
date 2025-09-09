@@ -30,7 +30,7 @@ const Mentors = () => {
   // console.log(filterMen);
   return (
     <>
-      <div className="flex items-baseline justify-between">
+      <div className="flex items-baseline justify-between mt-8">
         <div>
           <h1 className="text-2xl font-semibold text-gray-800">Mentors</h1>
           <p className="text-gray-600 text-sm">Browse mentors by speciality</p>

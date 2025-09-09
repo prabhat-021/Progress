@@ -37,8 +37,8 @@ const Colleges = () => {
   
 
   return (
-    <div>
-      <div className="flex items-baseline justify-between">
+    <>
+      <div className="flex items-baseline justify-between mt-8">
         <div>
           <h1 className="text-2xl font-semibold text-gray-800">Colleges</h1>
           <p className="text-gray-600 text-sm">Find colleges with custom filters</p>
@@ -100,7 +100,7 @@ const Colleges = () => {
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

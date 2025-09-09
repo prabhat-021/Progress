@@ -2,7 +2,7 @@ import { assets } from "../assets/assets";
 
 const About = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mt-8">
 
       {/* Hero Section */}
       <div className="relative overflow-hidden rounded-xl bg-gradient-to-r from-blue-50 via-white to-purple-50 border">
