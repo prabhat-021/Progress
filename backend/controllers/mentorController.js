@@ -33,26 +33,30 @@ const loginMentor = async (req, res) => {
     }
 }
 
+function getMeetingSlotDateTime(slotDate, slotTime) {
+    const [day, month, year] = slotDate.split("_").map(Number);
+    return new Date(`${year}-${month}-${day} ${slotTime}`);
+}
+
 // API to get Mentor Meetings for Mentor panel
 const MeetingsMentor = async (req, res) => {
     try {
         const { menId } = req.body;
         const now = Date.now();
         const meetings = await MeetingModel.find({ menId });
-        // Mark expired meetings
-        await Promise.all(meetings.map(async (meeting) => {
-            if (!meeting.isCompleted && !meeting.cancelled && !meeting.expired && meeting.date < now) {
-                meeting.expired = true;
-                await meeting.save();
+        const Meetings = await Promise.all(meetings.map(async (item) => {
+            const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
+            if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
+                item.expired = true;
+                await item.save();
             }
-        }));
-        const updatedMeetings = await MeetingModel.find({ menId });
-        const Meetings = await Promise.all(updatedMeetings.map(async (item) => {
             const userData = await userModel.findById(item.userId).select(['-password', '-email']);
             const meetingObj = item.toObject();
             meetingObj.userData = userData || null;
             return meetingObj;
         }));
+        console.log(Meetings);
+        
         res.json({ success: true, Meetings });
     } catch (error) {
         console.log(error);
