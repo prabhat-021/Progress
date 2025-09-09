@@ -25,30 +25,49 @@ const Mentors = () => {
     applyFilter()
   }, [mentors, speciality]);
 
+  const categories = ["General Mentor", "Engineering", "Doctor", "Fashion Design", "MNC", "MBA"];
+
   // console.log(filterMen);
   return (
     <>
-      <p className="text-gray-600">Browse through the Mentors specialist.</p>
-      <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
-        <button onClick={() => setShowFilter(!showFilter)} className={`py-1 px-3 border rounded text-sm  transition-all sm:hidden ${showFilter ? "bg-primary text-white" : "black"}`}>Filters</button>
-        <div className={`flex-col gap-4 text-sm text-gray-600 ${showFilter ? "flex" : "hidden sm:flex"}`}>
-          <p onClick={() => speciality === "General Mentor" ? navigate("/Mentors") : navigate("/Mentors/General Mentor")} className={` w-[96vw] md:w-48 sm:w-auto pl-3 py-1.5 pr-8 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "General Mentor" ? "bg-[#E2E5FF] text-black " : ""}`}>General Mentor</p>
-          <p onClick={() => speciality === "Engineering" ? navigate("/Mentors") : navigate("/Mentors/Engineering")} className={`w-[94vw] md:w-48 sm:w-auto pl-3 py-1.5 pr-8 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Engineering" ? "bg-[#E2E5FF] text-black " : ""}`}>Engineering</p>
-          <p onClick={() => speciality === "Doctor" ? navigate("/Mentors") : navigate("/Mentors/Doctor")} className={`w-[94vw] md:w-48 sm:w-auto pl-3 py-1.5 pr-8 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Doctor" ? "bg-[#E2E5FF] text-black " : ""}`}>Doctor</p>
-          <p onClick={() => speciality === "Fashion Design" ? navigate("/Mentors") : navigate("/Mentors/Fashion Design")} className={`w-[94vw] md:w-48 sm:w-auto pl-3 py-1.5 pr-8 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "Fashion Design" ? "bg-[#E2E5FF] text-black " : ""}`}>Fashion Design</p>
-          <p onClick={() => speciality === "MNC" ? navigate("/Mentors") : navigate(`/Mentors/MNC`)} className={`w-[94vw] md:w-48 sm:w-auto pl-3 py-1.5 pr-8 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "MNC" ? "bg-[#E2E5FF] text-black " : ""}`}>MNC</p>
-          <p onClick={() => speciality === "MBA" ? navigate("/Mentors") : navigate("/Mentors/MBA")} className={`w-[94vw] md:w-48 sm:w-auto pl-3 py-1.5 pr-8 border border-gray-300 rounded transition-all cursor-pointer ${speciality === "MBA" ? "bg-[#E2E5FF] text-black " : ""}`}>MBA</p>
+      <div className="flex items-baseline justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-800">Mentors</h1>
+          <p className="text-gray-600 text-sm">Browse mentors by speciality</p>
         </div>
-        <div className="w-full grid grid-cols-auto gap-4 gap-y-6">
+      </div>
+
+      {/* Horizontal Filters */}
+      <div className="mt-4 -mx-1">
+        <div className="flex gap-2 overflow-x-auto no-scrollbar py-1 px-1">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => speciality === cat ? navigate("/Mentors") : navigate(`/Mentors/${cat}`)}
+              className={`whitespace-nowrap px-3 py-1.5 rounded-full border text-sm transition-colors ${
+                speciality === cat ? "bg-[#E2E5FF] text-black border-primary" : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4">
+        <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
           {filterMen.map((item, index) => (
-            <div onClick={() => { navigate(`/Meeting/${item._id}`); scrollTo(0, 0) }} className="border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500" key={index}>
-              <img className="bg-[#EAEFFF]" src={item.image} alt="" />
-              <div className="p-4">
-                <div className={`flex items-center gap-2 text-sm text-center ${item.available ? "text-green-500" : "text-gray-500"}`}>
-                  <p className={`w-2 h-2 rounded-full ${item.available ? "bg-green-500" : "bg-gray-500"}`}></p><p>{item.available ? "Available" : "Not Available"}</p>
+            <div onClick={() => { navigate(`/Meeting/${item._id}`); scrollTo(0, 0) }} className="group border border-gray-200 rounded-md overflow-hidden cursor-pointer bg-white hover:shadow-sm transition-all duration-150" key={index}>
+              <div className="aspect-[3/4] bg-[#F4F6FF] overflow-hidden">
+                <img className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform" src={item.image} alt={item.name} />
+              </div>
+              <div className="p-2">
+                <div className={`flex items-center gap-1 text-[10px] ${item.available ? "text-green-600" : "text-gray-500"}`}>
+                  <span className={`w-1.5 h-1.5 rounded-full ${item.available ? "bg-green-500" : "bg-gray-400"}`}></span>
+                  <span className="truncate">{item.available ? "Available" : "Not Available"}</span>
                 </div>
-                <p className="text-[#262626] text-lg font-medium">{item.name}</p>
-                <p className="text-[#5C5C5C] text-sm">{item.speciality}</p>
+                <p className="mt-0.5 text-[#262626] text-[13px] font-semibold truncate">{item.name}</p>
+                <p className="text-[#5C5C5C] text-[11px] truncate">{item.speciality}</p>
               </div>
             </div>
           ))}
