@@ -37,20 +37,26 @@ const Colleges = () => {
   
 
   return (
-    <div>
-      <p className="text-gray-600">Find Colleges with Custom Filters</p>
-      <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
+    <>
+      <div className="flex items-baseline justify-between mt-8">
+        <div>
+          <h1 className="text-2xl font-semibold text-gray-800">Colleges</h1>
+          <p className="text-gray-600 text-sm">Find colleges with custom filters</p>
+        </div>
         <button
           onClick={() => setShowFilter(!showFilter)}
-          className={`py-1 px-3 border rounded text-sm transition-all sm:hidden ${
-            showFilter ? "bg-primary text-white" : "black"
+          className={`py-1.5 px-3 border rounded text-sm transition-all sm:hidden ${
+            showFilter ? "bg-primary text-white" : "bg-white"
           }`}
         >
           Filters
         </button>
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
 
         <div
-          className={`flex-col gap-4 text-sm text-gray-600 ${
+          className={`flex-col gap-3 text-sm text-gray-700 ${
             showFilter ? "flex" : "hidden sm:flex"
           }`}
         >
@@ -62,8 +68,8 @@ const Colleges = () => {
                   ? navigate("/College")
                   : navigate(`/College/${filterName}`)
               }
-              className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer ${
-                speciality === filterName ? "bg-[#E2E5FF] text-black" : ""
+              className={`w-[94vw] sm:w-56 pl-3 py-2 pr-4 border rounded cursor-pointer transition-all hover:bg-gray-50 ${
+                speciality === filterName ? "bg-[#E2E5FF] text-black border-primary" : "border-gray-300"
               }`}
             >
               {filterName}
@@ -71,38 +77,30 @@ const Colleges = () => {
           ))}
         </div>
 
-        <div className="w-full grid grid-cols-auto gap-4 gap-y-6">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filterCollege.map((item, index) => (
             <div
               onClick={() => {
                 navigate(`/CollegeDetails/${item._id}`);
                 scrollTo(0, 0);
               }}
-              className="border border-[#C9D8FF] rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
+              className="group border border-gray-200 rounded-lg overflow-hidden cursor-pointer bg-white hover:shadow-sm transition-all duration-200"
               key={index}
             >
-              <img className="bg-[#EAEFFF]" src={item.image} alt="" />
-              <div className="p-4">
-                <div
-                  className={`flex items-center gap-2 text-sm text-center ${
-                    item.available ? "text-green-500" : "text-gray-500"
-                  }`}
-                >
-                  {/* <p
-                    className={`w-2 h-2 rounded-full ${
-                      item.available ? "bg-green-500" : "bg-gray-500"
-                    }`}
-                  ></p> */}
-                  {/* <p>{item.available ? "Available" : "Not Available"}</p> */}
+              <div className="aspect-[4/3] bg-[#F4F6FF] overflow-hidden">
+                <img className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform" src={item.image} alt={item.name} />
+              </div>
+              <div className="p-3">
+                <p className="text-[#262626] text-base font-semibold truncate">{item.name}</p>
+                <div className="mt-1 flex items-center gap-2 text-[11px]">
+                  <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 truncate">{item.speciality}</span>
                 </div>
-                <p className="text-[#262626] text-lg font-medium">{item.name}</p>
-                <p className="text-[#5C5C5C] text-sm">{item.speciality}</p>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

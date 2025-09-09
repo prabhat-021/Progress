@@ -22,46 +22,46 @@ const Dashboard = () => {
     <div className="m-5">
 
       <div className="flex flex-wrap gap-3">
-        <Link to="/Mentor-list" className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
-          <img className="w-14" src={assets.Mentor_icon} alt="" />
+        <Link to="/Mentor-list" className="flex items-center gap-2 bg-white p-4 min-w-52 rounded-lg border border-gray-200 cursor-pointer hover:shadow-sm transition">
+          <img className="w-12" src={assets.Mentor_icon} alt="" />
           <div>
-            <p className="text-xl font-semibold text-gray-600">{dashData.Mentors}</p>
-            <p className="text-gray-400">Mentors</p>
+            <p className="text-lg font-semibold text-gray-700">{dashData.Mentors}</p>
+            <p className="text-gray-400 text-sm">Mentors</p>
           </div>
         </Link>
-        <Link to="/all-Meetings" className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
-          <img className="w-14" src={assets.Meetings_icon} alt="" />
+        <Link to="/all-Meetings" className="flex items-center gap-2 bg-white p-4 min-w-52 rounded-lg border border-gray-200 cursor-pointer hover:shadow-sm transition">
+          <img className="w-12" src={assets.Meetings_icon} alt="" />
           <div>
-            <p className="text-xl font-semibold text-gray-600">{dashData.Meetings}</p>
-            <p className="text-gray-400">Meetings</p>
+            <p className="text-lg font-semibold text-gray-700">{dashData.Meetings}</p>
+            <p className="text-gray-400 text-sm">Meetings</p>
           </div>
         </Link>
-        <Link to="/User-List" className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
-          <img className="w-14" src={assets.User_icon} alt="" />
+        <Link to="/User-List" className="flex items-center gap-2 bg-white p-4 min-w-52 rounded-lg border border-gray-200 cursor-pointer hover:shadow-sm transition">
+          <img className="w-12" src={assets.User_icon} alt="" />
           <div>
-            <p className="text-xl font-semibold text-gray-600">{dashData.user}</p>
-            <p className="text-gray-400">Users</p></div>
+            <p className="text-lg font-semibold text-gray-700">{dashData.user}</p>
+            <p className="text-gray-400 text-sm">Users</p></div>
         </Link>
-        <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded border-2 border-gray-100 cursor-pointer hover:scale-105 transition-all">
-          <img className="w-14" src={assets.College_icon} alt="" />
+        <div className="flex items-center gap-2 bg-white p-4 min-w-52 rounded-lg border border-gray-200 cursor-pointer hover:shadow-sm transition">
+          <img className="w-12" src={assets.College_icon} alt="" />
           <div>
-            <p className="text-xl font-semibold text-gray-600">{dashData.collegeList}</p>
-            <p className="text-gray-400">Colleges</p></div>
+            <p className="text-lg font-semibold text-gray-700">{dashData.collegeList}</p>
+            <p className="text-gray-400 text-sm">Colleges</p></div>
         </div>
       </div>
 
-      <div className="bg-white">
-        <div className="flex items-center gap-2.5 px-4 py-4 mt-10 rounded-t border">
+      <div className="bg-white rounded-lg border mt-8">
+        <div className="flex items-center gap-2.5 px-4 py-4 rounded-t border-b">
           <img src={assets.list_icon} alt="" />
           <p className="font-semibold">Latest Bookings</p>
         </div>
 
-        <div className="pt-4 border border-t-0">
+        <div className="pt-2">
           {dashData.latestMeetings.slice(0, 5).map((item, index) => (
-            <div className="flex items-center px-6 py-3 gap-3 hover:bg-gray-100" key={index}>
-              <img className="rounded-full w-10" src={item.menData.image} alt="" />
+            <div className="flex items-center px-6 py-3 gap-3 hover:bg-gray-50 border-b last:border-b-0" key={index}>
+              <img className="rounded-full w-10 h-10 object-cover" src={item.menData.image} alt="" />
               <div className="flex-1 text-sm">
-                <p className="text-gray-800 font-medium">{item.menData.name}</p>
+                <p className="text-gray-800 font-medium truncate">{item.menData.name}</p>
                 <p className="text-gray-600 ">Booking on {slotDateFormat(item.slotDate)}</p>
               </div>
               {item.cancelled ? (
@@ -71,7 +71,7 @@ const Dashboard = () => {
               ) : item.expired ? (
                 <p className="text-yellow-600 text-xs font-medium bg-yellow-50 border border-yellow-400 rounded px-2 py-1">Expired (Not Completed)</p>
               ) : (
-                <img onClick={() => cancelMeeting(item._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />
+                <img onClick={() => cancelMeeting(item._id)} className="w-9 cursor-pointer" src={assets.cancel_icon} alt="" />
               )}
             </div>
           ))}
