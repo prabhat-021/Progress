@@ -64,7 +64,15 @@ const Dashboard = () => {
                 <p className="text-gray-800 font-medium">{item.menData.name}</p>
                 <p className="text-gray-600 ">Booking on {slotDateFormat(item.slotDate)}</p>
               </div>
-              {item.cancelled ? <p className="text-red-400 text-xs font-medium">Cancelled</p> : item.isCompleted ? <p className="text-green-500 text-xs font-medium">Completed</p> : <img onClick={() => cancelMeeting(item._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />}
+              {item.cancelled ? (
+                <p className="text-red-400 text-xs font-medium">Cancelled</p>
+              ) : item.isCompleted ? (
+                <p className="text-green-500 text-xs font-medium">Completed</p>
+              ) : item.expired ? (
+                <p className="text-yellow-600 text-xs font-medium bg-yellow-50 border border-yellow-400 rounded px-2 py-1">Expired (Not Completed)</p>
+              ) : (
+                <img onClick={() => cancelMeeting(item._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />
+              )}
             </div>
           ))}
         </div>

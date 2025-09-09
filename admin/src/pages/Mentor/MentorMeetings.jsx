@@ -56,10 +56,12 @@ const MentorMeetings = () => {
               ? <p className="text-red-400 text-xs font-medium">Cancelled</p>
               : item.isCompleted
                 ? <p className="text-green-500 text-xs font-medium">Completed</p>
-                : <div className="flex">
-                  <img onClick={() => cancelMeeting(item._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />
-                  <img onClick={() => completeMeeting(item._id)} className="w-10 cursor-pointer" src={assets.tick_icon} alt="" />
-                </div>
+                : item.expired
+                  ? <p className="text-yellow-600 text-xs font-medium bg-yellow-50 border border-yellow-400 rounded px-2 py-1">Expired (Not Completed)</p>
+                  : <div className="flex">
+                      <img onClick={() => cancelMeeting(item._id)} className="w-10 cursor-pointer" src={assets.cancel_icon} alt="" />
+                      <img onClick={() => completeMeeting(item._id)} className="w-10 cursor-pointer" src={assets.tick_icon} alt="" />
+                    </div>
             }
           </div>
         ))}

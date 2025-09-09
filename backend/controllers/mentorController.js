@@ -33,27 +33,31 @@ const loginMentor = async (req, res) => {
     }
 }
 
+function getMeetingSlotDateTime(slotDate, slotTime) {
+    const [day, month, year] = slotDate.split("_").map(Number);
+    return new Date(`${year}-${month}-${day} ${slotTime}`);
+}
+
 // API to get Mentor Meetings for Mentor panel
 const MeetingsMentor = async (req, res) => {
     try {
-
         const { menId } = req.body;
+        const now = Date.now();
         const meetings = await MeetingModel.find({ menId });
-
-        // console.log(Meetings, 'Meetings-1');
-
         const Meetings = await Promise.all(meetings.map(async (item) => {
+            const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
+            if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
+                item.expired = true;
+                await item.save();
+            }
             const userData = await userModel.findById(item.userId).select(['-password', '-email']);
             const meetingObj = item.toObject();
             meetingObj.userData = userData || null;
             return meetingObj;
         }));
-
-        // console.log(Meetings, 'Meetings-2');
-
+        console.log(Meetings);
+        
         res.json({ success: true, Meetings });
-        // console.log(Meetings);
-
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
@@ -182,12 +186,25 @@ const MentorDashboard = async (req, res) => {
         const { menId } = req.body
         // console.log(menId);
 
-        const Meetings = await MeetingModel.find({ menId });
-        // console.log(Meetings);
+        const meetings = await MeetingModel.find({ menId });
+
+        // Mark expired using slotDate & slotTime and enrich with userData for latestMeetings
+        const now = Date.now();
+        const latestMeetings = await Promise.all(meetings.map(async (item) => {
+            const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
+            if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
+                item.expired = true;
+                await item.save();
+            }
+            const userData = await userModel.findById(item.userId).select(['-password', '-email']);
+            const meetingObj = item.toObject();
+            meetingObj.userData = userData || null;
+            return meetingObj;
+        }));
 
         let earnings = 0
 
-        Meetings.map((item) => {
+        meetings.map((item) => {
             if (item.isCompleted || item.payment) {
                 earnings += item.amount
             }
@@ -195,7 +212,7 @@ const MentorDashboard = async (req, res) => {
 
         let patients = [];
 
-        Meetings.map((item) => {
+        meetings.map((item) => {
             if (!patients.includes(item.userId)) {
                 patients.push(item.userId)
             }
@@ -203,11 +220,11 @@ const MentorDashboard = async (req, res) => {
 
         const dashData = {
             earnings,
-            Meetings: Meetings.length,
+            Meetings: meetings.length,
             patients: patients.length,
-            latestMeetings: Meetings.reverse()
+            latestMeetings: latestMeetings.reverse()
         }
-
+        // console.log(dashData)
         res.json({ success: true, dashData })
 
     } catch (error) {

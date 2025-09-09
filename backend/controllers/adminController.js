@@ -27,18 +27,29 @@ const loginAdmin = async (req, res) => {
 
 }
 
+// Helper to parse slotDate and slotTime into a Date object
+function getMeetingSlotDateTime(slotDate, slotTime) {
+    const [day, month, year] = slotDate.split("_").map(Number);
+    return new Date(`${year}-${month}-${day} ${slotTime}`);
+}
+
 // API to get all Meetings list
 const MeetingsAdmin = async (req, res) => {
     try {
+        const now = Date.now();
         const meetings = await MeetingModel.find({});
-        
         const Meetings = await Promise.all(meetings.map(async (item) => {
+            const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
+            if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
+                item.expired = true;
+                await item.save();
+            }
             const userData = await userModel.findById(item.userId).select(['-password', '-email']);
             const meetingObj = item.toObject(); 
             meetingObj.userData = userData || null;
             return meetingObj;
         }));
-
+        console.log(Meetings);
         res.json({ success: true, Meetings});
     } catch (error) {
         console.log(error);

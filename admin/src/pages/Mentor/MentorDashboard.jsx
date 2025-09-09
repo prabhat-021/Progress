@@ -52,6 +52,7 @@ const MentorDashboard = () => {
         </div>
 
         <div className="pt-4 border border-t-0">
+          {console.log(dashData.latestMeetings)}
           {dashData.latestMeetings.slice(0, 5).map((item, index) => (
             item && item.userData &&
             <div className="flex items-center px-6 py-3 gap-3 hover:bg-gray-100" key={index}>
