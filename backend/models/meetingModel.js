@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const MeetingSchema = new mongoose.Schema({
-    userId: { type: String, required: true },
-    menId: { type: String, required: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true },
+    menId: { type: mongoose.Schema.Types.ObjectId, ref: 'Mentor', required: true },
     slotDate: { type: String, required: true },
     slotTime: { type: String, required: true },
     // userData: { type: Object, required: true },

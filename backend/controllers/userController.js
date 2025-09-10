@@ -470,9 +470,8 @@ const cancelMeeting = async (req, res) => {
 
         const { userId, MeetingId } = req.body
         const MeetingData = await MeetingModel.findById(MeetingId)
-
-        // verify Meeting user 
-        if (MeetingData.userId !== userId) {
+        // Compare as string
+        if (MeetingData.userId.toString() !== userId.toString()) {
             return res.json({ success: false, message: 'Unauthorized action' })
         }
 

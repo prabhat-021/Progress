@@ -5,7 +5,7 @@ const authUser = async (req, res, next) => {
 
     // const { token } = req.headers;
      const token = req.cookies.token; 
-     console.log(token);
+    //  console.log(token);
 
     if (!token) {
         return res.json({ success: false, message: 'Not Authorized Login Again' });
