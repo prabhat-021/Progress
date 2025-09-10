@@ -37,19 +37,20 @@ function getMeetingSlotDateTime(slotDate, slotTime) {
 const MeetingsAdmin = async (req, res) => {
     try {
         const now = Date.now();
-        const meetings = await MeetingModel.find({});
-        const Meetings = await Promise.all(meetings.map(async (item) => {
+        // Use populate to fetch user data efficiently
+        const meetings = await MeetingModel.find({}).populate('userId', '-password -email');
+        const Meetings = meetings.map((item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
-                await item.save();
+                item.save(); // Not awaited for performance, but you may want to await in production
             }
-            const userData = await userModel.findById(item.userId).select(['-password', '-email']);
-            const meetingObj = item.toObject(); 
-            meetingObj.userData = userData || null;
+            const meetingObj = item.toObject();
+            // Attach userData from populated field
+            meetingObj.userData = item.userId || null;
             return meetingObj;
-        }));
-        console.log(Meetings);
+        });
+        // console.log(Meetings);
         res.json({ success: true, Meetings});
     } catch (error) {
         console.log(error);

@@ -43,20 +43,21 @@ const MeetingsMentor = async (req, res) => {
     try {
         const { menId } = req.body;
         const now = Date.now();
-        const meetings = await MeetingModel.find({ menId });
-        const Meetings = await Promise.all(meetings.map(async (item) => {
+        // Use populate to fetch user data efficiently
+        const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email');
+        console.log(meetings,"meetings");
+        const Meetings = meetings.map((item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
-                await item.save();
+                item.save(); // Not awaited for performance, but you may want to await in production
             }
-            const userData = await userModel.findById(item.userId).select(['-password', '-email']);
             const meetingObj = item.toObject();
-            meetingObj.userData = userData || null;
+            // Attach userData from populated field
+            meetingObj.userData = item.userId || null;
             return meetingObj;
-        }));
+        });
         console.log(Meetings);
-        
         res.json({ success: true, Meetings });
     } catch (error) {
         console.log(error);
@@ -71,7 +72,7 @@ const MeetingCancel = async (req, res) => {
         const { menId, MeetingId } = req.body;
 
         const MeetingData = await MeetingModel.findById(MeetingId);
-        if (MeetingData && MeetingData.menId === menId) {
+        if (MeetingData && MeetingData.menId.toString() === menId.toString()) {
             await MeetingModel.findByIdAndUpdate(MeetingId, { cancelled: true });
             return res.json({ success: true, message: 'Meeting Cancelled' });
         }
@@ -92,7 +93,7 @@ const MeetingComplete = async (req, res) => {
         const { menId, MeetingId } = req.body;
 
         const MeetingData = await MeetingModel.findById(MeetingId);
-        if (MeetingData && MeetingData.menId === menId) {
+        if (MeetingData && MeetingData.menId.toString() === menId.toString()) {
             await MeetingModel.findByIdAndUpdate(MeetingId, { isCompleted: true });
             return res.json({ success: true, message: 'Meeting Completed' });
         }
@@ -182,54 +183,43 @@ const updateMentorProfile = async (req, res) => {
 // API to get dashboard data for Mentor panel
 const MentorDashboard = async (req, res) => {
     try {
-
-        const { menId } = req.body
-        // console.log(menId);
-
-        const meetings = await MeetingModel.find({ menId });
-
+        const { menId } = req.body;
+        // Use populate to fetch user data efficiently
+        const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email');
         // Mark expired using slotDate & slotTime and enrich with userData for latestMeetings
         const now = Date.now();
-        const latestMeetings = await Promise.all(meetings.map(async (item) => {
+        const latestMeetings = meetings.map((item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
-                await item.save();
+                item.save(); // Not awaited for performance, but you may want to await in production
             }
-            const userData = await userModel.findById(item.userId).select(['-password', '-email']);
             const meetingObj = item.toObject();
-            meetingObj.userData = userData || null;
+            meetingObj.userData = item.userId || null;
             return meetingObj;
-        }));
-
-        let earnings = 0
-
+        });
+        let earnings = 0;
         meetings.map((item) => {
             if (item.isCompleted || item.payment) {
-                earnings += item.amount
+                earnings += item.amount;
             }
-        })
-
+        });
         let patients = [];
-
         meetings.map((item) => {
             if (!patients.includes(item.userId)) {
-                patients.push(item.userId)
+                patients.push(item.userId);
             }
-        })
-
+        });
         const dashData = {
             earnings,
             Meetings: meetings.length,
             patients: patients.length,
-            latestMeetings: latestMeetings.reverse()
-        }
-        // console.log(dashData)
-        res.json({ success: true, dashData })
-
+            latestMeetings: latestMeetings.reverse(),
+        };
+        res.json({ success: true, dashData });
     } catch (error) {
-        console.log(error)
-        res.json({ success: false, message: error.message })
+        console.log(error);
+        res.json({ success: false, message: error.message });
     }
 }
 
