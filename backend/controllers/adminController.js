@@ -43,7 +43,7 @@ const MeetingsAdmin = async (req, res) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
-                await item.save();
+                item.save(); // Not awaited for performance, but you may want to await in production
             }
         }));
         res.json({ success: true, Meetings: meetings });

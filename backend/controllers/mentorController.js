@@ -49,7 +49,7 @@ const MeetingsMentor = async (req, res) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
-                await item.save();
+                item.save();
             }
         }));
         res.json({ success: true, Meetings: meetings });
