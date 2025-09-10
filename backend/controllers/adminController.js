@@ -38,20 +38,15 @@ const MeetingsAdmin = async (req, res) => {
     try {
         const now = Date.now();
         // Use populate to fetch user data efficiently
-        const meetings = await MeetingModel.find({}).populate('userId', '-password -email');
-        const Meetings = meetings.map((item) => {
+        const meetings = await MeetingModel.find({}).populate('userId', '-password -email').populate('menId', '-password -email');
+        await Promise.all(meetings.map(async (item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
-                item.save(); // Not awaited for performance, but you may want to await in production
+                await item.save();
             }
-            const meetingObj = item.toObject();
-            // Attach userData from populated field
-            meetingObj.userData = item.userId || null;
-            return meetingObj;
-        });
-        // console.log(Meetings);
-        res.json({ success: true, Meetings});
+        }));
+        res.json({ success: true, Meetings: meetings });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
@@ -204,7 +199,7 @@ const adminDashboard = async (req, res) => {
 
         const Mentors = await MentorModel.find({});
         const users = await userModel.find({});
-        const Meetings = await MeetingModel.find({});
+        const Meetings = await MeetingModel.find({}).populate('userId', '-password -email').populate('menId', '-password -email');
         const College = await CollegeModel.find({});
 
         const dashData = {

@@ -438,12 +438,10 @@ const bookMeeting = async (req, res) => {
             slots_booked[slotDate].push(slotTime);
         }
 
-        delete menData.slots_booked
-
+        // No need to delete menData.slots_booked or store menData in MeetingData
         const MeetingData = {
             userId,
             menId,
-            menData,
             amount: menData.fees,
             slotTime,
             slotDate,
@@ -508,7 +506,7 @@ const listMeeting = async (req, res) => {
     try {
         const { userId } = req.body;
         const now = Date.now();
-        const meetings = await MeetingModel.find({ userId });
+        const meetings = await MeetingModel.find({ userId }).populate('menId', '-password -email');
         // Mark expired meetings using slotDate and slotTime
         await Promise.all(meetings.map(async (meeting) => {
             const slotDateTime = getMeetingSlotDateTime(meeting.slotDate, meeting.slotTime);

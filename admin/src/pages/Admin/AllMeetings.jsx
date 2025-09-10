@@ -35,16 +35,16 @@ const AllMeetings = () => {
           <p>Action</p>
         </div>
         {Meetings.map((item, index) => (
-          item && item.userData && item.menData &&
+          item && item.userId && item.menId &&
           <div className="flex flex-wrap justify-between max-sm:gap-2 sm:grid sm:grid-cols-[0.5fr_3fr_1fr_3fr_3fr_1fr_1fr] items-center text-gray-500 py-3 px-6 border-b hover:bg-gray-50" key={index}>
             <p className="max-sm:hidden">{index + 1}</p>
             <div className="flex items-center gap-2">
-              <img src={item.userData.image} className="w-8 rounded-full" alt="" /> <p>{item.userData.name}</p>
+              <img src={item.userId.image} className="w-8 rounded-full" alt="" /> <p>{item.userId.name}</p>
             </div>
-            <p className="max-sm:hidden">{calculateAge(item.userData.dob)}</p>
+            <p className="max-sm:hidden">{calculateAge(item.userId.dob)}</p>
             <p>{slotDateFormat(item.slotDate)}, {item.slotTime}</p>
             <div className="flex items-center gap-2">
-              <img src={item.menData.image} className="w-8 rounded-full bg-gray-200" alt="" /> <p>{item.menData.name}</p>
+              <img src={item.menId.image} className="w-8 rounded-full bg-gray-200" alt="" /> <p>{item.menId.name}</p>
             </div>
             <p>{currency}{item.amount}</p>
             {item.cancelled ? (
