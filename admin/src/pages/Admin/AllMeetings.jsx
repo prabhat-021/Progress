@@ -16,7 +16,7 @@ const AllMeetings = () => {
     }
   }, [aToken]);
 
-  console.log(Meetings.length);
+  // console.log(Meetings.length);
 
   return (Meetings.length > 0 ?
 

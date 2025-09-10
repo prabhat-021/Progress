@@ -51,9 +51,9 @@ const AddCollege = () => {
             formData.append("city", city);
             formData.append("studentFacultyRatio", studentFacultyRatio);
             // console log formData            
-            formData.forEach((value, key) => {
-                console.log(`${key}: ${value}`);
-            });
+            // formData.forEach((value, key) => {
+            //     console.log(`${key}: ${value}`);
+            // });
 
             // Sending POST request
             const { data } = await axios.post(backendUrl + "/api/admin/add-College", formData, { headers: { aToken } });

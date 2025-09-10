@@ -45,9 +45,9 @@ const AddMentor = () => {
             formData.append("address", JSON.stringify({ line1: address1, line2: address2 }));
 
             // console log formdata            
-            formData.forEach((value, key) => {
-                console.log(`${key}: ${value}`);
-            });
+            // formData.forEach((value, key) => {
+            //     console.log(`${key}: ${value}`);
+            // });
 
             const { data } = await axios.post(backendUrl + "/api/admin/add-Mentor", formData, { headers: { aToken } });
             if (data.success) {

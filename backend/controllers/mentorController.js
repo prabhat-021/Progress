@@ -45,19 +45,19 @@ const MeetingsMentor = async (req, res) => {
         const now = Date.now();
         // Use populate to fetch user data efficiently
         const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email');
-        console.log(meetings,"meetings");
+        // console.log(meetings,"meetings");
         const Meetings = meetings.map((item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
-                item.save(); // Not awaited for performance, but you may want to await in production
+                item.save();
             }
             const meetingObj = item.toObject();
             // Attach userData from populated field
             meetingObj.userData = item.userId || null;
             return meetingObj;
         });
-        console.log(Meetings);
+        // console.log(Meetings);
         res.json({ success: true, Meetings });
     } catch (error) {
         console.log(error);
