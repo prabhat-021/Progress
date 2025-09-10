@@ -152,6 +152,14 @@ const MyMeetings = () => {
                                     {!item.cancelled && !item.payment && !item.isCompleted && payment === item._id && <button onClick={() => MeetingRazorpay(item._id)} className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"><img className="max-w-20 max-h-5" src={assets.razorpay_logo} alt="" /></button>}
                                     {!item.cancelled && item.payment && !item.isCompleted && <button className="sm:min-w-48 py-2 border rounded text-[#696969]  bg-[#EAEFFF]">Paid</button>}
                                     {item.isCompleted && <button className="sm:min-w-48 py-2 border border-green-500 rounded text-green-500">Completed</button>}
+                                    {!item.cancelled && !item.isCompleted && !item.expired && (
+                                        <button
+                                            className="sm:min-w-48 py-2 border rounded bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300"
+                                            onClick={() => navigate(`/meeting/${item._id}/video`)}
+                                        >
+                                            Join Video Call
+                                        </button>
+                                    )}
                                     {!item.cancelled && !item.isCompleted && !item.expired && <button onClick={() => cancelMeeting(item._id)} className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300">Cancel Meeting</button>}
                                     {item.cancelled && !item.isCompleted && <button className="sm:min-w-48 py-2 border border-red-500 rounded text-red-500">Meeting cancelled</button>}
                                 </>
