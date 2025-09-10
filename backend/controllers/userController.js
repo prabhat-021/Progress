@@ -8,7 +8,6 @@ import { generateOTP, transporter, generateEmailTemplate, plainEmailTemplate, ge
 import VerificationToken from "../models/verificationTokenschema.js";
 import ResetToken from "../models/resetToken.js";
 import razorpay from 'razorpay';
-import mongoose from "mongoose";
 // import ImageKit from "imagekit";
 
 // import stripe from "stripe";

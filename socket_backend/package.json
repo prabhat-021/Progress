@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "nodemon": "^3.1.10",
+    "socket.io": "^4.8.1"
+  },
+  "name": "socket_backend",
+  "version": "1.0.0",
+  "main": "signaling-server.js",
+  "scripts": {
+    "start": "node signaling-server.js",
+    "server": "nodemon signaling-server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
