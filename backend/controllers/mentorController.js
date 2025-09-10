@@ -44,21 +44,15 @@ const MeetingsMentor = async (req, res) => {
         const { menId } = req.body;
         const now = Date.now();
         // Use populate to fetch user data efficiently
-        const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email');
-        // console.log(meetings,"meetings");
-        const Meetings = meetings.map((item) => {
+        const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email').populate('menId', '-password -email');
+        await Promise.all(meetings.map(async (item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
             if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
                 item.expired = true;
                 item.save();
             }
-            const meetingObj = item.toObject();
-            // Attach userData from populated field
-            meetingObj.userData = item.userId || null;
-            return meetingObj;
-        });
-        // console.log(Meetings);
-        res.json({ success: true, Meetings });
+        }));
+        res.json({ success: true, Meetings: meetings });
     } catch (error) {
         console.log(error);
         res.json({ success: false, message: error.message });
@@ -185,7 +179,7 @@ const MentorDashboard = async (req, res) => {
     try {
         const { menId } = req.body;
         // Use populate to fetch user data efficiently
-        const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email');
+        const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email').populate('menId', '-password -email');
         // Mark expired using slotDate & slotTime and enrich with userData for latestMeetings
         const now = Date.now();
         const latestMeetings = meetings.map((item) => {
@@ -194,9 +188,7 @@ const MentorDashboard = async (req, res) => {
                 item.expired = true;
                 item.save(); // Not awaited for performance, but you may want to await in production
             }
-            const meetingObj = item.toObject();
-            meetingObj.userData = item.userId || null;
-            return meetingObj;
+            return item;
         });
         let earnings = 0;
         meetings.map((item) => {

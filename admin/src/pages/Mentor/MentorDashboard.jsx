@@ -51,11 +51,11 @@ const MentorDashboard = () => {
 
         <div className="pt-2">
           {dashData.latestMeetings.slice(0, 5).map((item, index) => (
-            item && item.userData && (
+            item && item.userId && (
               <div className="flex items-center px-6 py-3 gap-3 hover:bg-gray-50 border-b last:border-b-0" key={index}>
-                <img className="rounded-full w-10 h-10 object-cover" src={item.userData.image} alt="" />
+                <img className="rounded-full w-10 h-10 object-cover" src={item.userId.image} alt="" />
                 <div className="flex-1 text-sm">
-                  <p className="text-gray-800 font-medium truncate">{item.userData.name}</p>
+                  <p className="text-gray-800 font-medium truncate">{item.userId.name}</p>
                   <p className="text-gray-600 ">Booking on {slotDateFormat(item.slotDate)}</p>
                 </div>
                 {item.cancelled ? (
