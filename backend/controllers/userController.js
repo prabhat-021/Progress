@@ -509,7 +509,8 @@ const listMeeting = async (req, res) => {
         // Mark expired meetings using slotDate and slotTime
         await Promise.all(meetings.map(async (meeting) => {
             const slotDateTime = getMeetingSlotDateTime(meeting.slotDate, meeting.slotTime);
-            if (!meeting.isCompleted && !meeting.cancelled && !meeting.expired && slotDateTime < now) {
+            const slotEndTime = slotDateTime.getTime() + 30 * 60 * 1000;
+            if (!meeting.isCompleted && !meeting.cancelled && !meeting.expired && slotEndTime < now) {
                 meeting.expired = true;
                 await meeting.save();
             }

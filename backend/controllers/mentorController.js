@@ -46,7 +46,8 @@ const MeetingsMentor = async (req, res) => {
         const meetings = await MeetingModel.find({ menId }).populate('userId', '-password -email').populate('menId', '-password -email');
         await Promise.all(meetings.map(async (item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
-            if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
+            const slotEndTime = slotDateTime.getTime() + 30 * 60 * 1000;
+            if (!item.isCompleted && !item.cancelled && !item.expired && slotEndTime < now) {
                 item.expired = true;
                 item.save();
             }
@@ -183,7 +184,8 @@ const MentorDashboard = async (req, res) => {
         const now = Date.now();
         const latestMeetings = meetings.map((item) => {
             const slotDateTime = getMeetingSlotDateTime(item.slotDate, item.slotTime);
-            if (!item.isCompleted && !item.cancelled && !item.expired && slotDateTime < now) {
+            const slotEndTime = slotDateTime.getTime() + 30 * 60 * 1000;
+            if (!item.isCompleted && !item.cancelled && !item.expired && slotEndTime < now) {
                 item.expired = true;
                 item.save(); // Not awaited for performance, but you may want to await in production
             }

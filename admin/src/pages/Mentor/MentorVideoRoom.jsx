@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { MentorContext } from "../../context/MentorContext";
 
 const SIGNALING_SERVER_URL = "http://localhost:5000";
 
@@ -16,6 +19,11 @@ const MentorVideoRoom = () => {
   const initializedRef = useRef(false);
   const peerConnectionRef = useRef(null);
   const socketRef = useRef(null);
+  const [timer, setTimer] = useState(0); // seconds
+  const [timerActive, setTimerActive] = useState(false);
+  const timerIntervalRef = useRef(null);
+
+  const { completeMeeting } = useContext(MentorContext)
 
   useEffect(() => {
     if (initializedRef.current) return;
@@ -57,7 +65,7 @@ const MentorVideoRoom = () => {
           if (pc && candidate) {
             try {
               await pc.addIceCandidate(candidate);
-            } catch (e) {}
+            } catch (e) { }
           }
         });
       });
@@ -97,7 +105,7 @@ const MentorVideoRoom = () => {
   }
 
   // End call handler
-  const handleEndCall = () => {
+  const handleEndCall = async () => {
     if (peerConnectionRef.current) peerConnectionRef.current.close();
     if (socketRef.current) socketRef.current.disconnect();
     if (localStream) localStream.getTracks().forEach(track => track.stop());
@@ -105,6 +113,8 @@ const MentorVideoRoom = () => {
     setRemoteStream(null);
     peerConnectionRef.current = null;
     socketRef.current = null;
+    // Mark meeting as completed
+    completeMeeting(meetingId);
     navigate("/Mentor-Meetings");
   };
 
@@ -118,6 +128,28 @@ const MentorVideoRoom = () => {
       remoteVideoRef.current.srcObject = remoteStream;
     }
   }, [remoteStream]);
+
+  useEffect(() => {
+    if (callActive) {
+      setTimerActive(true);
+      timerIntervalRef.current = setInterval(() => {
+        setTimer((prev) => prev + 1);
+      }, 1000);
+    } else {
+      setTimerActive(false);
+      setTimer(0);
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+    }
+    return () => {
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+    };
+  }, [callActive]);
+
+  function formatTimer(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-6">
@@ -134,6 +166,16 @@ const MentorVideoRoom = () => {
         </div>
       </div>
       {waiting && <p className="text-yellow-600 font-semibold">Waiting for user to join...</p>}
+      {callActive && (
+        <div className="flex flex-col items-center">
+          <div className="text-lg font-mono">
+            Timer: {formatTimer(timer)}
+            {timer >= 1800 && (
+              <span className="ml-3 text-yellow-600 font-semibold">Time extended for this meet</span>
+            )}
+          </div>
+        </div>
+      )}
       {callActive && (
         <button
           className="mt-4 px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-all"

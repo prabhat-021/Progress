@@ -1,6 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
+import axios from "../axiosInstance";
+import { toast } from "react-toastify";
+import { AppContext } from "../context/AppContext";
 
 const SIGNALING_SERVER_URL = "http://localhost:5000";
 
@@ -16,6 +19,10 @@ const UserVideoRoom = () => {
   const initializedRef = useRef(false);
   const peerConnectionRef = useRef(null);
   const socketRef = useRef(null);
+  const [timer, setTimer] = useState(0); // seconds
+  const [timerActive, setTimerActive] = useState(false);
+  const timerIntervalRef = useRef(null);
+  const { backendUrl } = useContext(AppContext);
 
   useEffect(() => {
     if (initializedRef.current) return;
@@ -47,7 +54,7 @@ const UserVideoRoom = () => {
           if (pc && candidate) {
             try {
               await pc.addIceCandidate(candidate);
-            } catch (e) {}
+            } catch (e) { }
           }
         });
 
@@ -97,7 +104,7 @@ const UserVideoRoom = () => {
   }
 
   // End call handler
-  const handleEndCall = () => {
+  const handleEndCall = async () => {
     if (peerConnectionRef.current) peerConnectionRef.current.close();
     if (socketRef.current) socketRef.current.disconnect();
     if (localStream) localStream.getTracks().forEach(track => track.stop());
@@ -105,6 +112,13 @@ const UserVideoRoom = () => {
     setRemoteStream(null);
     peerConnectionRef.current = null;
     socketRef.current = null;
+    // Mark meeting as completed
+    try {
+      await axios.post(backendUrl + "/api/mentor/complete-Meeting", { MeetingId: meetingId }, { withCredentials: true });
+      toast.success("Meeting marked as completed.");
+    } catch (e) {
+      toast.error("Failed to mark meeting as completed.");
+    }
     navigate("/my-Meetings");
   };
 
@@ -118,6 +132,28 @@ const UserVideoRoom = () => {
       remoteVideoRef.current.srcObject = remoteStream;
     }
   }, [remoteStream]);
+
+  useEffect(() => {
+    if (callActive) {
+      setTimerActive(true);
+      timerIntervalRef.current = setInterval(() => {
+        setTimer((prev) => prev + 1);
+      }, 1000);
+    } else {
+      setTimerActive(false);
+      setTimer(0);
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+    }
+    return () => {
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+    };
+  }, [callActive]);
+
+  function formatTimer(sec) {
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+  }
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-6">
@@ -134,6 +170,16 @@ const UserVideoRoom = () => {
         </div>
       </div>
       {waiting && <p className="text-yellow-600 font-semibold">Waiting for mentor to start the call...</p>}
+      {callActive && (
+        <div className="flex flex-col items-center">
+          <div className="text-lg font-mono">
+            Timer: {formatTimer(timer)}
+            {timer >= 1800 && (
+              <span className="ml-3 text-yellow-600 font-semibold">Time extended for this meet</span>
+            )}
+          </div>
+        </div>
+      )}
       {callActive && (
         <button
           className="mt-4 px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-all"

@@ -1,12 +1,10 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { MentorContext } from "../../context/MentorContext";
-
 import { AppContext } from "../../context/AppContext";
-
 import { assets } from "../../assets/assets";
 import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 
 
 const MentorMeetings = () => {
@@ -23,6 +21,19 @@ const MentorMeetings = () => {
       getMeetings();
     }
   }, [dToken]);
+
+  // Helper to check if mentor can join meeting now
+  function canJoinMeeting(item) {
+    if (!item.slotDate || !item.slotTime) return false;
+    // slotDate: "20_01_2024", slotTime: "10:30 AM"
+    const [day, month, year] = item.slotDate.split("_").map(Number);
+    // Support both 12h and 24h time
+    const slotDateTime = new Date(`${year}-${month}-${day} ${item.slotTime}`);
+    const start = slotDateTime.getTime();
+    const end = start + 30 * 60 * 1000;
+    const now = Date.now();
+    return now >= start && now <= end;
+  }
 
 
   return (Meetings.length > 0 ?
@@ -71,7 +82,21 @@ const MentorMeetings = () => {
               {(!item.isCompleted && !item.expired && !item.cancelled) && (
                 <button
                   className="px-2 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-all text-xs whitespace-nowrap"
-                  onClick={() => navigate(`/mentor/meeting/${item._id}/video`)}
+                  onClick={() => {
+                    if (canJoinMeeting(item)) {
+                      navigate(`/mentor/meeting/${item._id}/video`);
+                    } else {
+                      const [day, month, year] = item.slotDate.split("_").map(Number);
+                      const slotDateTime = new Date(`${year}-${month}-${day} ${item.slotTime}`);
+                      const startStr = slotDateTime.toLocaleString();
+                      const endStr = new Date(slotDateTime.getTime() + 30 * 60 * 1000).toLocaleString();
+                      if (toast) {
+                        toast.info(`Meeting can start only between ${startStr} and ${endStr}`);
+                      } else {
+                        alert(`Meeting can start only between ${startStr} and ${endStr}`);
+                      }
+                    }
+                  }}
                 >
                   Start Video Call
                 </button>

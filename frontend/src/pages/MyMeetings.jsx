@@ -118,6 +118,17 @@ const MyMeetings = () => {
         }
     }
 
+    // Helper to check if user can join meeting now
+    function canJoinMeeting(item) {
+        if (!item.slotDate || !item.slotTime) return false;
+        const [day, month, year] = item.slotDate.split("_").map(Number);
+        const slotDateTime = new Date(`${year}-${month}-${day} ${item.slotTime}`);
+        const start = slotDateTime.getTime();
+        const end = start + 30 * 60 * 1000;
+        const now = Date.now();
+        return now >= start && now <= end;
+    }
+
     useEffect(() => {
         if (loged) {
             getUserMeetings();
@@ -155,7 +166,17 @@ const MyMeetings = () => {
                                     {!item.cancelled && !item.isCompleted && !item.expired && (
                                         <button
                                             className="sm:min-w-48 py-2 border rounded bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300"
-                                            onClick={() => navigate(`/meeting/${item._id}/video`)}
+                                            onClick={() => {
+                                                if (canJoinMeeting(item)) {
+                                                    navigate(`/meeting/${item._id}/video`);
+                                                } else {
+                                                    const [day, month, year] = item.slotDate.split("_").map(Number);
+                                                    const slotDateTime = new Date(`${year}-${month}-${day} ${item.slotTime}`);
+                                                    const startStr = slotDateTime.toLocaleString();
+                                                    const endStr = new Date(slotDateTime.getTime() + 30 * 60 * 1000).toLocaleString();
+                                                    toast.info(`Meeting can start only between ${startStr} and ${endStr}`);
+                                                }
+                                            }}
                                         >
                                             Join Video Call
                                         </button>
