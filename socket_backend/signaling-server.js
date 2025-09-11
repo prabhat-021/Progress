@@ -16,7 +16,14 @@ io.on("connection", (socket) => {
     socket.join(meetingId);
     if (!rooms[meetingId]) rooms[meetingId] = {};
     rooms[meetingId][role] = socket.id;
-    socket.to(meetingId).emit("peer-joined", { role });
+  });
+
+  socket.on("ready", ({ meetingId }) => {
+    socket.to(meetingId).emit("ready", { meetingId });
+  });
+
+  socket.on("mentor-ready", ({ meetingId }) => {
+    socket.to(meetingId).emit("mentor-ready", { meetingId });
   });
 
   socket.on("offer", ({ meetingId, offer }) => {

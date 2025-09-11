@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 
-const SIGNALING_SERVER_URL = import.meta.env.SIGNALING_SERVER_URL;
+const SIGNALING_SERVER_URL = "http://localhost:5000";
 
 const MentorVideoRoom = () => {
   const { meetingId } = useParams();
@@ -11,16 +11,15 @@ const MentorVideoRoom = () => {
   const remoteVideoRef = useRef(null);
   const [localStream, setLocalStream] = useState(null);
   const [remoteStream, setRemoteStream] = useState(null);
-  const [socket, setSocket] = useState(null);
-  const [peerConnection, setPeerConnection] = useState(null);
   const [callActive, setCallActive] = useState(false);
   const [waiting, setWaiting] = useState(true);
+  const initializedRef = useRef(false);
+  const peerConnectionRef = useRef(null);
+  const socketRef = useRef(null);
 
   useEffect(() => {
-    const sock = io(SIGNALING_SERVER_URL);
-    setSocket(sock);
-    let pc;
-    let isOfferCreated = false;
+    if (initializedRef.current) return;
+    initializedRef.current = true;
 
     // 1. Get local media
     navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -29,109 +28,96 @@ const MentorVideoRoom = () => {
         if (localVideoRef.current) {
           localVideoRef.current.srcObject = stream;
         }
+
+        // 2. Connect socket
+        const sock = io(SIGNALING_SERVER_URL, { transports: ["websocket"] });
+        socketRef.current = sock;
+        sock.emit("join", { meetingId, role: "mentor" });
+        // Emit mentor-ready after joining
+        sock.emit("mentor-ready", { meetingId });
+
+        // Listen for 'ready' with meetingId
+        sock.on("ready", ({ meetingId: readyMeetingId }) => {
+          if (readyMeetingId === meetingId) {
+            setWaiting(false);
+            createPeerConnection(stream, sock);
+          }
+        });
+
+        // 4. Handle answer/ICE
+        sock.on("answer", async ({ answer }) => {
+          const pc = peerConnectionRef.current;
+          if (pc) {
+            await pc.setRemoteDescription(answer);
+            setCallActive(true);
+          }
+        });
+        sock.on("ice-candidate", async ({ candidate }) => {
+          const pc = peerConnectionRef.current;
+          if (pc && candidate) {
+            try {
+              await pc.addIceCandidate(candidate);
+            } catch (e) {}
+          }
+        });
       });
-
-    // 2. Join meeting room
-    sock.emit("join", { meetingId, role: "mentor" });
-
-    // 3. When user joins, create offer
-    sock.on("peer-joined", ({ role }) => {
-      if (role === "user" && !isOfferCreated) {
-        setWaiting(false);
-        createPeerConnection();
-      }
-    });
-
-    // 4. Handle offer/answer/ICE
-    sock.on("answer", async ({ answer }) => {
-      if (pc) {
-        await pc.setRemoteDescription(answer);
-        setCallActive(true);
-      }
-    });
-
-    sock.on("ice-candidate", async ({ candidate }) => {
-      if (pc && candidate) {
-        try {
-          await pc.addIceCandidate(candidate);
-        } catch (e) {
-          // ignore
-        }
-      }
-    });
-
-    // 5. Create peer connection and offer
-    async function createPeerConnection() {
-      pc = new RTCPeerConnection({
-        iceServers: [
-          { urls: "stun:stun.l.google.com:19302" }
-        ]
-      });
-      setPeerConnection(pc);
-
-      // Add local tracks
-      if (localStream) {
-        localStream.getTracks().forEach(track => pc.addTrack(track, localStream));
-      }
-
-      // Handle remote stream
-      pc.ontrack = (event) => {
-        setRemoteStream(event.streams[0]);
-        if (remoteVideoRef.current) {
-          remoteVideoRef.current.srcObject = event.streams[0];
-        }
-      };
-
-      // ICE candidates
-      pc.onicecandidate = (event) => {
-        if (event.candidate) {
-          sock.emit("ice-candidate", { meetingId, candidate: event.candidate });
-        }
-      };
-
-      // Create offer
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
-      sock.emit("offer", { meetingId, offer });
-      isOfferCreated = true;
-    }
-
-    // Mentor receives no offer, only sends it
-    // Mentor receives answer and ICE from user
 
     // Clean up
     return () => {
-      sock.disconnect();
-      if (pc) pc.close();
-      if (localStream) {
-        localStream.getTracks().forEach(track => track.stop());
-      }
+      if (socketRef.current) socketRef.current.disconnect();
+      if (peerConnectionRef.current) peerConnectionRef.current.close();
+      if (localStream) localStream.getTracks().forEach(track => track.stop());
     };
     // eslint-disable-next-line
-  }, [meetingId, SIGNALING_SERVER_URL, localStream]);
+  }, [meetingId, SIGNALING_SERVER_URL]);
+
+  // Create peer connection and offer
+  async function createPeerConnection(stream, sock) {
+    const pc = new RTCPeerConnection({
+      iceServers: [
+        { urls: "stun:stun.l.google.com:19302" }
+      ]
+    });
+    peerConnectionRef.current = pc;
+    stream.getTracks().forEach(track => pc.addTrack(track, stream));
+    pc.ontrack = (event) => {
+      setRemoteStream(event.streams[0]);
+      if (remoteVideoRef.current) {
+        remoteVideoRef.current.srcObject = event.streams[0];
+      }
+    };
+    pc.onicecandidate = (event) => {
+      if (event.candidate) {
+        sock.emit("ice-candidate", { meetingId, candidate: event.candidate });
+      }
+    };
+    const offer = await pc.createOffer();
+    await pc.setLocalDescription(offer);
+    sock.emit("offer", { meetingId, offer });
+  }
+
+  // End call handler
+  const handleEndCall = () => {
+    if (peerConnectionRef.current) peerConnectionRef.current.close();
+    if (socketRef.current) socketRef.current.disconnect();
+    if (localStream) localStream.getTracks().forEach(track => track.stop());
+    setCallActive(false);
+    setRemoteStream(null);
+    peerConnectionRef.current = null;
+    socketRef.current = null;
+    navigate("/Mentor-Meetings");
+  };
 
   useEffect(() => {
     if (localVideoRef.current && localStream) {
       localVideoRef.current.srcObject = localStream;
     }
   }, [localStream]);
-
   useEffect(() => {
     if (remoteVideoRef.current && remoteStream) {
       remoteVideoRef.current.srcObject = remoteStream;
     }
   }, [remoteStream]);
-
-  // End call handler
-  const handleEndCall = () => {
-    if (peerConnection) peerConnection.close();
-    if (socket) socket.disconnect();
-    if (localStream) localStream.getTracks().forEach(track => track.stop());
-    setCallActive(false);
-    setRemoteStream(null);
-    setPeerConnection(null);
-    navigate("/Mentor-Meetings");
-  };
 
   return (
     <div className="flex flex-col items-center justify-center h-full gap-6">
