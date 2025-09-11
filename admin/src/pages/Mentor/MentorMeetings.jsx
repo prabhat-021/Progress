@@ -37,7 +37,7 @@ const MentorMeetings = () => {
 
 
   return (Meetings.length > 0 ?
-    <div className="w-full max-w-6xl m-5 ">
+    <div className="w-full m-5 ">
 
       <p className="mb-3 text-lg font-medium">All Meetings</p>
 
