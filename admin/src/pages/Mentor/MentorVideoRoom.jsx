@@ -4,6 +4,8 @@ import io from "socket.io-client";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { MentorContext } from "../../context/MentorContext";
+import { assets } from "../../assets/assets";
+import { AppContext } from "../../context/AppContext";
 
 const SIGNALING_SERVER_URL = "http://localhost:5000";
 
@@ -22,8 +24,26 @@ const MentorVideoRoom = () => {
   const [timer, setTimer] = useState(0); // seconds
   const [timerActive, setTimerActive] = useState(false);
   const timerIntervalRef = useRef(null);
+  const exitedRef = useRef(false);
+  const { completeMeeting } = useContext(MentorContext);
+  const { backendUrl } = useContext(AppContext);
+  const [userName, setUserName] = useState("");
+  const [micOn, setMicOn] = useState(true);
+  const [camOn, setCamOn] = useState(true);
 
-  const { completeMeeting } = useContext(MentorContext)
+  useEffect(() => {
+    // Fetch user name for heading
+    const fetchUserName = async () => {
+      try {
+        const res = await axios.get(`${backendUrl}/api/Mentor/Meetings`, { headers: { dToken: localStorage.getItem('dToken') } });
+        if (res.data.success && res.data.Meetings) {
+          const meeting = res.data.Meetings.find(m => m._id === meetingId);
+          if (meeting && meeting.userId && meeting.userId.name) setUserName(meeting.userId.name);
+        }
+      } catch (e) {}
+    };
+    fetchUserName();
+  }, [meetingId, backendUrl]);
 
   useEffect(() => {
     if (initializedRef.current) return;
@@ -106,16 +126,24 @@ const MentorVideoRoom = () => {
 
   // End call handler
   const handleEndCall = async () => {
+    if (exitedRef.current) return;
+    exitedRef.current = true;
     if (peerConnectionRef.current) peerConnectionRef.current.close();
-    if (socketRef.current) socketRef.current.disconnect();
+    if (socketRef.current) {
+      console.log('[MentorVideoRoom] Emitting call-ended for meetingId', meetingId);
+      socketRef.current.emit("call-ended", { meetingId });
+    }
     if (localStream) localStream.getTracks().forEach(track => track.stop());
     setCallActive(false);
     setRemoteStream(null);
     peerConnectionRef.current = null;
-    socketRef.current = null;
     // Mark meeting as completed
     completeMeeting(meetingId);
     navigate("/Mentor-Meetings");
+    setTimeout(() => {
+      if (socketRef.current) socketRef.current.disconnect();
+      socketRef.current = null;
+    }, 500);
   };
 
   useEffect(() => {
@@ -129,61 +157,140 @@ const MentorVideoRoom = () => {
     }
   }, [remoteStream]);
 
+  // Timer and media state persistence keys
+  const timerKey = `meeting-timer-${meetingId}`;
+  const micKey = `meeting-mic-${meetingId}`;
+  const camKey = `meeting-cam-${meetingId}`;
+
+  // Timer logic: countdown from 30:00, then count up
   useEffect(() => {
-    if (callActive) {
-      setTimerActive(true);
-      timerIntervalRef.current = setInterval(() => {
-        setTimer((prev) => prev + 1);
-      }, 1000);
-    } else {
-      setTimerActive(false);
-      setTimer(0);
-      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+    // On first join, set start time if not present
+    let startTime = localStorage.getItem(timerKey);
+    if (!startTime) {
+      startTime = Date.now();
+      localStorage.setItem(timerKey, startTime);
     }
+    // On mount, restore mic/cam state
+    const micState = localStorage.getItem(micKey);
+    const camState = localStorage.getItem(camKey);
+    if (micState !== null) setMicOn(micState === 'true');
+    if (camState !== null) setCamOn(camState === 'true');
+    // Apply to tracks after stream is ready
+    if (localStream) {
+      if (micState !== null) localStream.getAudioTracks().forEach(track => track.enabled = micState === 'true');
+      if (camState !== null) localStream.getVideoTracks().forEach(track => track.enabled = camState === 'true');
+    }
+    // Timer interval
+    timerIntervalRef.current = setInterval(() => {
+      const now = Date.now();
+      const elapsed = Math.floor((now - startTime) / 1000);
+      setTimer(elapsed);
+    }, 1000);
     return () => {
       if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
     };
-  }, [callActive]);
+    // eslint-disable-next-line
+  }, [localStream]);
 
-  function formatTimer(sec) {
-    const m = Math.floor(sec / 60).toString().padStart(2, '0');
-    const s = (sec % 60).toString().padStart(2, '0');
-    return `${m}:${s}`;
+  useEffect(() => {
+    if (!socketRef.current) return;
+    const sock = socketRef.current;
+    console.log('[MentorVideoRoom] useEffect for call-ended listener, socket connected:', sock.connected);
+    const handleCallEnded = () => {
+      console.log('[MentorVideoRoom] Received call-ended event');
+      toast.info("Meeting completed.");
+      navigate("/Mentor-Meetings");
+      setTimeout(() => {
+        if (sock) sock.disconnect();
+      }, 500);
+    };
+    sock.on("call-ended", handleCallEnded);
+    return () => {
+      sock.off("call-ended", handleCallEnded);
+    };
+  }, [navigate]);
+
+  // Timer display logic
+  function renderTimer() {
+    const scheduled = 30 * 60; // 30 min in seconds
+    if (timer < scheduled) {
+      // Countdown
+      const remain = scheduled - timer;
+      const m = Math.floor(remain / 60).toString().padStart(2, '0');
+      const s = (remain % 60).toString().padStart(2, '0');
+      return <span className="font-mono text-lg">{m}:{s}</span>;
+    } else {
+      // Extra time
+      const extra = timer - scheduled;
+      const m = Math.floor(extra / 60).toString().padStart(2, '0');
+      const s = (extra % 60).toString().padStart(2, '0');
+      return <span className="font-mono text-lg text-yellow-600">Extra Time:{m}:{s}</span>;
+    }
   }
 
+  // Update mic/cam state in localStorage when toggled
+  const handleToggleMic = () => {
+    if (localStream) {
+      localStream.getAudioTracks().forEach(track => {
+        track.enabled = !track.enabled;
+        setMicOn(track.enabled);
+        localStorage.setItem(micKey, track.enabled);
+      });
+    }
+  };
+  const handleToggleCam = () => {
+    if (localStream) {
+      localStream.getVideoTracks().forEach(track => {
+        track.enabled = !track.enabled;
+        setCamOn(track.enabled);
+        localStorage.setItem(camKey, track.enabled);
+      });
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-full gap-6">
-      <h2 className="text-2xl font-bold mb-2">Video Call Room</h2>
-      <p className="mb-4">Meeting ID: {meetingId}</p>
-      <div className="flex gap-8">
-        <div>
-          <p className="text-center mb-1">Your Video</p>
-          <video ref={localVideoRef} autoPlay playsInline muted className="w-64 h-48 bg-black rounded" />
-        </div>
-        <div>
-          <p className="text-center mb-1">User Video</p>
-          <video ref={remoteVideoRef} autoPlay playsInline className="w-64 h-48 bg-black rounded" />
-        </div>
-      </div>
-      {waiting && <p className="text-yellow-600 font-semibold">Waiting for user to join...</p>}
-      {callActive && (
-        <div className="flex flex-col items-center">
-          <div className="text-lg font-mono">
-            Timer: {formatTimer(timer)}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-[#f4f6fa]">
+      <div className="w-full bg-white rounded-xl shadow-lg p-4 flex flex-col gap-4 border">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold mb-1">One to one mentorship with {userName || 'User'}</h2>
+            <p className="text-gray-500 text-sm">Meeting ID: {meetingId}</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-lg">
+              {renderTimer()}
+            </div>
             {timer >= 1800 && (
-              <span className="ml-3 text-yellow-600 font-semibold">Time extended for this meet</span>
+              <span className="ml-2 text-yellow-600 font-semibold text-xs">Your scheduled time is over, now it’s extra time.</span>
             )}
           </div>
         </div>
-      )}
-      {callActive && (
-        <button
-          className="mt-4 px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-all"
-          onClick={handleEndCall}
-        >
-          End Call
-        </button>
-      )}
+        <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full">
+          <div className="flex flex-col items-center gap-2 flex-1">
+            <video ref={localVideoRef} autoPlay playsInline muted className="w-full max-w-2xl h-[40vh] md:h-[55vh] bg-black rounded-lg border-2 border-primary object-contain" />
+            <p className="text-center text-xs mt-1">Your Video</p>
+          </div>
+          <div className="flex flex-col items-center gap-2 flex-1">
+            <video ref={remoteVideoRef} autoPlay playsInline className="w-full max-w-2xl h-[40vh] md:h-[55vh] bg-black rounded-lg border-2 border-primary object-contain" />
+            <p className="text-center text-xs mt-1">User Video</p>
+          </div>
+        </div>
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-2">
+          <div className="flex gap-4">
+            <button onClick={handleToggleMic} className={`p-3 rounded-full border transition ${micOn ? 'bg-green-100 border-green-400' : 'bg-red-100 border-red-400'}`}>{micOn ? <span role="img" aria-label="Mic On">🎤</span> : <span role="img" aria-label="Mic Off">🔇</span>}</button>
+            <button onClick={handleToggleCam} className={`p-3 rounded-full border transition ${camOn ? 'bg-green-100 border-green-400' : 'bg-red-100 border-red-400'}`}>{camOn ? <span role="img" aria-label="Cam On">📷</span> : <span role="img" aria-label="Cam Off">🚫</span>}</button>
+          </div>
+          {callActive && (
+            <button
+              className="px-8 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all shadow"
+              onClick={handleEndCall}
+            >
+              End Call
+            </button>
+          )}
+        </div>
+        {waiting && <p className="text-yellow-600 font-semibold text-center">Waiting for user to join...</p>}
+      </div>
     </div>
   );
 };
