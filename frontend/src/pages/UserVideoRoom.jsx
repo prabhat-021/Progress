@@ -24,6 +24,7 @@ const UserVideoRoom = () => {
   const [timerActive, setTimerActive] = useState(false);
   const timerIntervalRef = useRef(null);
   const exitedRef = useRef(false);
+  const endedByMeRef = useRef(false); // <--- add this
   const { backendUrl } = useContext(AppContext);
   const [mentorName, setMentorName] = useState("");
   const [micOn, setMicOn] = useState(true);
@@ -47,6 +48,21 @@ const UserVideoRoom = () => {
         sock.emit("join", { meetingId, role: "user" });
         // Emit 'ready' with meetingId
         sock.emit("ready", { meetingId });
+
+        // Attach call-ended handler immediately
+        const handleCallEnded = ({ role }) => {
+          if (endedByMeRef.current) return;
+          if (role === "mentor") {
+            toast.info("Mentor has ended the call and the meeting will be marked as completed. Hopefully the session was meaningful for you.");
+          } else {
+            toast.info("Call ended.");
+          }
+          navigate("/my-Meetings");
+          setTimeout(() => {
+            if (sock) sock.disconnect();
+          }, 500);
+        };
+        sock.on("call-ended", handleCallEnded);
 
         sock.on("offer", async ({ offer }) => {
           setWaiting(false);
@@ -111,14 +127,12 @@ const UserVideoRoom = () => {
     };
     pc.onicecandidate = (event) => {
       if (event.candidate) {
-        console.log("[User] Emitting ice-candidate", event.candidate);
         sock.emit("ice-candidate", { meetingId, candidate: event.candidate });
       }
     };
     await pc.setRemoteDescription(offer);
     const answer = await pc.createAnswer();
     await pc.setLocalDescription(answer);
-    console.log("[User] Emitting answer");
     sock.emit("answer", { meetingId, answer });
     setCallActive(true);
   }
@@ -127,10 +141,10 @@ const UserVideoRoom = () => {
   const handleEndCall = async () => {
     if (exitedRef.current) return;
     exitedRef.current = true;
+    endedByMeRef.current = true; // <--- mark that this client ended the call
     if (peerConnectionRef.current) peerConnectionRef.current.close();
     if (socketRef.current) {
-      console.log('[UserVideoRoom] Emitting call-ended for meetingId', meetingId);
-      socketRef.current.emit("call-ended", { meetingId });
+      socketRef.current.emit("call-ended", { meetingId, role: "user" });
     }
     if (localStream) localStream.getTracks().forEach(track => track.stop());
     setCallActive(false);
@@ -194,24 +208,6 @@ const UserVideoRoom = () => {
     };
     // eslint-disable-next-line
   }, [localStream]);
-
-  useEffect(() => {
-    if (!socketRef.current) return;
-    const sock = socketRef.current;
-    console.log('[UserVideoRoom] useEffect for call-ended listener, socket connected:', sock.connected);
-    const handleCallEnded = () => {
-      console.log('[UserVideoRoom] Received call-ended event');
-      toast.info("Meeting completed.");
-      navigate("/my-Meetings");
-      setTimeout(() => {
-        if (sock) sock.disconnect();
-      }, 500);
-    };
-    sock.on("call-ended", handleCallEnded);
-    return () => {
-      sock.off("call-ended", handleCallEnded);
-    };
-  }, [navigate]);
 
   // Update mic/cam state in localStorage when toggled
   const handleToggleMic = () => {

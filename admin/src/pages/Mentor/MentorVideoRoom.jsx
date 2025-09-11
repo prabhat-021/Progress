@@ -25,6 +25,7 @@ const MentorVideoRoom = () => {
   const [timerActive, setTimerActive] = useState(false);
   const timerIntervalRef = useRef(null);
   const exitedRef = useRef(false);
+  const endedByMeRef = useRef(false); // <--- add this
   const { completeMeeting } = useContext(MentorContext);
   const { backendUrl } = useContext(AppContext);
   const [userName, setUserName] = useState("");
@@ -63,6 +64,21 @@ const MentorVideoRoom = () => {
         sock.emit("join", { meetingId, role: "mentor" });
         // Emit mentor-ready after joining
         sock.emit("mentor-ready", { meetingId });
+
+        // Attach call-ended handler immediately
+        const handleCallEnded = ({ role }) => {
+          if (endedByMeRef.current) return;
+          if (role === "user") {
+            toast.info("User has ended the call. Please mark the meeting as completed at your convenience.");
+          } else {
+            toast.info("Call ended.");
+          }
+          navigate("/Mentor-Meetings");
+          setTimeout(() => {
+            if (sock) sock.disconnect();
+          }, 500);
+        };
+        sock.on("call-ended", handleCallEnded);
 
         // Listen for 'ready' with meetingId
         sock.on("ready", ({ meetingId: readyMeetingId }) => {
@@ -128,10 +144,10 @@ const MentorVideoRoom = () => {
   const handleEndCall = async () => {
     if (exitedRef.current) return;
     exitedRef.current = true;
+    endedByMeRef.current = true; // <--- mark that this client ended the call
     if (peerConnectionRef.current) peerConnectionRef.current.close();
     if (socketRef.current) {
-      console.log('[MentorVideoRoom] Emitting call-ended for meetingId', meetingId);
-      socketRef.current.emit("call-ended", { meetingId });
+      socketRef.current.emit("call-ended", { meetingId, role: "mentor" });
     }
     if (localStream) localStream.getTracks().forEach(track => track.stop());
     setCallActive(false);
@@ -191,24 +207,6 @@ const MentorVideoRoom = () => {
     };
     // eslint-disable-next-line
   }, [localStream]);
-
-  useEffect(() => {
-    if (!socketRef.current) return;
-    const sock = socketRef.current;
-    console.log('[MentorVideoRoom] useEffect for call-ended listener, socket connected:', sock.connected);
-    const handleCallEnded = () => {
-      console.log('[MentorVideoRoom] Received call-ended event');
-      toast.info("Meeting completed.");
-      navigate("/Mentor-Meetings");
-      setTimeout(() => {
-        if (sock) sock.disconnect();
-      }, 500);
-    };
-    sock.on("call-ended", handleCallEnded);
-    return () => {
-      sock.off("call-ended", handleCallEnded);
-    };
-  }, [navigate]);
 
   // Timer display logic
   function renderTimer() {

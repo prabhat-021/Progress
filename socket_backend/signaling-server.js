@@ -38,10 +38,10 @@ io.on("connection", (socket) => {
     socket.to(meetingId).emit("ice-candidate", { candidate });
   });
 
-  socket.on("call-ended", ({ meetingId }) => {
-    console.log(`[Signaling] call-ended received for meetingId: ${meetingId} from socket ${socket.id}`);
-    socket.to(meetingId).emit("call-ended", { meetingId });
-    console.log(`[Signaling] call-ended broadcasted to room: ${meetingId}`);
+  socket.on("call-ended", ({ meetingId, role }) => {
+    // console.log(`[Signaling] call-ended received for meetingId: ${meetingId} from socket ${socket.id}`);
+    socket.to(meetingId).emit("call-ended", { meetingId, role });
+    // console.log(`[Signaling] call-ended broadcasted to room: ${meetingId}`);
   });
 
   socket.on("disconnect", () => {
