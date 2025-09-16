@@ -1,297 +1,323 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import io from "socket.io-client";
 import { toast } from "react-toastify";
-import { assets } from "../assets/assets";
-import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
+import { Mic, MicOff, Video, VideoOff, PhoneOff, Clock, User } from 'lucide-react';
 
 const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
+// const SIGNALING_SERVER_URL = "http://localhost:5000";
+
+// A reusable component for rendering video streams with placeholder states (Light Theme)
+const VideoPlayer = ({ videoRef, stream, label, isMuted = false, isCamOff = false, isWaiting = false }) => {
+    useEffect(() => {
+        if (videoRef.current && stream) {
+            videoRef.current.srcObject = stream;
+        }
+    }, [stream, videoRef]);
+
+    return (
+        <div className="relative flex flex-col items-center justify-center w-full h-full bg-gray-200 rounded-xl overflow-hidden border border-gray-300 shadow-inner">
+            <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted={isMuted}
+                className={`w-full h-full object-cover transition-opacity duration-300 ${stream && !isCamOff ? 'opacity-100' : 'opacity-0'}`}
+            />
+            {/* Placeholder UI */}
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500 p-4 text-center">
+                {isWaiting ? (
+                    <>
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+                        <p className="text-lg font-semibold text-gray-700">Waiting for mentor...</p>
+                    </>
+                ) : isCamOff && (
+                     <>
+                        <User size={64} className="mb-4 text-gray-400" />
+                        <p className="text-lg font-semibold text-gray-600">Camera is off</p>
+                    </>
+                )}
+            </div>
+            <div className="absolute bottom-3 left-4 bg-black/40 text-white text-sm px-3 py-1 rounded-full backdrop-blur-sm">
+                {label}
+            </div>
+        </div>
+    );
+};
+
 
 const UserVideoRoom = () => {
-  const { meetingId } = useParams();
-  const navigate = useNavigate();
-  const localVideoRef = useRef(null);
-  const remoteVideoRef = useRef(null);
-  const [localStream, setLocalStream] = useState(null);
-  const [remoteStream, setRemoteStream] = useState(null);
-  const [callActive, setCallActive] = useState(false);
-  const [waiting, setWaiting] = useState(true);
-  const initializedRef = useRef(false);
-  const peerConnectionRef = useRef(null);
-  const socketRef = useRef(null);
-  const [timer, setTimer] = useState(0); // seconds
-  const [timerActive, setTimerActive] = useState(false);
-  const timerIntervalRef = useRef(null);
-  const exitedRef = useRef(false);
-  const endedByMeRef = useRef(false); // <--- add this
-  const { backendUrl } = useContext(AppContext);
-  const [mentorName, setMentorName] = useState("");
-  const [micOn, setMicOn] = useState(true);
-  const [camOn, setCamOn] = useState(true);
+    const { meetingId } = useParams();
+    const navigate = useNavigate();
+    const localVideoRef = useRef(null);
+    const remoteVideoRef = useRef(null);
+    const [localStream, setLocalStream] = useState(null);
+    const [remoteStream, setRemoteStream] = useState(null);
+    const [callActive, setCallActive] = useState(false);
+    const [waiting, setWaiting] = useState(true);
+    const initializedRef = useRef(false);
+    const peerConnectionRef = useRef(null);
+    const socketRef = useRef(null);
+    const [timer, setTimer] = useState(0);
+    const timerIntervalRef = useRef(null);
+    const exitedRef = useRef(false);
+    const endedByMeRef = useRef(false);
+    const { backendUrl } = useContext(AppContext);
+    const [mentorName, setMentorName] = useState("");
+    const [micOn, setMicOn] = useState(true);
+    const [camOn, setCamOn] = useState(true);
 
-  useEffect(() => {
-    if (initializedRef.current) return;
-    initializedRef.current = true;
+    // --- All your existing logic remains unchanged ---
 
-    // 1. Get local media
-    navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-      .then(stream => {
-        setLocalStream(stream);
-        if (localVideoRef.current) {
-          localVideoRef.current.srcObject = stream;
-        }
+    useEffect(() => {
+        if (initializedRef.current) return;
+        initializedRef.current = true;
 
-        // 2. Connect socket
-        const sock = io(SIGNALING_SERVER_URL, { transports: ["websocket"] });
-        socketRef.current = sock;
-        sock.emit("join", { meetingId, role: "user" });
-        // Emit 'ready' with meetingId
-        sock.emit("ready", { meetingId });
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(stream => {
+                setLocalStream(stream);
+                const sock = io(SIGNALING_SERVER_URL, { transports: ["websocket"] });
+                socketRef.current = sock;
+                sock.emit("join", { meetingId, role: "user" });
+                sock.emit("ready", { meetingId });
 
-        // Attach call-ended handler immediately
-        const handleCallEnded = ({ role }) => {
-          if (endedByMeRef.current) return;
-          if (role === "mentor") {
-            toast.info("Mentor has ended the call and the meeting will be marked as completed. Hopefully the session was meaningful for you.");
-          } else {
-            toast.info("Call ended.");
-          }
-          navigate("/my-Meetings");
-          setTimeout(() => {
-            if (sock) sock.disconnect();
-          }, 500);
+                const handleCallEnded = ({ role }) => {
+                    if (endedByMeRef.current) return;
+                    toast.info(role === "mentor" ? "Mentor has ended the call." : "Call ended.");
+                    navigate("/my-Meetings");
+                    setTimeout(() => sock?.disconnect(), 500);
+                };
+                sock.on("call-ended", handleCallEnded);
+
+                sock.on("offer", async ({ offer }) => {
+                    setWaiting(false);
+                    await createPeerConnection(stream, sock, offer);
+                });
+
+                sock.on("ice-candidate", async ({ candidate }) => {
+                    if (peerConnectionRef.current && candidate) {
+                        try { await peerConnectionRef.current.addIceCandidate(candidate); } catch (e) { console.error("Error adding ICE candidate", e); }
+                    }
+                });
+
+                sock.on("mentor-ready", ({ meetingId: mentorMeetingId }) => {
+                    if (mentorMeetingId === meetingId) {
+                        sock.emit("ready", { meetingId });
+                    }
+                });
+            }).catch(err => {
+                console.error("Failed to get media", err);
+                toast.error("Could not access camera or microphone. Please check permissions.");
+            });
+
+        return () => {
+            socketRef.current?.disconnect();
+            peerConnectionRef.current?.close();
+            localStream?.getTracks().forEach(track => track.stop());
         };
-        sock.on("call-ended", handleCallEnded);
+        // eslint-disable-next-line
+    }, [meetingId]);
 
-        sock.on("offer", async ({ offer }) => {
-          setWaiting(false);
-          await createPeerConnection(stream, sock, offer);
-        });
-
-        // 5. Handle ICE from mentor
-        sock.on("ice-candidate", async ({ candidate }) => {
-          const pc = peerConnectionRef.current;
-          if (pc && candidate) {
+    useEffect(() => {
+        const fetchMentorName = async () => {
             try {
-              await pc.addIceCandidate(candidate);
-            } catch (e) { }
-          }
-        });
+                const res = await fetch(`${backendUrl}/api/user/Meetings`, { credentials: 'include' });
+                const data = await res.json();
+                if (data.success && data.Meetings) {
+                    const meeting = data.Meetings.find(m => m._id === meetingId);
+                    if (meeting?.menId?.name) setMentorName(meeting.menId.name);
+                }
+            } catch (e) { console.error("Failed to fetch mentor name", e); }
+        };
+        fetchMentorName();
+    }, [meetingId, backendUrl]);
 
-        sock.on("mentor-ready", ({ meetingId: mentorMeetingId }) => {
-          if (mentorMeetingId === meetingId) {
-            sock.emit("ready", { meetingId });
-          }
-        });
-      });
+    async function createPeerConnection(stream, sock, offer) {
+        const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
+        peerConnectionRef.current = pc;
+        stream.getTracks().forEach(track => pc.addTrack(track, stream));
 
-    // Clean up
-    return () => {
-      if (socketRef.current) socketRef.current.disconnect();
-      if (peerConnectionRef.current) peerConnectionRef.current.close();
-      if (localStream) localStream.getTracks().forEach(track => track.stop());
+        pc.ontrack = (event) => {
+            setRemoteStream(event.streams[0]);
+        };
+        pc.onicecandidate = (event) => {
+            if (event.candidate) {
+                sock.emit("ice-candidate", { meetingId, candidate: event.candidate });
+            }
+        };
+
+        await pc.setRemoteDescription(offer);
+        const answer = await pc.createAnswer();
+        await pc.setLocalDescription(answer);
+        sock.emit("answer", { meetingId, answer });
+        setCallActive(true);
+    }
+
+    const handleEndCall = async () => {
+        if (exitedRef.current) return;
+        exitedRef.current = true;
+        endedByMeRef.current = true;
+
+        peerConnectionRef.current?.close();
+        socketRef.current?.emit("call-ended", { meetingId, role: "user" });
+        localStream?.getTracks().forEach(track => track.stop());
+
+        setCallActive(false);
+        setRemoteStream(null);
+        peerConnectionRef.current = null;
+        toast.success("Meeting completed. Redirecting...");
+        navigate("/my-Meetings");
+        setTimeout(() => {
+            socketRef.current?.disconnect();
+            socketRef.current = null;
+        }, 500);
     };
-    // eslint-disable-next-line
-  }, [meetingId, SIGNALING_SERVER_URL]);
 
-  useEffect(() => {
-    // Fetch mentor name for heading
-    const fetchMentorName = async () => {
-      try {
-        const res = await fetch(`${backendUrl}/api/user/Meetings`, { credentials: 'include' });
-        const data = await res.json();
-        if (data.success && data.Meetings) {
-          const meeting = data.Meetings.find(m => m._id === meetingId);
-          if (meeting && meeting.menId && meeting.menId.name) setMentorName(meeting.menId.name);
+    const timerKey = `meeting-timer-${meetingId}`;
+    const micKey = `meeting-mic-${meetingId}`;
+    const camKey = `meeting-cam-${meetingId}`;
+
+    useEffect(() => {
+        let startTime = localStorage.getItem(timerKey);
+        if (!startTime) {
+            startTime = Date.now().toString();
+            localStorage.setItem(timerKey, startTime);
         }
-      } catch (e) {}
+
+        const applyMediaStates = (stream) => {
+            const micState = localStorage.getItem(micKey);
+            const camState = localStorage.getItem(camKey);
+            if (micState !== null) {
+                const enabled = micState === 'true';
+                setMicOn(enabled);
+                stream.getAudioTracks().forEach(track => track.enabled = enabled);
+            }
+            if (camState !== null) {
+                const enabled = camState === 'true';
+                setCamOn(enabled);
+                stream.getVideoTracks().forEach(track => track.enabled = enabled);
+            }
+        }
+
+        if (localStream) {
+            applyMediaStates(localStream);
+        }
+
+        timerIntervalRef.current = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - parseInt(startTime, 10)) / 1000);
+            setTimer(elapsed);
+        }, 1000);
+
+        return () => {
+            if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+        };
+        // eslint-disable-next-line
+    }, [localStream]);
+
+    const handleToggleMic = () => {
+        if (localStream) {
+            localStream.getAudioTracks().forEach(track => {
+                track.enabled = !track.enabled;
+                setMicOn(track.enabled);
+                localStorage.setItem(micKey, track.enabled);
+            });
+        }
     };
-    fetchMentorName();
-  }, [meetingId, backendUrl]);
-
-  // Create peer connection and answer
-  async function createPeerConnection(stream, sock, offer) {
-    const pc = new RTCPeerConnection({
-      iceServers: [
-        { urls: "stun:stun.l.google.com:19302" }
-      ]
-    });
-    peerConnectionRef.current = pc;
-    stream.getTracks().forEach(track => pc.addTrack(track, stream));
-    pc.ontrack = (event) => {
-      setRemoteStream(event.streams[0]);
-      if (remoteVideoRef.current) {
-        remoteVideoRef.current.srcObject = event.streams[0];
-      }
+    const handleToggleCam = () => {
+        if (localStream) {
+            localStream.getVideoTracks().forEach(track => {
+                track.enabled = !track.enabled;
+                setCamOn(track.enabled);
+                localStorage.setItem(camKey, track.enabled);
+            });
+        }
     };
-    pc.onicecandidate = (event) => {
-      if (event.candidate) {
-        sock.emit("ice-candidate", { meetingId, candidate: event.candidate });
-      }
-    };
-    await pc.setRemoteDescription(offer);
-    const answer = await pc.createAnswer();
-    await pc.setLocalDescription(answer);
-    sock.emit("answer", { meetingId, answer });
-    setCallActive(true);
-  }
 
-  // End call handler
-  const handleEndCall = async () => {
-    if (exitedRef.current) return;
-    exitedRef.current = true;
-    endedByMeRef.current = true; // <--- mark that this client ended the call
-    if (peerConnectionRef.current) peerConnectionRef.current.close();
-    if (socketRef.current) {
-      socketRef.current.emit("call-ended", { meetingId, role: "user" });
-    }
-    if (localStream) localStream.getTracks().forEach(track => track.stop());
-    setCallActive(false);
-    setRemoteStream(null);
-    peerConnectionRef.current = null;
-    // Mark meeting as completed
-    try {
-      toast.success("Meeting will be marked as completed.");
-    } catch (e) {
-      toast.error("Failed to mark meeting as completed.");
-    }
-    navigate("/my-Meetings");
-    setTimeout(() => {
-      if (socketRef.current) socketRef.current.disconnect();
-      socketRef.current = null;
-    }, 500);
-  };
+    function renderTimer() {
+        const scheduled = 30 * 60;
+        const displayTime = timer < scheduled ? scheduled - timer : timer - scheduled;
+        const minutes = Math.floor(displayTime / 60).toString().padStart(2, '0');
+        const seconds = (displayTime % 60).toString().padStart(2, '0');
+        const isExtraTime = timer >= scheduled;
 
-  useEffect(() => {
-    if (localVideoRef.current && localStream) {
-      localVideoRef.current.srcObject = localStream;
-    }
-  }, [localStream]);
-  useEffect(() => {
-    if (remoteVideoRef.current && remoteStream) {
-      remoteVideoRef.current.srcObject = remoteStream;
-    }
-  }, [remoteStream]);
-
-  // Timer and media state persistence keys
-  const timerKey = `meeting-timer-${meetingId}`;
-  const micKey = `meeting-mic-${meetingId}`;
-  const camKey = `meeting-cam-${meetingId}`;
-
-  // Timer logic: countdown from 30:00, then count up
-  useEffect(() => {
-    // On first join, set start time if not present
-    let startTime = localStorage.getItem(timerKey);
-    if (!startTime) {
-      startTime = Date.now();
-      localStorage.setItem(timerKey, startTime);
-    }
-    // On mount, restore mic/cam state
-    const micState = localStorage.getItem(micKey);
-    const camState = localStorage.getItem(camKey);
-    if (micState !== null) setMicOn(micState === 'true');
-    if (camState !== null) setCamOn(camState === 'true');
-    // Apply to tracks after stream is ready
-    if (localStream) {
-      if (micState !== null) localStream.getAudioTracks().forEach(track => track.enabled = micState === 'true');
-      if (camState !== null) localStream.getVideoTracks().forEach(track => track.enabled = camState === 'true');
-    }
-    // Timer interval
-    timerIntervalRef.current = setInterval(() => {
-      const now = Date.now();
-      const elapsed = Math.floor((now - startTime) / 1000);
-      setTimer(elapsed);
-    }, 1000);
-    return () => {
-      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
-    };
-    // eslint-disable-next-line
-  }, [localStream]);
-
-  // Update mic/cam state in localStorage when toggled
-  const handleToggleMic = () => {
-    if (localStream) {
-      localStream.getAudioTracks().forEach(track => {
-        track.enabled = !track.enabled;
-        setMicOn(track.enabled);
-        localStorage.setItem(micKey, track.enabled);
-      });
-    }
-  };
-  const handleToggleCam = () => {
-    if (localStream) {
-      localStream.getVideoTracks().forEach(track => {
-        track.enabled = !track.enabled;
-        setCamOn(track.enabled);
-        localStorage.setItem(camKey, track.enabled);
-      });
-    }
-  };
-
-  // Timer display logic
-  function renderTimer() {
-    const scheduled = 30 * 60; // 30 min in seconds
-    if (timer < scheduled) {
-      // Countdown
-      const remain = scheduled - timer;
-      const m = Math.floor(remain / 60).toString().padStart(2, '0');
-      const s = (remain % 60).toString().padStart(2, '0');
-      return <span className="font-mono text-lg">{m}:{s}</span>;
-    } else {
-      // Extra time
-      const extra = timer - scheduled;
-      const m = Math.floor(extra / 60).toString().padStart(2, '0');
-      const s = (extra % 60).toString().padStart(2, '0');
-      return <span className="font-mono text-lg text-yellow-600">Extra Time:{m}:{s}</span>;
-    }
-  }
-
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#f4f6fa]">
-      <div className="w-full bg-white rounded-xl shadow-lg p-4 flex flex-col gap-4 border">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-bold mb-1">One to one mentorship with {mentorName || 'Mentor'}</h2>
-            <p className="text-gray-500 text-sm">Meeting ID: {meetingId}</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-gray-100 px-4 py-2 rounded-lg">
-              {renderTimer()}
+        return (
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full font-mono text-lg transition-colors ${isExtraTime ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'}`}>
+                <Clock size={20} />
+                <span>
+                    {isExtraTime && "Extra: "}
+                    {minutes}:{seconds}
+                </span>
             </div>
-            {timer >= 1800 && (
-              <span className="ml-2 text-yellow-600 font-semibold text-xs">Your scheduled time is over, now it’s extra time.</span>
-            )}
-          </div>
+        );
+    }
+    
+    // --- New Professional LIGHT THEME UI ---
+    return (
+        <div className="flex items-center justify-center min-h-screen bg-gray-100 font-sans p-4 sm:p-6 lg:p-8">
+            <div className="w-full h-full max-w-7xl bg-white rounded-2xl shadow-lg flex flex-col overflow-hidden">
+                {/* Header */}
+                <header className="px-6 py-4 border-b border-gray-200">
+                    <h1 className="text-2xl font-bold text-gray-800">Session with {mentorName || 'your Mentor'}</h1>
+                    <p className="text-sm text-gray-500">Meeting ID: {meetingId}</p>
+                </header>
+
+                {/* Main Video Area */}
+                <main className="flex-1 flex flex-col lg:flex-row items-center justify-center gap-6 p-6 overflow-hidden">
+                    <VideoPlayer
+                        videoRef={localVideoRef}
+                        stream={localStream}
+                        label="Your Video"
+                        isMuted={true}
+                        isCamOff={!camOn}
+                    />
+                    <VideoPlayer
+                        videoRef={remoteVideoRef}
+                        stream={remoteStream}
+                        label={mentorName || "Mentor's Video"}
+                        isWaiting={waiting}
+                        isCamOff={!remoteStream}
+                    />
+                </main>
+
+                {/* Controls Bar */}
+                <footer className="w-full flex justify-center p-4 border-t border-gray-200">
+                    <div className="flex items-center justify-center gap-3 sm:gap-4 bg-white/70 backdrop-blur-md p-3 rounded-full border border-gray-200 shadow-lg">
+                        {/* Timer */}
+                        {callActive && renderTimer()}
+
+                        {/* Media Controls */}
+                        <button
+                            onClick={handleToggleMic}
+                            className={`p-3 rounded-full transition-all duration-200 ${micOn ? 'bg-gray-200 hover:bg-gray-300 text-gray-800' : 'bg-red-500 hover:bg-red-600 text-white'}`}
+                            aria-label={micOn ? "Mute microphone" : "Unmute microphone"}
+                        >
+                            {micOn ? <Mic size={24} /> : <MicOff size={24} />}
+                        </button>
+                        <button
+                            onClick={handleToggleCam}
+                            className={`p-3 rounded-full transition-all duration-200 ${camOn ? 'bg-gray-200 hover:bg-gray-300 text-gray-800' : 'bg-red-500 hover:bg-red-600 text-white'}`}
+                            aria-label={camOn ? "Turn off camera" : "Turn on camera"}
+                        >
+                            {camOn ? <Video size={24} /> : <VideoOff size={24} />}
+                        </button>
+
+                        {/* End Call Button */}
+                        {callActive && (
+                            <button
+                                onClick={handleEndCall}
+                                className="flex items-center gap-2 px-4 sm:px-6 py-3 bg-red-500 text-white rounded-full font-semibold hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all shadow-md"
+                                aria-label="End call"
+                            >
+                                <PhoneOff size={22} />
+                                <span className="hidden sm:inline">End Call</span>
+                            </button>
+                        )}
+                    </div>
+                </footer>
+            </div>
         </div>
-        <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full">
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <video ref={localVideoRef} autoPlay playsInline muted className="w-full max-w-2xl h-[40vh] md:h-[55vh] bg-black rounded-lg border-2 border-primary object-contain" />
-            <p className="text-center text-xs mt-1">Your Video</p>
-          </div>
-          <div className="flex flex-col items-center gap-2 flex-1">
-            <video ref={remoteVideoRef} autoPlay playsInline className="w-full max-w-2xl h-[40vh] md:h-[55vh] bg-black rounded-lg border-2 border-primary object-contain" />
-            <p className="text-center text-xs mt-1">Mentor Video</p>
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mt-2">
-          <div className="flex gap-4">
-            <button onClick={handleToggleMic} className={`p-3 rounded-full border transition ${micOn ? 'bg-green-100 border-green-400' : 'bg-red-100 border-red-400'}`}>{micOn ? <span role="img" aria-label="Mic On">🎤</span> : <span role="img" aria-label="Mic Off">🔇</span>}</button>
-            <button onClick={handleToggleCam} className={`p-3 rounded-full border transition ${camOn ? 'bg-green-100 border-green-400' : 'bg-red-100 border-red-400'}`}>{camOn ? <span role="img" aria-label="Cam On">📷</span> : <span role="img" aria-label="Cam Off">🚫</span>}</button>
-          </div>
-          {callActive && (
-            <button
-              className="px-8 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition-all shadow"
-              onClick={handleEndCall}
-            >
-              End Call
-            </button>
-          )}
-        </div>
-        {waiting && <p className="text-yellow-600 font-semibold text-center">Waiting for mentor to start the call...</p>}
-      </div>
-    </div>
-  );
+    );
 };
 
 export default UserVideoRoom;
