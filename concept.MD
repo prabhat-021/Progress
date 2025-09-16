@@ -157,3 +157,68 @@ The application uses React Toastify for displaying notifications and error messa
 2. **Success/Error Messages**: Toast notifications are displayed for successful operations and errors.
 3. **API Error Handling**: Errors from API calls are caught and displayed as toast notifications.
 
+
+# WebRTC & Socket.io Video Call Implementation
+
+## Overview
+This project implements real-time one-to-one video calls between users (mentor and user) using WebRTC for peer-to-peer media streaming and Socket.io for signaling and session management. The logic is distributed across the frontend (UserVideoRoom.jsx, MentorVideoRoom.jsx) and the backend signaling server (signaling-server.js).
+
+## How WebRTC Works
+- **WebRTC (Web Real-Time Communication)** enables direct peer-to-peer audio, video, and data communication between browsers without requiring an intermediary server for the media stream itself.
+- **Key Steps in WebRTC:**
+  1. **Media Capture:** Each client captures their local media (audio/video) using `getUserMedia`.
+  2. **Peer Connection:** A `RTCPeerConnection` object is created to manage the connection and media tracks.
+  3. **Offer/Answer Exchange:** One peer (the initiator) creates an "offer" (SDP), which is sent to the other peer, who responds with an "answer" (SDP). This negotiation establishes the connection parameters.
+  4. **ICE Candidate Exchange:** Both peers gather and exchange ICE (Interactive Connectivity Establishment) candidates, which are network information used to establish the most efficient route for the media stream.
+  5. **Media Streaming:** Once negotiation and ICE exchange are complete, media streams flow directly between peers.
+
+## How Socket.io Works in This Project
+- **Socket.io** is used for the "signaling" process—i.e., exchanging offers, answers, and ICE candidates between peers before the direct connection is established.
+- **Signaling Server (signaling-server.js):**
+  - Listens for events like `join`, `ready`, `mentor-ready`, `offer`, `answer`, `ice-candidate`, and `call-ended`.
+  - Relays these events/messages between the two peers in a given meeting room.
+  - Does not handle or see the actual media stream; only the signaling data.
+
+## Implementation Details
+
+### 1. Frontend (UserVideoRoom.jsx & MentorVideoRoom.jsx)
+- **Media Setup:**
+  - Each component requests access to the user's camera and microphone using `navigator.mediaDevices.getUserMedia`.
+  - The local media stream is attached to a video element for preview.
+- **Socket Connection:**
+  - A Socket.io client connects to the signaling server and joins a room using a unique `meetingId` and role (`user` or `mentor`).
+  - The mentor emits `mentor-ready` and the user emits `ready` to coordinate call setup.
+- **WebRTC Peer Connection:**
+  - The mentor creates a `RTCPeerConnection`, adds local tracks, and generates an offer, which is sent to the user via Socket.io.
+  - The user receives the offer, creates an answer, and sends it back.
+  - Both peers listen for and add ICE candidates as they are received.
+- **Media State Handling:**
+  - Camera and microphone can be toggled on/off. If the camera is off, a placeholder image or icon is shown instead of a blank video.
+  - The UI updates in real time based on the remote peer's camera state using WebRTC track events (`onmute`, `onunmute`).
+- **Call End:**
+  - Either peer can end the call, which triggers cleanup and notifies the other peer via Socket.io.
+
+### 2. Backend (signaling-server.js)
+- **Room Management:**
+  - Maintains a mapping of meeting rooms and connected socket IDs for each role.
+- **Event Handling:**
+  - Forwards signaling messages (`offer`, `answer`, `ice-candidate`, etc.) between the two peers in a room.
+  - Handles call end and disconnect events.
+- **No Media Handling:**
+  - The server never handles or stores the actual audio/video data; it only relays signaling information.
+
+## Sequence of Events (Simplified)
+1. Both peers join the same meeting room via Socket.io.
+2. Mentor emits `mentor-ready`; user emits `ready`.
+3. Mentor creates a WebRTC offer and sends it via Socket.io.
+4. User receives the offer, creates an answer, and sends it back.
+5. Both peers exchange ICE candidates via Socket.io.
+6. Once negotiation is complete, media streams flow directly between peers.
+7. Camera/mic state changes and call end events are handled in real time.
+
+## Files Involved
+- **frontend/src/pages/UserVideoRoom.jsx**: Handles user-side video call logic, media state, and signaling.
+- **admin/src/pages/Mentor/MentorVideoRoom.jsx**: Handles mentor-side video call logic, media state, and signaling.
+- **socket_backend/signaling-server.js**: Node.js server for relaying signaling messages between peers using Socket.io.
+
+---
