@@ -1,6 +1,13 @@
 # Progress
 
-**Progress** is a MERN-stack based full-stack web application that helps users track goals, share progress updates, and book mentorship sessions. It features OTP-based authentication, secure session handling using cookies, and integrated payment systems like Razorpay and Stripe. The platform also includes an Admin Panel for managing colleges, sessions, users, and transactions.
+**Progress** is a comprehensive MERN-stack platform designed to guide students in discovering the right colleges and careers, connecting them with verified mentors, and streamlining the mentorship and college exploration process. The platform offers:
+- One-to-one mentorship sessions with real professionals
+- Curated and regularly updated college information
+- Secure OTP-based authentication and session management
+- Integrated payment gateways for seamless booking
+- Admin tools for managing users, mentors, colleges, and transactions
+
+Whether you are a student seeking guidance, a mentor looking to help, or an admin managing educational resources, Progress brings all stakeholders together in a single, user-friendly platform.
 
 ---
 
@@ -15,6 +22,7 @@
 - ☁️ Media uploads with Cloudinary and ImageKit
 - 📧 Gmail-based mailing system (e.g., password recovery)
 - 🔐 JWT-based authentication & role-based access
+- 🎥 Real-time video meetings using WebRTC and Socket.io
 
 ---
 
@@ -28,6 +36,7 @@
 - **Storage:** Cloudinary, ImageKit
 - **Mailing:** Nodemailer + Gmail
 - **Deployment:** Vercel
+- **Real-time:** WebRTC, Socket.io
 
 ---
 
@@ -35,11 +44,35 @@
 
 ```
 Progress/
-├── backend/ # API and server
-├── frontend/ # User interface
-├── admin/ # Admin dashboard
-
+├── backend/         # API and server logic
+├── frontend/        # User interface (students)
+├── admin/           # Admin dashboard
+├── socket_backend/  # WebRTC signaling server (Socket.io)
 ```
+
+---
+
+## 📸 Sample Screenshots
+
+> Add your screenshots in the appropriate locations below:
+
+- **User Dashboard**
+  
+  ![User Dashboard](./images-project/UserDash.png)
+
+- **Meeting Room**
+  
+  ![Meeting Room](./images-project/MeetingRoom.png)
+
+- **Book Meetings Page**
+  
+  ![Book Meetings](./images-project/bookingPage.pn)
+
+- **Admin Dashboard**
+  
+  ![Admin Dashboard](./images-project/adminDash.png)
+
+---
 
 ## 📄 Environment Variables
 
@@ -88,13 +121,14 @@ VITE_RAZORPAY_KEY_ID="your_razorpay_key_id"
 VITE_CURRENCY="₹"
 VITE_BACKEND_URL="http://localhost:4000"
 
+---
+
 ## 🧪 Getting Started
 
 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/prabhat-021/Progress.git
-cd Progress
+# Clone the repo and enter the directory
 ```
 
 2. **Start the Backend**
@@ -119,6 +153,14 @@ npm run dev
 cd ../admin
 npm install
 npm run dev
+```
+
+5. **Start the Signaling Server**
+
+```bash
+cd ../socket_backend
+npm install
+node signaling-server.js
 ```
 
 ---
@@ -173,5 +215,4 @@ This project is licensed under the MIT License.
 
 **Prabhat Sehrawat**  
 📧 prabhatsahrawat010203@gmail.com  
-🔗 LinkedIn | GitHub
-```
+🔗 [LinkedIn](https://www.linkedin.com/in/prabhatsahrawat/)
