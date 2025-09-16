@@ -116,6 +116,14 @@ const Navbar = () => {
             <li><NavLink onClick={() => setShowMenu(false)} to="/College" className={({ isActive }) => `block p-2 rounded ${isActive ? 'bg-gray-100 font-semibold' : ''}`}>ALL COLLEGES</NavLink></li>
             <li><NavLink onClick={() => setShowMenu(false)} to="/about" className={({ isActive }) => `block p-2 rounded ${isActive ? 'bg-gray-100 font-semibold' : ''}`}>ABOUT</NavLink></li>
             <li><NavLink onClick={() => setShowMenu(false)} to="/contact" className={({ isActive }) => `block p-2 rounded ${isActive ? 'bg-gray-100 font-semibold' : ''}`}>CONTACT</NavLink></li>
+            
+            {verfied && userData && (
+              <>
+                <hr className="my-2 border-gray-200" />
+                <li><NavLink onClick={() => setShowMenu(false)} to="/my-profile" className={({ isActive }) => `block p-2 rounded ${isActive ? 'bg-gray-100 font-semibold' : ''}`}>MY PROFILE</NavLink></li>
+                <li><NavLink onClick={() => setShowMenu(false)} to="/my-Meetings" className={({ isActive }) => `block p-2 rounded ${isActive ? 'bg-gray-100 font-semibold' : ''}`}>MY MEETINGS</NavLink></li>
+              </>
+            )}
           </ul>
 
           <div className="p-4 border-t">
