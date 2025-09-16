@@ -7,7 +7,7 @@ import { MentorContext } from "../../context/MentorContext";
 import { assets } from "../../assets/assets";
 import { AppContext } from "../../context/AppContext";
 
-const SIGNALING_SERVER_URL = "http://localhost:5000";
+const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
 
 const MentorVideoRoom = () => {
   const { meetingId } = useParams();

@@ -6,7 +6,7 @@ import { assets } from "../assets/assets";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 
-const SIGNALING_SERVER_URL = "http://localhost:5000";
+const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
 
 const UserVideoRoom = () => {
   const { meetingId } = useParams();
