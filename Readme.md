@@ -66,7 +66,7 @@ Progress/
 
 - **Book Meetings Page**
   
-  ![Book Meetings](./images-project/bookingPage.pn)
+  ![Book Meetings](./images-project/bookingPage.png)
 
 - **Admin Dashboard**
   
