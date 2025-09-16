@@ -118,6 +118,17 @@ const MyMeetings = () => {
         }
     }
 
+    // Helper to check if user can join meeting now
+    function canJoinMeeting(item) {
+        if (!item.slotDate || !item.slotTime) return false;
+        const [day, month, year] = item.slotDate.split("_").map(Number);
+        const slotDateTime = new Date(`${year}-${month}-${day} ${item.slotTime}`);
+        const start = slotDateTime.getTime();
+        const end = start + 30 * 60 * 1000;
+        const now = Date.now();
+        return now >= start && now <= end;
+    }
+
     useEffect(() => {
         if (loged) {
             getUserMeetings();
@@ -152,6 +163,24 @@ const MyMeetings = () => {
                                     {!item.cancelled && !item.payment && !item.isCompleted && payment === item._id && <button onClick={() => MeetingRazorpay(item._id)} className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-gray-100 hover:text-white transition-all duration-300 flex items-center justify-center"><img className="max-w-20 max-h-5" src={assets.razorpay_logo} alt="" /></button>}
                                     {!item.cancelled && item.payment && !item.isCompleted && <button className="sm:min-w-48 py-2 border rounded text-[#696969]  bg-[#EAEFFF]">Paid</button>}
                                     {item.isCompleted && <button className="sm:min-w-48 py-2 border border-green-500 rounded text-green-500">Completed</button>}
+                                    {!item.cancelled && !item.isCompleted && !item.expired && (
+                                        <button
+                                            className="sm:min-w-48 py-2 border rounded bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300"
+                                            onClick={() => {
+                                                if (canJoinMeeting(item)) {
+                                                    navigate(`/meeting/${item._id}/video`);
+                                                } else {
+                                                    const [day, month, year] = item.slotDate.split("_").map(Number);
+                                                    const slotDateTime = new Date(`${year}-${month}-${day} ${item.slotTime}`);
+                                                    const startStr = slotDateTime.toLocaleString();
+                                                    const endStr = new Date(slotDateTime.getTime() + 30 * 60 * 1000).toLocaleString();
+                                                    toast.info(`Meeting can start only between ${startStr} and ${endStr}`);
+                                                }
+                                            }}
+                                        >
+                                            Join Video Call
+                                        </button>
+                                    )}
                                     {!item.cancelled && !item.isCompleted && !item.expired && <button onClick={() => cancelMeeting(item._id)} className="text-[#696969] sm:min-w-48 py-2 border rounded hover:bg-red-600 hover:text-white transition-all duration-300">Cancel Meeting</button>}
                                     {item.cancelled && !item.isCompleted && <button className="sm:min-w-48 py-2 border border-red-500 rounded text-red-500">Meeting cancelled</button>}
                                 </>

@@ -16,6 +16,7 @@ import MentorDashboard from "./pages/Mentor/MentorDashboard";
 import MentorProfile from "./pages/Mentor/MentorProfile";
 import AddCollege from "./pages/Admin/AddColleges";
 import UsersList from "./pages/Admin/UsersList";
+import MentorVideoRoom from "./pages/Mentor/MentorVideoRoom";
 
 const App = () => {
 
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/Mentor-dashboard" element={<MentorDashboard />} />
           <Route path="/Mentor-Meetings" element={<MentorMeetings />} />
           <Route path="/Mentor-profile" element={<MentorProfile />} />
+          <Route path="/mentor/meeting/:meetingId/video" element={<MentorVideoRoom />} />
         </Routes>
       </div>
     </div>

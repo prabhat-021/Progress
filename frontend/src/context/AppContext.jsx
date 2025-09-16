@@ -129,12 +129,12 @@ const AppContextProvider = (props) => {
 
     // Getting User Profile using API
     const loadUserProfileData = async () => {
-        console.log("fuction called");
+        // console.log("fuction called");
         // console.log(state.userData.token);
         try {
 
             const { data } = await axios.get(backendUrl + '/api/user/get-profile', { withCredentials: true });
-            console.log(data);
+            // console.log(data);
 
             if (data.success) {
                 dispatch({ type: "SET_USER", payload: data.userData });
@@ -153,7 +153,7 @@ const AppContextProvider = (props) => {
         dispatch({ type: USER_LOGIN_REQUEST });
         try {
             const { data } = await axios.post(`${backendUrl}/api/user/login`, { email, password }, { withCredentials: true });
-            console.log(data);
+            // console.log(data);
             if (data.success) {
                 dispatch({ type: USER_LOGIN_SUCCESS, payload: data.user });
                 toast.success("Login successful!");

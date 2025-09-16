@@ -59,6 +59,22 @@ const MentorProfile = () => {
                             <p>{profileData.degree} - {profileData.speciality}</p>
                             <button className="py-0.5 px-2 border text-[11px] rounded-full">{profileData.experience}</button>
                         </div>
+                        {/* ----- Availability ----- */}
+                        <div className="flex items-center gap-2 pt-4">
+                            <input type="checkbox" onChange={() => isEdit && setProfileData(prev => ({ ...prev, available: !prev.available }))} checked={profileData.available} />
+                            <label className="text-sm">Available</label>
+                        </div>
+                        {/* ----- Actions ----- */}
+                        <div className="mt-5 flex items-center gap-3">
+                            {isEdit ? (
+                                <>
+                                    <button onClick={updateProfile} className="px-5 py-2 bg-primary text-white text-sm rounded-full hover:opacity-95">Save</button>
+                                    <button onClick={() => setIsEdit(false)} className="px-5 py-2 border text-sm rounded-full hover:bg-gray-50">Cancel</button>
+                                </>
+                            ) : (
+                                <button onClick={() => setIsEdit(prev => !prev)} className="px-5 py-2 border border-primary text-primary text-sm rounded-full hover:bg-primary hover:text-white transition-all">Edit</button>
+                            )}
+                        </div>
                     </div>
                 </div>
 
@@ -93,25 +109,6 @@ const MentorProfile = () => {
                         <p className="text-sm text-gray-600 mt-1">{profileData.address.line1}<br />{profileData.address.line2}</p>
                     )}
                 </div>
-
-                {/* ----- Availability ----- */}
-                <div className="flex items-center gap-2 pt-4">
-                    <input type="checkbox" onChange={() => isEdit && setProfileData(prev => ({ ...prev, available: !prev.available }))} checked={profileData.available} />
-                    <label className="text-sm">Available</label>
-                </div>
-
-                {/* ----- Actions ----- */}
-                <div className="mt-5 flex items-center gap-3">
-                    {isEdit ? (
-                        <>
-                            <button onClick={updateProfile} className="px-5 py-2 bg-primary text-white text-sm rounded-full hover:opacity-95">Save</button>
-                            <button onClick={() => setIsEdit(false)} className="px-5 py-2 border text-sm rounded-full hover:bg-gray-50">Cancel</button>
-                        </>
-                    ) : (
-                        <button onClick={() => setIsEdit(prev => !prev)} className="px-5 py-2 border border-primary text-primary text-sm rounded-full hover:bg-primary hover:text-white transition-all">Edit</button>
-                    )}
-                </div>
-
             </div>
         </div>
     );

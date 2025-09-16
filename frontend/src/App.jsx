@@ -16,6 +16,7 @@ import AllColleges from "./pages/AllColleges";
 import ErrorPage from "./components/ErrorPage.jsx";
 import OtpInput from "./components/OtpInput.jsx";
 import CollegeDetails from "./pages/College.jsx"
+import UserVideoRoom from "./pages/UserVideoRoom";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/my-Meetings" element={<MyMeetings />} />
         <Route path="/my-profile" element={<MyProfile />} />
         <Route path="/verify" element={<Verify />} />
+        <Route path="/meeting/:meetingId/video" element={<UserVideoRoom />} />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
       <Footer />
