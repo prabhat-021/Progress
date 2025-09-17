@@ -68,35 +68,35 @@ const MyProfile = () => {
     return userData1 ? (
         <div className="mx-auto w-full flex flex-col gap-6 pt-6">
 
-            {/* Avatar + Name card */}
             <div className="border rounded-xl p-6 bg-white">
-                <div className="flex items-start gap-4 justify-between">
-                    {isEdit
-                        ? <label htmlFor="image" className="relative inline-block cursor-pointer group">
-                            <img className="w-28 h-28 rounded-full object-cover opacity-90" src={image ? URL.createObjectURL(image) : userData1.image} alt="avatar" />
-                            <div className="absolute inset-0 rounded-full bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-                                <img className="w-7" src={image ? "" : assets.upload_icon} alt="upload" />
-                            </div>
-                            <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" accept="image/*" hidden />
-                        </label>
-                        : <img className="w-28 h-28 rounded-full object-cover" src={userData.image} alt="avatar" />
-                    }
-
-                    <div className="flex-1">
+                <div className="flex flex-wrap items-start gap-4 justify-between">
+                    <div className="flex items-start gap-4">
                         {isEdit
-                            ? <input className="bg-gray-50 text-2xl md:text-3xl font-semibold max-w-md px-2 py-1 rounded border focus:outline-none focus:ring-2 focus:ring-primary/30" type="text" onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))} value={userData1.name} />
-                            : <p className="font-semibold text-2xl md:text-3xl text-[#262626]">{userData1.name}</p>
+                            ? <label htmlFor="image" className="relative inline-block cursor-pointer group">
+                                <img className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover opacity-90" src={image ? URL.createObjectURL(image) : userData1.image} alt="avatar" />
+                                <div className="absolute inset-0 rounded-full bg-black/30 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
+                                    <img className="w-7" src={image ? "" : assets.upload_icon} alt="upload" />
+                                </div>
+                                <input onChange={(e) => setImage(e.target.files[0])} type="file" id="image" accept="image/*" hidden />
+                            </label>
+                            : <img className="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover" src={userData.image} alt="avatar" />
                         }
-                        <p className="text-gray-500 text-sm mt-1">Keep your information up to date for a better experience.</p>
+
+                        <div className="flex-1">
+                            {isEdit
+                                ? <input className="bg-gray-50 text-2xl md:text-3xl font-semibold max-w-md px-2 py-1 rounded border focus:outline-none focus:ring-2 focus:ring-primary/30" type="text" onChange={(e) => setUserData(prev => ({ ...prev, name: e.target.value }))} value={userData1.name} />
+                                : <p className="font-semibold text-2xl md:text-3xl text-[#262626]">{userData1.name}</p>
+                            }
+                            <p className="text-gray-500 text-sm mt-1">Keep your information up to date for a better experience.</p>
+                        </div>
                     </div>
 
                     {!isEdit && (
-                        <button onClick={() => setIsEdit(true)} className="h-9 px-4 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all">Edit Profile</button>
+                        <button onClick={() => setIsEdit(true)} className="h-9 px-4 border border-primary text-primary rounded-full hover:bg-primary hover:text-white transition-all w-full sm:w-auto">Edit Profile</button>
                     )}
                 </div>
             </div>
 
-            {/* Contact Information */}
             <div className="border rounded-xl p-6 bg-white">
                 <p className="text-gray-700 font-semibold mb-4">Contact Information</p>
                 <div className="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-y-3 gap-x-4 text-[#363636] items-center">
@@ -120,7 +120,6 @@ const MyProfile = () => {
                 </div>
             </div>
 
-            {/* Basic Information */}
             <div className="border rounded-xl p-6 bg-white">
                 <p className="text-gray-700 font-semibold mb-4">Basic Information</p>
                 <div className="grid grid-cols-1 sm:grid-cols-[1fr_3fr] gap-y-3 gap-x-4 text-gray-700 items-center">
@@ -142,7 +141,6 @@ const MyProfile = () => {
                 </div>
             </div>
 
-            {/* Actions */}
             {isEdit && (
                 <div className="flex items-center gap-3">
                     <>

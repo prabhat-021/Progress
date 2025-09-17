@@ -86,20 +86,22 @@ const AppContextProvider = (props) => {
     const currencySymbol = '₹';
     const navigate = useNavigate();
     // console.log(state.token);
-
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
     // Getting Mentors using API
     const getMentorData = async () => {
 
-        try {
 
+        try {
             const { data } = await axios.get(backendUrl + '/api/Mentor/list');
             // console.log(data);
             if (data.success) {
+                // await sleep(9000);
                 dispatch({ type: "SET_MENTORS", payload: data.Mentors });
             } else {
                 toast.error(data.message);
             }
-
         } catch (error) {
             console.error(error);
             toast.error(error.message);
@@ -114,6 +116,7 @@ const AppContextProvider = (props) => {
 
             const { data } = await axios.get(backendUrl + '/api/Mentor/CollegeList');
             // console.log(data);
+            // await sleep(5000);
             if (data.success) {
                 dispatch({ type: "SET_COLLEGE", payload: data.Colleges });
             } else {
