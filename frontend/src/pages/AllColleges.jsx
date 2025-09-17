@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
+import CardShimmer from "../components/CardShimmer";
 
 const Colleges = () => {
   const { speciality } = useParams();
@@ -8,6 +9,7 @@ const Colleges = () => {
   const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
   const { colleges } = useContext(AppContext);
+  const isLoading = colleges.length === 0;
 
   // console.log(colleges, "colleges");
 
@@ -78,26 +80,32 @@ const Colleges = () => {
         </div>
 
         <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filterCollege.map((item, index) => (
-            <div
-              onClick={() => {
-                navigate(`/CollegeDetails/${item._id}`);
-                scrollTo(0, 0);
-              }}
-              className="group border border-gray-200 rounded-lg overflow-hidden cursor-pointer bg-white hover:shadow-sm transition-all duration-200"
-              key={index}
-            >
-              <div className="aspect-[4/3] bg-[#F4F6FF] overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform" src={item.image} alt={item.name} />
-              </div>
-              <div className="p-3">
-                <p className="text-[#262626] text-base font-semibold truncate">{item.name}</p>
-                <div className="mt-1 flex items-center gap-2 text-[11px]">
-                  <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 truncate">{item.speciality}</span>
+          {isLoading ? (
+            Array.from({ length: 3 }).map((_, index) => (
+              <CardShimmer key={index} aspectRatioClass="aspect-[4/3]" />
+            ))
+          ) : (
+            filterCollege.map((item, index) => (
+              <div
+                onClick={() => {
+                  navigate(`/CollegeDetails/${item._id}`);
+                  scrollTo(0, 0);
+                }}
+                className="group border border-gray-200 rounded-lg overflow-hidden cursor-pointer bg-white hover:shadow-sm transition-all duration-200"
+                key={index}
+              >
+                <div className="aspect-[4/3] bg-[#F4F6FF] overflow-hidden">
+                  <img className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform" src={item.image} alt={item.name} />
+                </div>
+                <div className="p-3">
+                  <p className="text-[#262626] text-base font-semibold truncate">{item.name}</p>
+                  <div className="mt-1 flex items-center gap-2 text-[11px]">
+                    <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100 truncate">{item.speciality}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
     </>

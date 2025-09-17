@@ -1,16 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../context/AppContext";
 import { useNavigate, useParams } from "react-router-dom";
+import CardShimmer from "../components/CardShimmer";
 
 const Mentors = () => {
 
   const { speciality } = useParams();
 
   const [filterMen, setFilterMen] = useState([]);
-  const [showFilter, setShowFilter] = useState(false);
   const navigate = useNavigate();
 
   const { mentors } = useContext(AppContext);
+  const isLoading = mentors.length === 0;
+
   // console.log(mentors);
 
   const applyFilter = () => {
@@ -55,23 +57,34 @@ const Mentors = () => {
       </div>
 
       <div className="mt-4">
-        <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
-          {filterMen.map((item, index) => (
-            <div onClick={() => { navigate(`/Meeting/${item._id}`); scrollTo(0, 0) }} className="group border border-gray-200 rounded-md overflow-hidden cursor-pointer bg-white hover:shadow-sm transition-all duration-150" key={index}>
-              <div className="aspect-[3/4] bg-[#F4F6FF] overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform" src={item.image} alt={item.name} />
-              </div>
-              <div className="p-2">
-                <div className={`flex items-center gap-1 text-[10px] ${item.available ? "text-green-600" : "text-gray-500"}`}>
-                  <span className={`w-1.5 h-1.5 rounded-full ${item.available ? "bg-green-500" : "bg-gray-400"}`}></span>
-                  <span className="truncate">{item.available ? "Available" : "Not Available"}</span>
-                </div>
-                <p className="mt-0.5 text-[#262626] text-[13px] font-semibold truncate">{item.name}</p>
-                <p className="text-[#5C5C5C] text-[11px] truncate">{item.speciality}</p>
-              </div>
+        {isLoading ? (
+          <>
+            <p className="text-center text-gray-600 mb-4">Mentors are loading, please wait a while...</p>
+            <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+              {Array.from({ length: 5 }).map((_, index) => (
+                <CardShimmer key={index} />
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        ) : (
+          <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+            {filterMen.map((item, index) => (
+              <div onClick={() => { navigate(`/Meeting/${item._id}`); scrollTo(0, 0) }} className="group border border-gray-200 rounded-md overflow-hidden cursor-pointer bg-white hover:shadow-sm transition-all duration-150" key={index}>
+                <div className="aspect-[3/4] bg-[#F4F6FF] overflow-hidden">
+                  <img className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform" src={item.image} alt={item.name} />
+                </div>
+                <div className="p-2">
+                  <div className={`flex items-center gap-1 text-[10px] ${item.available ? "text-green-600" : "text-gray-500"}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${item.available ? "bg-green-500" : "bg-gray-400"}`}></span>
+                    <span className="truncate">{item.available ? "Available" : "Not Available"}</span>
+                  </div>
+                  <p className="mt-0.5 text-[#262626] text-[13px] font-semibold truncate">{item.name}</p>
+                  <p className="text-[#5C5C5C] text-[11px] truncate">{item.speciality}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </>
   )

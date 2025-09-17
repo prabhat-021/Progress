@@ -41,7 +41,7 @@ const Navbar = () => {
   return (
     <>
       <header className="sticky top-0 z-30 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-b border-b-[#E5E7EB]">
-        <nav className="flex items-center justify-between text-sm mx-auto px-4 py-3 max-w-7xl">
+        <nav className="flex items-center justify-between text-sm mx-auto px-4 py-3">
           {/* Logo */}
           <img
             onClick={() => navigate("/")}
@@ -50,7 +50,7 @@ const Navbar = () => {
             alt="logo"
           />
 
-          <ul className="hidden md:flex items-center gap-8 font-medium">
+          <ul className="hidden md:flex items-center gap-8 2xl:gap-28  font-medium">
             <NavLink to="/" className={activeClass}>HOME<div className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" /></NavLink>
             <NavLink to="/Mentors" className={activeClass}>ALL MENTORS<div className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" /></NavLink>
             <NavLink to="/College" className={activeClass}>ALL COLLEGES<div className="absolute left-0 -bottom-0.5 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" /></NavLink>

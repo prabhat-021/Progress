@@ -84,7 +84,7 @@ const UserVideoRoom = () => {
 
                 const handleCallEnded = ({ role }) => {
                     if (endedByMeRef.current) return;
-                    toast.info(role === "mentor" ? "Mentor has ended the call." : "Call ended.");
+                    toast.info(role === "mentor" ? "Mentor has ended the call. Your meeting is completed." : "Call ended.");
                     navigate("/my-Meetings");
                     setTimeout(() => sock?.disconnect(), 500);
                 };
