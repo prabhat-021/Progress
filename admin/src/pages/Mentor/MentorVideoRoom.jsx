@@ -8,8 +8,8 @@ import { AppContext } from "../../context/AppContext";
 
 // Icons from lucide-react
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Clock, User } from 'lucide-react';
-const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
-// const SIGNALING_SERVER_URL = "http://localhost:5000";
+// const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
+const SIGNALING_SERVER_URL = "http://localhost:5000";
 
 // A reusable component for rendering video streams with placeholder states (Light Theme)
 const VideoPlayer = ({ videoRef, stream, label, isMuted = false, isCamOff = false, isWaiting = false }) => {
@@ -94,7 +94,11 @@ const MentorVideoRoom = () => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then(stream => {
                 setLocalStream(stream);
-                const sock = io(SIGNALING_SERVER_URL, { transports: ["websocket"] });
+                const token = localStorage.getItem('dToken');
+                const sock = io(SIGNALING_SERVER_URL, { 
+                    transports: ["websocket"],
+                    auth: { token }
+                });
                 socketRef.current = sock;
                 sock.emit("join", { meetingId, role: "mentor" });
                 sock.emit("mentor-ready", { meetingId });

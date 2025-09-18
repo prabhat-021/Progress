@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import { AppContext } from "../context/AppContext";
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Clock, User } from 'lucide-react';
 
-const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
-// const SIGNALING_SERVER_URL = "http://localhost:5000";
+// const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
+const SIGNALING_SERVER_URL = "http://localhost:5000";
 
 // A reusable component for rendering video streams with placeholder states (Light Theme)
 const VideoPlayer = ({ videoRef, stream, label, isMuted = false, isCamOff = false, isWaiting = false }) => {
@@ -77,7 +77,10 @@ const UserVideoRoom = () => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then(stream => {
                 setLocalStream(stream);
-                const sock = io(SIGNALING_SERVER_URL, { transports: ["websocket"] });
+                const sock = io(SIGNALING_SERVER_URL, { 
+                    transports: ["websocket"],
+                    withCredentials: true // Send cookies with the connection request
+                });
                 socketRef.current = sock;
                 sock.emit("join", { meetingId, role: "user" });
                 sock.emit("ready", { meetingId });
