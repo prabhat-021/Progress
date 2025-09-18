@@ -21,7 +21,7 @@ const MentorProfile = () => {
                 available: profileData.available
             };
 
-            const { data } = await axios.post(backendUrl + "/api/Mentor/update-profile", updateData, { headers: { dToken } });
+            const { data } = await axios.patch(backendUrl + "/api/Mentor/update-profile", updateData, { headers: { dToken } });
 
             if (data.success) {
                 toast.success(data.message);
