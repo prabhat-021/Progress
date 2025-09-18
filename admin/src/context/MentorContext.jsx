@@ -51,7 +51,7 @@ const MentorContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/Mentor/cancel-Meeting', { MeetingId }, { headers: { dToken } });
+            const { data } = await axios.patch(backendUrl + '/api/Mentor/cancel-Meeting', { MeetingId }, { headers: { dToken } });
 
             if (data.success) {
                 toast.success(data.message);
@@ -74,7 +74,7 @@ const MentorContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/Mentor/complete-Meeting', { MeetingId }, { headers: { dToken } });
+            const { data } = await axios.patch(backendUrl + '/api/Mentor/complete-Meeting', { MeetingId }, { headers: { dToken } });
 
             if (data.success) {
                 toast.success(data.message);

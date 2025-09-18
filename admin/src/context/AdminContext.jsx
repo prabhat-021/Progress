@@ -53,7 +53,7 @@ const AdminContextProvider = (props) => {
     const changeAvailability = async (menId) => {
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/admin/change-availability', { menId }, { headers: { aToken } });
+            const { data } = await axios.patch(backendUrl + '/api/admin/change-availability', { menId }, { headers: { aToken } });
             if (data.success) {
                 toast.success(data.message);
                 getAllMentors();
@@ -91,7 +91,7 @@ const AdminContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/admin/cancel-Meeting', { MeetingId }, { headers: { aToken } });
+            const { data } = await axios.patch(backendUrl + '/api/admin/cancel-Meeting', { MeetingId }, { headers: { aToken } });
 
             if (data.success) {
                 toast.success(data.message);
@@ -130,7 +130,10 @@ const AdminContextProvider = (props) => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + '/api/admin/deleteMentor', { email }, { headers: { aToken } });
+            const { data } = await axios.delete(backendUrl + '/api/admin/deleteMentor', { 
+                headers: { aToken }, 
+                data: { email }
+            });
             if (data.success) {
                 toast.success(data.message);
                 getAllMentors();

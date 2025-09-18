@@ -221,7 +221,7 @@ const adminDashboard = async (req, res) => {
 const deleteMentor = async (req, res) => {
 
     try {
-
+        // console.log(req.body);
         const { email } = req.body;
 
         const menti = await MentorModel.findOne({ email });

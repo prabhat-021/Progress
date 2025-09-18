@@ -47,7 +47,7 @@ const MyProfile = () => {
 
             image && formData.append("image", image);
 
-            const { data } = await axios.post(backendUrl + "/api/user/update-profile", formData, { withCredentials: true });
+            const { data } = await axios.patch(backendUrl + "/api/user/update-profile", formData, { withCredentials: true });
 
             if (data.success) {
                 toast.success(data.message);

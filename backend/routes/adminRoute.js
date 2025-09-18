@@ -9,11 +9,11 @@ adminRouter.post("/login", loginAdmin);
 adminRouter.post("/add-Mentor", authAdmin, upload.single('image'), addMentor);
 adminRouter.post("/add-College", authAdmin, upload.single('image'), addCollege);
 adminRouter.get("/Meetings", authAdmin, MeetingsAdmin);
-adminRouter.post("/deleteMentor", authAdmin, deleteMentor);
-adminRouter.post("/cancel-Meeting", authAdmin, MeetingCancel);
+adminRouter.delete("/deleteMentor", authAdmin, deleteMentor); 
+adminRouter.patch("/cancel-Meeting", authAdmin, MeetingCancel); 
 adminRouter.get("/all-Mentors", authAdmin, allMentors);
 adminRouter.get("/all-Users", authAdmin, allUsers);
-adminRouter.post("/change-availability", authAdmin, changeAvailablity);
+adminRouter.patch("/change-availability", authAdmin, changeAvailablity);
 adminRouter.get("/dashboard", authAdmin, adminDashboard);
 
 export default adminRouter;

@@ -40,7 +40,7 @@ const MyMeetings = () => {
 
         try {
 
-            const { data } = await axios.post(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, { withCredentials: true });
+            const { data } = await axios.patch(backendUrl + "/api/user/cancel-Meeting", { MeetingId }, { withCredentials: true });
 
             if (data.success) {
                 toast.success(data.message);
