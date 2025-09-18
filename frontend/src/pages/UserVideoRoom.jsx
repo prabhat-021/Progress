@@ -5,8 +5,8 @@ import { toast } from "react-toastify";
 import { AppContext } from "../context/AppContext";
 import { Mic, MicOff, Video, VideoOff, PhoneOff, Clock, User } from 'lucide-react';
 
-// const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
-const SIGNALING_SERVER_URL = "http://localhost:5000";
+const SIGNALING_SERVER_URL = "https://socketbackend-ooze.onrender.com";
+// const SIGNALING_SERVER_URL = "http://localhost:5000";
 
 // A reusable component for rendering video streams with placeholder states (Light Theme)
 const VideoPlayer = ({ videoRef, stream, label, isMuted = false, isCamOff = false, isWaiting = false }) => {
